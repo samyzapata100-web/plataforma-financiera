@@ -1,0 +1,2039 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FINÉA | Planificación Económica</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background:
+                radial-gradient(circle at top right, rgba(245, 158, 11, 0.07), transparent 28%),
+                #09090b;
+            color: #f4f4f5;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #18181b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #52525b;
+            border-radius: 20px;
+        }
+
+        .gold {
+            color: #fbbf24;
+        }
+
+        .main-card {
+            background: rgba(24, 24, 27, 0.90);
+            border: 1px solid rgba(63, 63, 70, 0.8);
+            border-radius: 24px;
+        }
+
+        .option-card {
+            background: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 20px;
+            transition: all .25s ease;
+            cursor: pointer;
+        }
+
+        .option-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(245, 158, 11, .55);
+            background: #1c1c20;
+            box-shadow: 0 12px 35px rgba(0,0,0,.25);
+        }
+
+        .icon-box {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(245, 158, 11, .10);
+            color: #fbbf24;
+            font-size: 21px;
+            flex-shrink: 0;
+        }
+
+        .stat-card {
+            background: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 18px;
+        }
+
+        .btn-gold {
+            background: #f59e0b;
+            color: #18181b;
+            font-weight: 800;
+            border-radius: 14px;
+            transition: .2s;
+        }
+
+        .btn-gold:hover {
+            background: #fbbf24;
+            transform: translateY(-1px);
+        }
+
+        .btn-dark {
+            background: #27272a;
+            color: #e4e4e7;
+            border: 1px solid #3f3f46;
+            border-radius: 14px;
+            transition: .2s;
+        }
+
+        .btn-dark:hover {
+            background: #3f3f46;
+        }
+
+        input,
+        select {
+            width: 100%;
+            background: #09090b !important;
+            color: #f4f4f5 !important;
+            border: 1px solid #3f3f46 !important;
+            border-radius: 13px !important;
+            padding: 13px 14px !important;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #f59e0b !important;
+            box-shadow: 0 0 0 2px rgba(245, 158, 11, .10);
+        }
+
+        option {
+            background: #18181b;
+            color: white;
+        }
+
+        .modal-bg {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .78);
+            backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            z-index: 100;
+        }
+
+        .modal-bg.active {
+            display: flex;
+        }
+
+        .modal {
+            width: 100%;
+            max-width: 650px;
+            max-height: 92vh;
+            overflow-y: auto;
+            background: #111113;
+            border: 1px solid #3f3f46;
+            border-radius: 26px;
+            box-shadow: 0 25px 80px rgba(0,0,0,.55);
+            animation: modalIn .2s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            padding: 22px 22px 15px;
+            border-bottom: 1px solid #27272a;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .modal-body {
+            padding: 22px;
+        }
+
+        .close-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: #27272a;
+            color: #a1a1aa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: .2s;
+            flex-shrink: 0;
+        }
+
+        .close-btn:hover {
+            background: #3f3f46;
+            color: white;
+        }
+
+        .result-box {
+            background: rgba(245, 158, 11, .07);
+            border: 1px solid rgba(245, 158, 11, .25);
+            border-radius: 18px;
+        }
+
+        .info-box {
+            background: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 16px;
+        }
+
+        .choice {
+            border: 1px solid #3f3f46;
+            background: #18181b;
+            border-radius: 16px;
+            padding: 16px;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .choice:hover {
+            border-color: #f59e0b;
+            background: #1c1c20;
+        }
+
+        .choice.selected {
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, .09);
+        }
+
+        .feedback {
+            border-radius: 17px;
+            padding: 16px;
+            margin-top: 16px;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .progress-bg {
+            height: 8px;
+            background: #27272a;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #f59e0b;
+            width: 0%;
+            transition: width .3s ease;
+        }
+
+        .mini-label {
+            color: #a1a1aa;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            font-weight: 700;
+        }
+
+        .scenario-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            background: rgba(245,158,11,.12);
+            color: #fbbf24;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        @media (max-width: 640px) {
+            .main-card {
+                border-radius: 19px;
+            }
+
+            .modal {
+                border-radius: 21px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =========================
+     CONTENEDOR PRINCIPAL
+========================= -->
+
+<div class="min-h-screen">
+
+    <!-- TOPBAR -->
+    <header class="border-b border-zinc-800 bg-zinc-950/90 backdrop-blur sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+
+            <div class="flex items-center gap-3">
+
+                <button onclick="volverInicio()"
+                        class="w-10 h-10 rounded-xl bg-zinc-800 hover:bg-zinc-700 flex items-center justify-center transition">
+                    <i class="fa-solid fa-arrow-left text-zinc-300"></i>
+                </button>
+
+                <div>
+                    <div class="font-bold text-white">
+                        FINÉA <span class="text-zinc-500">|</span>
+                        <span class="gold">Planificación</span>
+                    </div>
+
+                    <div class="text-xs text-zinc-500">
+                        Tu futuro empieza con una buena decisión
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-right">
+                <div class="text-xs text-zinc-500">Usuario</div>
+                <div id="nombreUsuario" class="font-semibold text-zinc-200">
+                    Estudiante
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+
+    <!-- CONTENIDO -->
+    <main class="max-w-6xl mx-auto px-4 py-7">
+
+        <!-- CABECERA -->
+        <section class="main-card p-6 md:p-8 mb-5">
+
+            <div class="flex flex-col md:flex-row md:items-center gap-5">
+
+                <div class="w-16 h-16 rounded-2xl bg-amber-400/10 flex items-center justify-center">
+                    <i class="fa-solid fa-compass text-amber-400 text-3xl"></i>
+                </div>
+
+                <div class="flex-1">
+
+                    <div class="text-xs uppercase tracking-widest text-amber-400 font-bold mb-2">
+                        FINÉA · Módulo 03
+                    </div>
+
+                    <h1 class="text-3xl md:text-4xl font-black text-white">
+                        Planificación Económica
+                    </h1>
+
+                    <p class="text-zinc-400 mt-2 max-w-2xl">
+                        Anticípate a los imprevistos, analiza tus decisiones
+                        y aprende a organizar tus prioridades financieras.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ESTADÍSTICAS -->
+        <section class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+
+            <div class="stat-card p-4">
+                <div class="flex items-center gap-3">
+                    <div class="icon-box">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+
+                    <div>
+                        <div class="mini-label">Fondo calculado</div>
+                        <div id="statFondo" class="text-xl font-black text-white">
+                            $0
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="stat-card p-4">
+                <div class="flex items-center gap-3">
+                    <div class="icon-box">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+
+                    <div>
+                        <div class="mini-label">Decisiones</div>
+                        <div id="statDecisiones" class="text-xl font-black text-white">
+                            0
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="stat-card p-4">
+                <div class="flex items-center gap-3">
+                    <div class="icon-box">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+
+                    <div>
+                        <div class="mini-label">Reto FINÉA</div>
+                        <div id="statReto" class="text-xl font-black text-white">
+                            0%
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             OPCIONES PRINCIPALES
+        ========================== -->
+
+        <section>
+
+            <div class="mb-4">
+                <div class="text-xs uppercase tracking-widest text-amber-400 font-bold">
+                    Explora
+                </div>
+
+                <h2 class="text-2xl font-black mt-1">
+                    ¿Qué quieres planificar hoy?
+                </h2>
+
+                <p class="text-zinc-500 text-sm mt-1">
+                    Elige una opción para comenzar.
+                </p>
+            </div>
+
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+
+                <!-- FONDO DE EMERGENCIA -->
+                <div class="option-card p-5"
+                     onclick="abrirModal('modalEmergencia')">
+
+                    <div class="flex gap-4">
+
+                        <div class="icon-box">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+
+                        <div class="flex-1">
+
+                            <div class="flex justify-between items-start gap-3">
+
+                                <div>
+                                    <h3 class="font-bold text-lg">
+                                        Fondo de Emergencia
+                                    </h3>
+
+                                    <p class="text-sm text-zinc-500 mt-1">
+                                        Calcula cuánto necesitarías para enfrentar
+                                        un imprevisto.
+                                    </p>
+                                </div>
+
+                                <i class="fa-solid fa-chevron-right text-zinc-600 mt-1"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DECISIONES -->
+                <div class="option-card p-5"
+                     onclick="abrirModal('modalDecisiones')">
+
+                    <div class="flex gap-4">
+
+                        <div class="icon-box">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+
+                        <div class="flex-1">
+
+                            <div class="flex justify-between items-start gap-3">
+
+                                <div>
+                                    <h3 class="font-bold text-lg">
+                                        Decisiones Financieras
+                                    </h3>
+
+                                    <p class="text-sm text-zinc-500 mt-1">
+                                        Enfrenta situaciones de la vida estudiantil
+                                        y decide qué harías.
+                                    </p>
+                                </div>
+
+                                <i class="fa-solid fa-chevron-right text-zinc-600 mt-1"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CREDITO -->
+                <div class="option-card p-5"
+                     onclick="abrirModal('modalCredito')">
+
+                    <div class="flex gap-4">
+
+                        <div class="icon-box">
+                            <i class="fa-solid fa-credit-card"></i>
+                        </div>
+
+                        <div class="flex-1">
+
+                            <div class="flex justify-between items-start gap-3">
+
+                                <div>
+                                    <h3 class="font-bold text-lg">
+                                        Crédito Responsable
+                                    </h3>
+
+                                    <p class="text-sm text-zinc-500 mt-1">
+                                        Aprende a comparar el costo real de
+                                        una compra financiada.
+                                    </p>
+                                </div>
+
+                                <i class="fa-solid fa-chevron-right text-zinc-600 mt-1"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PRIORIDADES -->
+                <div class="option-card p-5"
+                     onclick="abrirModal('modalPrioridades')">
+
+                    <div class="flex gap-4">
+
+                        <div class="icon-box">
+                            <i class="fa-solid fa-list-check"></i>
+                        </div>
+
+                        <div class="flex-1">
+
+                            <div class="flex justify-between items-start gap-3">
+
+                                <div>
+                                    <h3 class="font-bold text-lg">
+                                        Ordena tus Prioridades
+                                    </h3>
+
+                                    <p class="text-sm text-zinc-500 mt-1">
+                                        Aprende a distinguir entre una necesidad,
+                                        un deseo y una decisión que puede esperar.
+                                    </p>
+                                </div>
+
+                                <i class="fa-solid fa-chevron-right text-zinc-600 mt-1"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RETO -->
+                <div class="option-card p-5 md:col-span-2"
+                     onclick="abrirModal('modalReto')">
+
+                    <div class="flex gap-4">
+
+                        <div class="icon-box">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+
+                        <div class="flex-1">
+
+                            <div class="flex justify-between items-start gap-3">
+
+                                <div>
+
+                                    <div class="flex items-center gap-2">
+                                        <h3 class="font-bold text-lg">
+                                            Reto FINÉA
+                                        </h3>
+
+                                        <span class="text-[10px] font-bold uppercase
+                                                     bg-amber-400/10 text-amber-400
+                                                     px-2 py-1 rounded-full">
+                                            Interactivo
+                                        </span>
+                                    </div>
+
+                                    <p class="text-sm text-zinc-500 mt-1">
+                                        Pon a prueba tus decisiones en diferentes
+                                        situaciones económicas.
+                                    </p>
+
+                                </div>
+
+                                <i class="fa-solid fa-chevron-right text-zinc-600 mt-1"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CONSEJO -->
+        <section class="mt-6 main-card p-5">
+
+            <div class="flex gap-4 items-start">
+
+                <div class="icon-box">
+                    <i class="fa-solid fa-lightbulb"></i>
+                </div>
+
+                <div>
+                    <div class="text-sm font-bold text-amber-400">
+                        Aprende con FINÉA
+                    </div>
+
+                    <p class="text-sm text-zinc-400 mt-1">
+                        Planificar no significa saber exactamente qué ocurrirá.
+                        Significa estar mejor preparado para decidir cuando ocurra.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =====================================================
+     MODAL 1 · FONDO DE EMERGENCIA
+===================================================== -->
+
+<div id="modalEmergencia" class="modal-bg"
+     onclick="cerrarAlFondo(event, 'modalEmergencia')">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div class="flex gap-3">
+
+                <div class="icon-box">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+
+                <div>
+                    <div class="text-xs uppercase tracking-widest text-amber-400 font-bold">
+                        Prevención
+                    </div>
+
+                    <h2 class="text-xl font-black mt-1">
+                        Fondo de Emergencia
+                    </h2>
+                </div>
+
+            </div>
+
+            <button class="close-btn"
+                    onclick="cerrarModal('modalEmergencia')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <p class="text-zinc-400 text-sm mb-5">
+                Un fondo de emergencia puede ayudarte a enfrentar gastos
+                inesperados sin afectar completamente tu economía.
+            </p>
+
+
+            <div class="space-y-4">
+
+                <div>
+                    <label class="text-sm font-semibold text-zinc-300">
+                        ¿Cuánto gastas aproximadamente al mes?
+                    </label>
+
+                    <input type="number"
+                           id="gastosEmergencia"
+                           placeholder="Ej. 400"
+                           min="0">
+                </div>
+
+
+                <div>
+                    <label class="text-sm font-semibold text-zinc-300">
+                        ¿Cuántos meses quieres cubrir?
+                    </label>
+
+                    <select id="mesesEmergencia">
+
+                        <option value="1">1 mes</option>
+                        <option value="2">2 meses</option>
+                        <option value="3" selected>3 meses</option>
+                        <option value="4">4 meses</option>
+                        <option value="5">5 meses</option>
+                        <option value="6">6 meses</option>
+
+                    </select>
+
+                </div>
+
+
+                <button onclick="calcularEmergencia()"
+                        class="btn-gold w-full py-3.5 mt-2">
+                    <i class="fa-solid fa-calculator mr-2"></i>
+                    CALCULAR META
+                </button>
+
+
+                <div id="resultadoEmergencia"
+                     class="result-box p-5 hidden">
+
+                    <div class="mini-label text-amber-400">
+                        Tu meta sugerida
+                    </div>
+
+                    <div id="valorEmergencia"
+                         class="text-4xl font-black text-white mt-1">
+                        $0
+                    </div>
+
+                    <p id="mensajeEmergencia"
+                       class="text-sm text-zinc-400 mt-3">
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- =====================================================
+     MODAL 2 · DECISIONES
+===================================================== -->
+
+<div id="modalDecisiones" class="modal-bg"
+     onclick="cerrarAlFondo(event, 'modalDecisiones')">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div class="flex gap-3">
+
+                <div class="icon-box">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+
+                <div>
+                    <div class="text-xs uppercase tracking-widest text-amber-400 font-bold">
+                        Toma de decisiones
+                    </div>
+
+                    <h2 class="text-xl font-black mt-1">
+                        Decisiones Financieras
+                    </h2>
+                </div>
+
+            </div>
+
+            <button class="close-btn"
+                    onclick="cerrarModal('modalDecisiones')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <div class="info-box p-4 mb-5">
+
+                <div class="flex items-start gap-3">
+
+                    <div class="scenario-number">
+                        01
+                    </div>
+
+                    <div>
+
+                        <div class="text-xs text-amber-400 font-bold uppercase">
+                            Situación
+                        </div>
+
+                        <p class="text-zinc-200 font-semibold mt-1">
+                            Tu celular dejó de funcionar y lo necesitas
+                            para estudiar.
+                        </p>
+
+                        <p class="text-zinc-500 text-sm mt-2">
+                            Tienes un presupuesto limitado este mes.
+                            ¿Qué harías?
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="space-y-3">
+
+                <div class="choice"
+                     onclick="seleccionarDecision(this, 'A')">
+
+                    <div class="font-bold">
+                        A. Comprar el celular más caro porque tiene mejores funciones.
+                    </div>
+
+                    <div class="text-xs text-zinc-500 mt-1">
+                        Priorizas características aunque aumente el gasto.
+                    </div>
+
+                </div>
+
+
+                <div class="choice"
+                     onclick="seleccionarDecision(this, 'B')">
+
+                    <div class="font-bold">
+                        B. Comparar opciones y elegir una que cubra lo necesario.
+                    </div>
+
+                    <div class="text-xs text-zinc-500 mt-1">
+                        Buscas satisfacer la necesidad sin pagar de más.
+                    </div>
+
+                </div>
+
+
+                <div class="choice"
+                     onclick="seleccionarDecision(this, 'C')">
+
+                    <div class="font-bold">
+                        C. Comprar inmediatamente sin revisar cuánto tienes disponible.
+                    </div>
+
+                    <div class="text-xs text-zinc-500 mt-1">
+                        Tomas la decisión sin revisar sus consecuencias.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div id="feedbackDecision"
+                 class="feedback">
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- =====================================================
+     MODAL 3 · CRÉDITO
+===================================================== -->
+
+<div id="modalCredito" class="modal-bg"
+     onclick="cerrarAlFondo(event, 'modalCredito')">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div class="flex gap-3">
+
+                <div class="icon-box">
+                    <i class="fa-solid fa-credit-card"></i>
+                </div>
+
+                <div>
+
+                    <div class="text-xs uppercase tracking-widest text-amber-400 font-bold">
+                        Crédito
+                    </div>
+
+                    <h2 class="text-xl font-black mt-1">
+                        Crédito Responsable
+                    </h2>
+
+                </div>
+
+            </div>
+
+            <button class="close-btn"
+                    onclick="cerrarModal('modalCredito')">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <p class="text-zinc-400 text-sm mb-5">
+                Antes de financiar una compra, compara cuánto terminarás
+                pagando realmente.
+            </p>
+
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+
+                <div class="info-box p-4">
+
+                    <div class="mini-label">
+                        Precio de contado
+                    </div>
+
+                    <div class="text-2xl font-black mt-1">
+                        $800
+                    </div>
+
+                    <div class="text-xs text-zinc-500 mt-2">
+                        Pagas el producto inmediatamente.
+                    </div>
+
+                </div>
+
+
+                <div class="info-box p-4">
+
+                    <div class="mini-label">
+                        Financiamiento
+                    </div>
+
+                    <div class="text-2xl font-black mt-1">
+                        12 × $80
+                    </div>
+
+                    <div class="text-xs text-zinc-500 mt-2">
+                        Pagas durante 12 meses.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="result-box p-5">
+
+                <div class="mini-label text-amber-400">
+                    Costo total financiado
+                </div>
+
+                <div class="text-3xl font-black mt-1">
+                    $960
+                </div>
+
+                <div class="text-sm text-zinc-400 mt-2">
+                    Estarías pagando <strong class="text-white">$160</strong>
+                    más que el precio de contado.
+                </div>
+
+            </div>
+
+
+            <div class="info-box p-4 mt-4">
+
+                <div class="flex gap-3">
+
+                    <i class="fa-solid fa-lightbulb text-amber-400 mt-1"></i>
+
+                    <p class="text-sm text-zinc-400">
+                        <strong class="text-zinc-200">
+                            Consejo FINÉA:
+                        </strong>
+                        una cuota pequeña puede parecer cómoda, pero siempre
+                        debes mirar el costo total de la compra.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- =====================================================
+     MODAL 4 · PRIORIDADES
+===================================================== -->
+
+<div id="modalPrioridades" class="modal-bg"
+     onclick="cerrarAlFondo(event, 'modalPrioridades')">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div class="flex gap-3">
+
+                <div class="icon-box">
+                    <i class="fa-solid fa-list-check"></i>
+                </div>
+
+                <div>
+
+                    <div class="text-xs uppercase tracking-widest text-amber-400 font-bold">
+                        Prioridades
+                    </div>
+
+                    <h2 class="text-xl font-black mt-1">
+                        Ordena tus Prioridades
+                    </h2>
+
+                </div>
+
+            </div>
+
+            <button class="close-btn"
+                    onclick="cerrarModal('modalPrioridades')">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <p class="text-zinc-400 text-sm mb-5">
+                No todo gasto tiene la misma prioridad. Analiza la situación
+                antes de decidir.
+            </p>
+
+
+            <div class="info-box p-5">
+
+                <div class="text-xs text-amber-400 font-bold uppercase mb-2">
+                    Situación
+                </div>
+
+                <p class="text-zinc-200 font-semibold">
+                    Este mes tienes dinero limitado y debes elegir
+                    qué gasto realizar primero.
+                </p>
+
+            </div>
+
+
+            <div class="mt-5">
+
+                <div class="text-sm font-bold mb-3">
+                    ¿Cuál priorizarías?
+                </div>
+
+
+                <div class="space-y-3">
+
+                    <div class="choice"
+                         onclick="evaluarPrioridad('educacion')">
+
+                        <div class="flex items-center gap-3">
+
+                            <div class="icon-box">
+                                <i class="fa-solid fa-book"></i>
+                            </div>
+
+                            <div>
+
+                                <div class="font-bold">
+                                    Material para tus estudios
+                                </div>
+
+                                <div class="text-xs text-zinc-500">
+                                    Lo necesitas para una actividad académica.
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="choice"
+                         onclick="evaluarPrioridad('ropa')">
+
+                        <div class="flex items-center gap-3">
+
+                            <div class="icon-box">
+                                <i class="fa-solid fa-shirt"></i>
+                            </div>
+
+                            <div>
+
+                                <div class="font-bold">
+                                    Comprar ropa nueva
+                                </div>
+
+                                <div class="text-xs text-zinc-500">
+                                    Tu ropa actual todavía puede utilizarse.
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="choice"
+                         onclick="evaluarPrioridad('entretenimiento')">
+
+                        <div class="flex items-center gap-3">
+
+                            <div class="icon-box">
+                                <i class="fa-solid fa-gamepad"></i>
+                            </div>
+
+                            <div>
+
+                                <div class="font-bold">
+                                    Salir a divertirte
+                                </div>
+
+                                <div class="text-xs text-zinc-500">
+                                    Es un gasto de ocio que puede esperar.
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div id="feedbackPrioridad"
+                 class="feedback">
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- =====================================================
+     MODAL 5 · RETO FINÉA
+===================================================== -->
+
+<div id="modalReto" class="modal-bg"
+     onclick="cerrarAlFondo(event, 'modalReto')">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div class="flex gap-3">
+
+                <div class="icon-box">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+
+                <div>
+
+                    <div class="text-xs uppercase tracking-widest text-amber-400 font-bold">
+                        Reto interactivo
+                    </div>
+
+                    <h2 class="text-xl font-black mt-1">
+                        Reto FINÉA
+                    </h2>
+
+                </div>
+
+            </div>
+
+            <button class="close-btn"
+                    onclick="cerrarModal('modalReto')">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <!-- PROGRESO -->
+
+            <div class="flex justify-between items-center mb-2">
+
+                <span class="text-xs text-zinc-500">
+                    Pregunta <span id="numeroPregunta">1</span> de 5
+                </span>
+
+                <span class="text-xs font-bold text-amber-400">
+                    <span id="puntosReto">0</span> puntos
+                </span>
+
+            </div>
+
+
+            <div class="progress-bg mb-6">
+
+                <div id="barraReto"
+                     class="progress-bar">
+                </div>
+
+            </div>
+
+
+            <!-- PREGUNTA -->
+
+            <div class="info-box p-5 mb-5">
+
+                <div id="preguntaReto"
+                     class="text-lg font-bold leading-relaxed">
+                </div>
+
+            </div>
+
+
+            <!-- RESPUESTAS -->
+
+            <div id="opcionesReto"
+                 class="space-y-3">
+            </div>
+
+
+            <!-- FEEDBACK -->
+
+            <div id="feedbackReto"
+                 class="feedback">
+            </div>
+
+
+            <!-- SIGUIENTE -->
+
+            <button id="btnSiguiente"
+                    onclick="siguientePregunta()"
+                    class="btn-gold w-full py-3.5 mt-5 hidden">
+
+                SIGUIENTE
+                <i class="fa-solid fa-arrow-right ml-2"></i>
+
+            </button>
+
+
+            <!-- RESULTADO FINAL -->
+
+            <div id="resultadoReto"
+                 class="hidden text-center">
+
+                <div class="w-20 h-20 rounded-full bg-amber-400/10
+                            flex items-center justify-center mx-auto mb-4">
+
+                    <i class="fa-solid fa-trophy text-amber-400 text-3xl"></i>
+
+                </div>
+
+                <div class="text-xs uppercase tracking-widest
+                            text-amber-400 font-bold">
+
+                    Reto completado
+
+                </div>
+
+                <div id="resultadoPuntos"
+                     class="text-4xl font-black mt-2">
+                    0/5
+                </div>
+
+                <p id="mensajeFinalReto"
+                   class="text-zinc-400 text-sm mt-3">
+                </p>
+
+                <button onclick="reiniciarReto()"
+                        class="btn-dark w-full py-3 mt-5">
+
+                    <i class="fa-solid fa-rotate-right mr-2"></i>
+                    REPETIR RETO
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /* =====================================================
+       CONFIGURACIÓN GENERAL
+    ===================================================== */
+
+    let decisionesAnalizadas =
+        Number(localStorage.getItem("finea_decisiones_planificacion")) || 0;
+
+    let fondoCalculado =
+        Number(localStorage.getItem("finea_fondo_emergencia")) || 0;
+
+
+    /* =====================================================
+       USUARIO
+    ===================================================== */
+
+    function cargarUsuario() {
+
+        const nombre =
+            localStorage.getItem("finea_nombre") ||
+            localStorage.getItem("nombreUsuario") ||
+            localStorage.getItem("usuarioNombre");
+
+        if (nombre) {
+            document.getElementById("nombreUsuario").textContent = nombre;
+        }
+
+    }
+
+
+    /* =====================================================
+       MODALES
+    ===================================================== */
+
+    function abrirModal(id) {
+
+        const modal = document.getElementById(id);
+
+        if (modal) {
+            modal.classList.add("active");
+            document.body.style.overflow = "hidden";
+        }
+
+        if (id === "modalReto") {
+            iniciarReto();
+        }
+
+    }
+
+
+    function cerrarModal(id) {
+
+        const modal = document.getElementById(id);
+
+        if (modal) {
+            modal.classList.remove("active");
+        }
+
+        document.body.style.overflow = "";
+
+    }
+
+
+    function cerrarAlFondo(event, id) {
+
+        if (event.target.id === id) {
+            cerrarModal(id);
+        }
+
+    }
+
+
+    document.addEventListener("keydown", function(event) {
+
+        if (event.key === "Escape") {
+
+            document.querySelectorAll(".modal-bg.active")
+                .forEach(modal => {
+
+                    modal.classList.remove("active");
+
+                });
+
+            document.body.style.overflow = "";
+
+        }
+
+    });
+
+
+    /* =====================================================
+       FONDO DE EMERGENCIA
+    ===================================================== */
+
+    function calcularEmergencia() {
+
+        const gastos =
+            Number(document.getElementById("gastosEmergencia").value);
+
+        const meses =
+            Number(document.getElementById("mesesEmergencia").value);
+
+        if (!gastos || gastos <= 0) {
+
+            alert("Ingresa un valor válido para tus gastos mensuales.");
+
+            return;
+
+        }
+
+        const meta = gastos * meses;
+
+        fondoCalculado = meta;
+
+        localStorage.setItem(
+            "finea_fondo_emergencia",
+            meta
+        );
+
+        document.getElementById("resultadoEmergencia")
+            .classList.remove("hidden");
+
+        document.getElementById("valorEmergencia")
+            .textContent = dinero(meta);
+
+        document.getElementById("mensajeEmergencia")
+            .textContent =
+            `Para cubrir aproximadamente ${meses} ${
+                meses === 1 ? "mes" : "meses"
+            } de gastos, tu meta sería de ${dinero(meta)}.`;
+
+        actualizarEstadisticas();
+
+    }
+
+
+    /* =====================================================
+       DECISIONES
+    ===================================================== */
+
+    function seleccionarDecision(elemento, respuesta) {
+
+        document.querySelectorAll("#modalDecisiones .choice")
+            .forEach(opcion => {
+
+                opcion.classList.remove("selected");
+
+            });
+
+        elemento.classList.add("selected");
+
+        const feedback =
+            document.getElementById("feedbackDecision");
+
+        feedback.classList.add("show");
+
+        if (respuesta === "B") {
+
+            feedback.className =
+                "feedback show bg-emerald-400/10 border border-emerald-400/20 text-emerald-300";
+
+            feedback.innerHTML = `
+                <div class="font-bold mb-1">
+                    <i class="fa-solid fa-circle-check mr-2"></i>
+                    Buena decisión
+                </div>
+
+                <div class="text-sm">
+                    Comparar alternativas y elegir una opción que cubra
+                    realmente tu necesidad ayuda a evitar gastos innecesarios.
+                </div>
+            `;
+
+        } else {
+
+            feedback.className =
+                "feedback show bg-amber-400/10 border border-amber-400/20 text-amber-300";
+
+            feedback.innerHTML = `
+                <div class="font-bold mb-1">
+                    <i class="fa-solid fa-lightbulb mr-2"></i>
+                    Piénsalo un poco más
+                </div>
+
+                <div class="text-sm">
+                    Antes de comprar, conviene revisar qué necesitas,
+                    cuánto puedes gastar y qué consecuencias tendrá la decisión.
+                </div>
+            `;
+
+        }
+
+        decisionesAnalizadas++;
+
+        localStorage.setItem(
+            "finea_decisiones_planificacion",
+            decisionesAnalizadas
+        );
+
+        actualizarEstadisticas();
+
+    }
+
+
+    /* =====================================================
+       PRIORIDADES
+    ===================================================== */
+
+    function evaluarPrioridad(tipo) {
+
+        const feedback =
+            document.getElementById("feedbackPrioridad");
+
+        feedback.classList.add("show");
+
+        decisionesAnalizadas++;
+
+        localStorage.setItem(
+            "finea_decisiones_planificacion",
+            decisionesAnalizadas
+        );
+
+        actualizarEstadisticas();
+
+
+        if (tipo === "educacion") {
+
+            feedback.className =
+                "feedback show bg-emerald-400/10 border border-emerald-400/20 text-emerald-300";
+
+            feedback.innerHTML = `
+                <div class="font-bold mb-1">
+                    <i class="fa-solid fa-circle-check mr-2"></i>
+                    Prioridad identificada
+                </div>
+
+                <div class="text-sm">
+                    Si el material es realmente necesario para tus estudios,
+                    puede considerarse una necesidad prioritaria.
+                </div>
+            `;
+
+        } else {
+
+            feedback.className =
+                "feedback show bg-amber-400/10 border border-amber-400/20 text-amber-300";
+
+            feedback.innerHTML = `
+                <div class="font-bold mb-1">
+                    <i class="fa-solid fa-lightbulb mr-2"></i>
+                    Puede esperar
+                </div>
+
+                <div class="text-sm">
+                    Cuando el dinero es limitado, los gastos que no son
+                    indispensables pueden esperar hasta tener mayor margen.
+                </div>
+            `;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       RETO FINÉA
+    ===================================================== */
+
+    const preguntasReto = [
+
+        {
+            pregunta:
+                "Recibes un ingreso inesperado. ¿Qué sería más responsable hacer primero?",
+
+            opciones: [
+                "Gastarlo inmediatamente en algo que quiero.",
+                "Analizar mis prioridades antes de decidir.",
+                "Usarlo todo en entretenimiento."
+            ],
+
+            correcta: 1,
+
+            explicacion:
+                "Antes de gastar un ingreso inesperado, analizar tus prioridades permite tomar una decisión más consciente."
+        },
+
+
+        {
+            pregunta:
+                "Tienes un gasto importante el próximo mes. ¿Qué podrías hacer?",
+
+            opciones: [
+                "Ignorarlo hasta que llegue el momento.",
+                "Planificar con anticipación cómo afrontarlo.",
+                "Pedir dinero sin analizar otras opciones."
+            ],
+
+            correcta: 1,
+
+            explicacion:
+                "Anticiparte a un gasto reduce la posibilidad de que se convierta en un problema financiero."
+        },
+
+
+        {
+            pregunta:
+                "Una tienda ofrece una compra en muchas cuotas. ¿Qué deberías revisar?",
+
+            opciones: [
+                "Solo el valor de la cuota.",
+                "El color del producto.",
+                "El costo total que terminaré pagando."
+            ],
+
+            correcta: 2,
+
+            explicacion:
+                "Una cuota pequeña no significa necesariamente que la compra sea barata. Revisa siempre el costo total."
+        },
+
+
+        {
+            pregunta:
+                "Si tienes varias metas al mismo tiempo, ¿qué estrategia es más útil?",
+
+            opciones: [
+                "Intentar cumplirlas todas sin ningún orden.",
+                "Definir cuáles son más importantes y priorizarlas.",
+                "Abandonarlas todas."
+            ],
+
+            correcta: 1,
+
+            explicacion:
+                "Priorizar permite concentrar tus recursos en lo que realmente importa."
+        },
+
+
+        {
+            pregunta:
+                "¿Qué significa planificar financieramente?",
+
+            opciones: [
+                "Predecir exactamente todo lo que ocurrirá.",
+                "Prepararte para tomar mejores decisiones ante diferentes situaciones.",
+                "No gastar nunca dinero."
+            ],
+
+            correcta: 1,
+
+            explicacion:
+                "Planificar no significa controlar el futuro, sino estar mejor preparado para enfrentarlo."
+        }
+
+    ];
+
+
+    let preguntaActual = 0;
+    let puntosReto = 0;
+    let respondida = false;
+
+
+    function iniciarReto() {
+
+        preguntaActual = 0;
+        puntosReto = 0;
+        respondida = false;
+
+        document.getElementById("resultadoReto")
+            .classList.add("hidden");
+
+        document.getElementById("preguntaReto")
+            .parentElement.classList.remove("hidden");
+
+        document.getElementById("opcionesReto")
+            .classList.remove("hidden");
+
+        document.getElementById("btnSiguiente")
+            .classList.add("hidden");
+
+        document.getElementById("feedbackReto")
+            .className = "feedback";
+
+        cargarPregunta();
+
+    }
+
+
+    function cargarPregunta() {
+
+        const pregunta =
+            preguntasReto[preguntaActual];
+
+        respondida = false;
+
+        document.getElementById("numeroPregunta")
+            .textContent = preguntaActual + 1;
+
+        document.getElementById("puntosReto")
+            .textContent = puntosReto;
+
+        const progreso =
+            ((preguntaActual) / preguntasReto.length) * 100;
+
+        document.getElementById("barraReto")
+            .style.width = progreso + "%";
+
+
+        document.getElementById("preguntaReto")
+            .textContent = pregunta.pregunta;
+
+
+        const contenedor =
+            document.getElementById("opcionesReto");
+
+        contenedor.innerHTML = "";
+
+
+        pregunta.opciones.forEach((opcion, index) => {
+
+            const elemento =
+                document.createElement("div");
+
+            elemento.className = "choice";
+
+            elemento.innerHTML = `
+                <div class="flex items-start gap-3">
+                    <div class="scenario-number">
+                        ${String.fromCharCode(65 + index)}
+                    </div>
+
+                    <div class="font-semibold text-zinc-200 pt-1">
+                        ${opcion}
+                    </div>
+                </div>
+            `;
+
+            elemento.onclick = () =>
+                responderReto(index, elemento);
+
+            contenedor.appendChild(elemento);
+
+        });
+
+    }
+
+
+    function responderReto(indice, elemento) {
+
+        if (respondida) return;
+
+        respondida = true;
+
+        const pregunta =
+            preguntasReto[preguntaActual];
+
+
+        document.querySelectorAll("#opcionesReto .choice")
+            .forEach(opcion => {
+
+                opcion.style.pointerEvents = "none";
+
+            });
+
+
+        const feedback =
+            document.getElementById("feedbackReto");
+
+        feedback.classList.add("show");
+
+
+        if (indice === pregunta.correcta) {
+
+            puntosReto++;
+
+            elemento.classList.add("selected");
+
+            feedback.className =
+                "feedback show bg-emerald-400/10 border border-emerald-400/20 text-emerald-300";
+
+            feedback.innerHTML = `
+                <div class="font-bold mb-1">
+                    <i class="fa-solid fa-circle-check mr-2"></i>
+                    ¡Correcto!
+                </div>
+
+                <div class="text-sm">
+                    ${pregunta.explicacion}
+                </div>
+            `;
+
+        } else {
+
+            feedback.className =
+                "feedback show bg-amber-400/10 border border-amber-400/20 text-amber-300";
+
+            feedback.innerHTML = `
+                <div class="font-bold mb-1">
+                    <i class="fa-solid fa-lightbulb mr-2"></i>
+                    Buena oportunidad para aprender
+                </div>
+
+                <div class="text-sm">
+                    ${pregunta.explicacion}
+                </div>
+            `;
+
+        }
+
+
+        document.getElementById("puntosReto")
+            .textContent = puntosReto;
+
+
+        const boton =
+            document.getElementById("btnSiguiente");
+
+        boton.classList.remove("hidden");
+
+        if (preguntaActual === preguntasReto.length - 1) {
+
+            boton.innerHTML = `
+                VER RESULTADO
+                <i class="fa-solid fa-trophy ml-2"></i>
+            `;
+
+        }
+
+    }
+
+
+    function siguientePregunta() {
+
+        if (!respondida) return;
+
+        preguntaActual++;
+
+        if (preguntaActual >= preguntasReto.length) {
+
+            finalizarReto();
+
+            return;
+
+        }
+
+        document.getElementById("feedbackReto")
+            .className = "feedback";
+
+        document.getElementById("btnSiguiente")
+            .classList.add("hidden");
+
+        cargarPregunta();
+
+    }
+
+
+    function finalizarReto() {
+
+        document.getElementById("preguntaReto")
+            .parentElement.classList.add("hidden");
+
+        document.getElementById("opcionesReto")
+            .classList.add("hidden");
+
+        document.getElementById("feedbackReto")
+            .classList.remove("show");
+
+        document.getElementById("btnSiguiente")
+            .classList.add("hidden");
+
+
+        document.getElementById("resultadoReto")
+            .classList.remove("hidden");
+
+
+        document.getElementById("resultadoPuntos")
+            .textContent =
+            `${puntosReto}/${preguntasReto.length}`;
+
+
+        let mensaje = "";
+
+        if (puntosReto === 5) {
+
+            mensaje =
+                "¡Excelente! Demostraste muy buenas habilidades para analizar situaciones financieras.";
+
+        } else if (puntosReto >= 3) {
+
+            mensaje =
+                "¡Buen trabajo! Ya tienes buenas bases. Sigue practicando para mejorar tus decisiones.";
+
+        } else {
+
+            mensaje =
+                "Cada decisión es una oportunidad para aprender. Revisa las explicaciones e inténtalo nuevamente.";
+
+        }
+
+
+        document.getElementById("mensajeFinalReto")
+            .textContent = mensaje;
+
+
+        localStorage.setItem(
+            "finea_reto_planificacion",
+            puntosReto
+        );
+
+
+        actualizarEstadisticas();
+
+    }
+
+
+    function reiniciarReto() {
+
+        iniciarReto();
+
+    }
+
+
+    /* =====================================================
+       ESTADÍSTICAS
+    ===================================================== */
+
+    function actualizarEstadisticas() {
+
+        document.getElementById("statFondo")
+            .textContent = dinero(fondoCalculado);
+
+
+        document.getElementById("statDecisiones")
+            .textContent = decisionesAnalizadas;
+
+
+        const retoGuardado =
+            Number(localStorage.getItem("finea_reto_planificacion")) || 0;
+
+        const porcentaje =
+            Math.round((retoGuardado / 5) * 100);
+
+        document.getElementById("statReto")
+            .textContent = porcentaje + "%";
+
+    }
+
+
+    /* =====================================================
+       FORMATO DE DINERO
+    ===================================================== */
+
+    function dinero(valor) {
+
+        return new Intl.NumberFormat("es-EC", {
+            style: "currency",
+            currency: "USD",
+            minimumFractionDigits: 2
+        }).format(valor);
+
+    }
+
+
+    /* =====================================================
+       BOTÓN VOLVER
+    ===================================================== */
+
+    function volverInicio() {
+
+        /*
+         * Si tu página principal tiene otro nombre,
+         * cambia "index.html" por el nombre correspondiente.
+         */
+
+        window.location.href = "index.html";
+
+    }
+
+
+    /* =====================================================
+       INICIO
+    ===================================================== */
+
+    cargarUsuario();
+    actualizarEstadisticas();
+
+</script>
+
+</body>
+</html>

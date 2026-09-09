@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FINÉA - Metancía</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Íconos FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .modal-overlay { transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .modal-content { transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease; }
+
+        @keyframes bouncePig {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15) rotate(-5deg); }
+        }
+        .pig-bounce { animation: bouncePig 0.4s ease-in-out; }
+    </style>
+</head>
+<body class="bg-neutral-950 text-amber-100 min-h-screen flex flex-col font-sans">
+
+    <!-- Encabezado / Navbar -->
+    <header class="bg-neutral-900 border-b border-amber-500/20 sticky top-0 z-30">
+        <div class="max-w-5xl mx-auto px-4 py-3.5 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <a href="menu.html" class="w-9 h-9 bg-neutral-800 border border-neutral-700 rounded-xl flex items-center justify-center text-amber-400 hover:bg-amber-500 hover:text-neutral-950 transition">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <h1 class="text-lg font-black tracking-widest text-amber-300">FINÉA | Metancía</h1>
+            </div>
+            <span id="usuario-saludo" class="text-xs bg-neutral-950 px-3 py-1.5 rounded-xl border border-neutral-800 text-amber-200">Estudiante</span>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-8 flex-grow w-full space-y-6 fade-in">
+
+        <!-- Banner Encabezado -->
+        <div class="bg-neutral-900 border border-amber-500/30 p-6 rounded-3xl relative overflow-hidden">
+            <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+            <h2 class="text-2xl font-black text-amber-200 flex items-center gap-2">
+                <i class="fa-solid fa-piggy-bank text-amber-400"></i> Metancía (Meta & Alcancía)
+            </h2>
+            <p class="text-neutral-400 text-xs mt-1">
+                Ahorra a tu propio ritmo. Añade $1, $5 o lo que puedas día a día para alcanzar tu objetivo.
+            </p>
+        </div>
+
+        <!-- TARJETAS DE ESTADÍSTICAS RÁPIDAS (Para llenar visualmente la pantalla) -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div class="bg-neutral-900 border border-neutral-800 p-3.5 rounded-2xl flex items-center gap-3">
+                <div class="w-10 h-10 bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-400 text-lg">
+                    <i class="fa-solid fa-fire"></i>
+                </div>
+                <div>
+                    <span class="text-[10px] text-neutral-500 block uppercase font-bold">Racha de Ahorro</span>
+                    <span id="stat-racha" class="text-sm font-black text-amber-300">0 Días Seguidos</span>
+                </div>
+            </div>
+
+            <div class="bg-neutral-900 border border-neutral-800 p-3.5 rounded-2xl flex items-center gap-3">
+                <div class="w-10 h-10 bg-emerald-500/10 rounded-xl flex items-center justify-center text-emerald-400 text-lg">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <div>
+                    <span class="text-[10px] text-neutral-500 block uppercase font-bold">Metas Logradas</span>
+                    <span id="stat-logradas" class="text-sm font-black text-emerald-400">0 Metas</span>
+                </div>
+            </div>
+
+            <div class="col-span-2 sm:col-span-1 bg-neutral-900 border border-neutral-800 p-3.5 rounded-2xl flex items-center gap-3">
+                <div class="w-10 h-10 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-400 text-lg">
+                    <i class="fa-solid fa-vault"></i>
+                </div>
+                <div>
+                    <span class="text-[10px] text-neutral-500 block uppercase font-bold">Histórico Ahorrado</span>
+                    <span id="stat-historico" class="text-sm font-black text-blue-300">$0.00</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN ALCANCÍA ACTIVA -->
+        <div id="seccion-alcancia" class="hidden bg-gradient-to-b from-neutral-900 to-neutral-950 border border-amber-500/40 p-6 rounded-3xl space-y-6 relative overflow-hidden shadow-2xl">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-neutral-800 pb-4">
+                <div>
+                    <span class="bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full">
+                        Meta Activa
+                    </span>
+                    <h3 id="alcancia-nombre" class="text-2xl font-black text-amber-200 mt-1">Galápagos Estudiantil 🐢</h3>
+                    <p class="text-xs text-neutral-400">Costo total: <span id="alcancia-costo-total" class="text-amber-400 font-bold">$380</span></p>
+                </div>
+
+                <button onclick="confirmarCambiarMeta()" class="text-xs text-neutral-400 bg-neutral-800 hover:bg-red-500/20 hover:text-red-300 border border-neutral-700 px-3 py-1.5 rounded-xl transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-arrows-rotate"></i> Cambiar Meta
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                <div class="bg-neutral-950 border border-neutral-800 p-6 rounded-2xl flex flex-col items-center justify-center text-center space-y-3 relative">
+                    <div id="pig-icon" class="w-24 h-24 bg-amber-500/10 border border-amber-500/30 rounded-full flex items-center justify-center text-amber-400 text-5xl transition-transform">
+                        <i class="fa-solid fa-piggy-bank"></i>
+                    </div>
+                    
+                    <div>
+                        <span class="text-xs text-neutral-500 uppercase font-semibold">Total Ahorrado en Alcancía</span>
+                        <div class="text-3xl font-black text-emerald-400 mt-0.5" id="alcancia-monto-actual">$0.00</div>
+                    </div>
+
+                    <div class="w-full bg-neutral-900 rounded-full h-3 border border-neutral-800 overflow-hidden mt-2">
+                        <div id="alcancia-barra" class="bg-gradient-to-r from-emerald-500 to-amber-400 h-full w-[0%] transition-all duration-500"></div>
+                    </div>
+                    
+                    <div class="flex justify-between w-full text-[10px] text-neutral-400">
+                        <span>Falta: <strong id="alcancia-falta" class="text-amber-300">$380</strong></span>
+                        <span>Progreso: <strong id="alcancia-porcentaje" class="text-emerald-400">0%</strong></span>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2">
+                        <i class="fa-solid fa-coins"></i> Depositar dinero a la Alcancía
+                    </h4>
+
+                    <div class="grid grid-cols-3 gap-3">
+                        <button onclick="depositar(1)" class="bg-neutral-950 border border-amber-500/30 hover:border-amber-400 hover:bg-amber-500/10 p-3 rounded-2xl text-center transition group">
+                            <span class="block text-lg font-black text-amber-300 group-hover:scale-110 transition">+ $1</span>
+                            <span class="text-[9px] text-neutral-500">Moneda</span>
+                        </button>
+
+                        <button onclick="depositar(5)" class="bg-neutral-950 border border-emerald-500/30 hover:border-emerald-400 hover:bg-emerald-500/10 p-3 rounded-2xl text-center transition group">
+                            <span class="block text-lg font-black text-emerald-400 group-hover:scale-110 transition">+ $5</span>
+                            <span class="text-[9px] text-neutral-500">Billete</span>
+                        </button>
+
+                        <button onclick="depositar(10)" class="bg-neutral-950 border border-emerald-500/30 hover:border-emerald-400 hover:bg-emerald-500/10 p-3 rounded-2xl text-center transition group">
+                            <span class="block text-lg font-black text-emerald-400 group-hover:scale-110 transition">+ $10</span>
+                            <span class="text-[9px] text-neutral-500">Billete</span>
+                        </button>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <input id="input-custom-deposit" type="number" placeholder="Otro monto ($)" class="bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-amber-200 w-full focus:outline-none focus:border-amber-400">
+                        <button onclick="depositarCustom()" class="bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold px-4 py-2 rounded-xl text-xs transition">
+                            Guardar
+                        </button>
+                    </div>
+
+                    <p id="alcancia-mensaje-motivar" class="text-[11px] text-neutral-400 bg-neutral-950 p-3 rounded-xl border border-neutral-800 italic">
+                        "¡Inicia guardando tu primer dólar hoy para dar el primer paso!"
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN CATEGORÍAS Y BÚSQUEDA -->
+        <div class="bg-neutral-900 border border-neutral-800 p-6 rounded-3xl space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400">¿Qué meta deseas proponerte hoy?</h3>
+                
+                <!-- Buscador Rápido -->
+                <div class="relative w-full sm:w-64">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-neutral-500 text-xs"></i>
+                    <input id="input-buscador" type="text" oninput="buscarMetaDirecta(this.value)" placeholder="Buscar meta (ej. Laptop, Playa...)" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl pl-8 pr-3 py-1.5 text-xs text-amber-200 focus:outline-none focus:border-amber-400 placeholder:text-neutral-600">
+                </div>
+            </div>
+            
+            <!-- Grid de Categorías Principales -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <button onclick="seleccionarCategoria('inter')" id="cat-inter" class="cat-btn border border-neutral-800 bg-neutral-950 text-neutral-400 p-3.5 rounded-2xl text-left hover:border-amber-400 transition flex items-center gap-3">
+                    <i class="fa-solid fa-earth-americas text-xl text-amber-400"></i>
+                    <div>
+                        <span class="block text-xs font-bold">Viajes Internacionales</span>
+                        <span class="text-[9px] text-neutral-400">Por Continentes</span>
+                    </div>
+                </button>
+
+                <button onclick="seleccionarCategoria('nac')" id="cat-nac" class="cat-btn border border-neutral-800 bg-neutral-950 text-neutral-400 p-3.5 rounded-2xl text-left hover:border-amber-400 transition flex items-center gap-3">
+                    <i class="fa-solid fa-mountain-sun text-xl text-amber-400"></i>
+                    <div>
+                        <span class="block text-xs font-bold">Turismo Ecuador</span>
+                        <span class="text-[9px] text-neutral-400">Por Regiones</span>
+                    </div>
+                </button>
+
+                <button onclick="seleccionarCategoria('tecno')" id="cat-tecno" class="cat-btn border border-neutral-800 bg-neutral-950 text-neutral-400 p-3.5 rounded-2xl text-left hover:border-amber-400 transition flex items-center gap-3">
+                    <i class="fa-solid fa-laptop text-xl text-amber-400"></i>
+                    <div>
+                        <span class="block text-xs font-bold">Tecnología</span>
+                        <span class="text-[9px] text-neutral-400">Gadgets y Equipos</span>
+                    </div>
+                </button>
+
+                <button onclick="seleccionarCategoria('cuidado')" id="cat-cuidado" class="cat-btn border border-neutral-800 bg-neutral-950 text-neutral-400 p-3.5 rounded-2xl text-left hover:border-amber-400 transition flex items-center gap-3">
+                    <i class="fa-solid fa-pump-soap text-xl text-amber-400"></i>
+                    <div>
+                        <span class="block text-xs font-bold">Cuidado Personal</span>
+                        <span class="text-[9px] text-neutral-400">Estética y Estilo</span>
+                    </div>
+                </button>
+
+                <button onclick="seleccionarCategoria('moda')" id="cat-moda" class="cat-btn border border-neutral-800 bg-neutral-950 text-neutral-400 p-3.5 rounded-2xl text-left hover:border-amber-400 transition flex items-center gap-3">
+                    <i class="fa-solid fa-shirt text-xl text-amber-400"></i>
+                    <div>
+                        <span class="block text-xs font-bold">Moda, Ropa y Calzado</span>
+                        <span class="text-[9px] text-neutral-400">Outfits y Estilo</span>
+                    </div>
+                </button>
+
+                <!-- BOTÓN NUEVO: META PROPIA PERSONALIZADA -->
+                <button onclick="abrirPlanAhorro('Mi Meta Personalizada', 100)" class="cat-btn border border-amber-500/40 bg-amber-500/5 text-amber-300 p-3.5 rounded-2xl text-left hover:border-amber-400 hover:bg-amber-500/10 transition flex items-center gap-3 group">
+                    <i class="fa-solid fa-wand-magic-sparkles text-xl text-amber-400 group-hover:rotate-12 transition"></i>
+                    <div>
+                        <span class="block text-xs font-bold text-amber-300">+ Meta Personalizada</span>
+                        <span class="text-[9px] text-amber-400/80">Escribe tu propio objetivo</span>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Contenedor Dinámico -->
+            <div id="contenedor-subcategorias" class="space-y-6 pt-4 hidden">
+            </div>
+        </div>
+
+    </main>
+
+    <!-- MODAL PLAN DE AHORRO -->
+    <div id="modal-plan" class="modal-overlay fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none">
+        <div class="modal-content bg-neutral-900 border border-amber-500/30 w-full max-w-lg rounded-3xl p-6 shadow-2xl relative space-y-5 scale-90">
+            <button onclick="cerrarModal()" class="absolute top-4 right-4 w-8 h-8 bg-neutral-800 hover:bg-amber-500 hover:text-neutral-950 text-neutral-400 rounded-full flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div>
+                <span class="inline-block bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full mb-2">
+                    Tu Plan de Ahorro
+                </span>
+                <h3 class="text-lg font-black text-amber-200" id="modal-categoria-padre">Personalizada</h3>
+            </div>
+
+            <div class="bg-neutral-950 border border-neutral-800 p-4 rounded-2xl space-y-3 relative overflow-hidden">
+                <div>
+                    <span class="text-[10px] text-neutral-500 uppercase block font-semibold">Nombre de la Meta:</span>
+                    <input id="modal-input-nombre" type="text" class="bg-neutral-900 border border-neutral-700 rounded-lg px-2 py-1.5 text-sm font-bold text-amber-100 w-full focus:outline-none focus:border-amber-400 mt-1">
+                </div>
+
+                <div class="pt-2 border-t border-neutral-800 grid grid-cols-2 gap-2">
+                    <div>
+                        <span class="text-[9px] text-neutral-500 uppercase block">Costo Meta ($)</span>
+                        <input id="modal-input-precio" type="number" oninput="recalcularModal()" class="bg-neutral-900 border border-neutral-700 rounded-lg px-2 py-1 text-xs font-bold text-amber-300 w-full focus:outline-none focus:border-amber-400">
+                    </div>
+                    <div>
+                        <span class="text-[9px] text-neutral-500 uppercase block">Ahorro Mensual ($)</span>
+                        <input id="modal-input-ahorro" type="number" value="30" oninput="recalcularModal()" class="bg-neutral-900 border border-neutral-700 rounded-lg px-2 py-1 text-xs font-bold text-emerald-400 w-full focus:outline-none focus:border-amber-400">
+                    </div>
+                </div>
+
+                <div class="pt-2 border-t border-neutral-800 flex justify-between items-baseline">
+                    <span class="text-[10px] text-neutral-500 uppercase">Tiempo Estimado:</span>
+                    <span id="modal-meses" class="text-lg font-black text-amber-400">12 Meses</span>
+                </div>
+            </div>
+
+            <div class="bg-amber-950/20 border border-amber-500/20 p-3 rounded-xl text-center">
+                <span class="text-[10px] text-neutral-400 block uppercase">Guardando solo:</span>
+                <span id="modal-diario" class="text-base font-black text-amber-300">$1.00 al día</span>
+            </div>
+
+            <button onclick="iniciarMeta()" class="w-full bg-amber-500 hover:bg-amber-400 text-neutral-950 font-black py-3.5 rounded-xl transition text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20">
+                <i class="fa-solid fa-play"></i> ¡Comenzar esta Meta en mi Alcancía!
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL CAMBIAR META -->
+    <div id="modal-confirmar-cambio" class="modal-overlay fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none">
+        <div class="modal-content bg-neutral-900 border border-amber-500/30 w-full max-w-md rounded-3xl p-6 shadow-2xl space-y-4 text-center scale-90">
+            <div class="w-14 h-14 bg-amber-500/10 text-amber-400 border border-amber-500/30 rounded-full flex items-center justify-center mx-auto text-2xl">
+                <i class="fa-solid fa-circle-question"></i>
+            </div>
+            <h3 class="text-base font-black text-amber-200">¿Deseas cambiar o reiniciar tu meta actual?</h3>
+            <p class="text-xs text-neutral-400 leading-relaxed">
+                Si decides continuar, volverás al inicio para elegir una nueva meta.
+            </p>
+            <div class="grid grid-cols-2 gap-3 pt-2">
+                <button onclick="cerrarModalCambio()" class="bg-neutral-800 hover:bg-neutral-700 text-neutral-300 font-bold py-2.5 rounded-xl text-xs transition">
+                    Cancelar
+                </button>
+                <button onclick="aceptarCambioMeta()" class="bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold py-2.5 rounded-xl text-xs transition">
+                    Aceptar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const datosModulo = {
+            inter: {
+                "América Latina": [
+                    { nombre: "Colombia 🇨🇴", precio: 350, desc: "Medellín o Bogotá (Plan Mochilero)" },
+                    { nombre: "Perú 🇵🇪", precio: 380, desc: "Máncora o Lima en oferta/bus" },
+                    { nombre: "México 🇲🇽", precio: 650, desc: "Vuelo en promoción + hostal" }
+                ],
+                "Europa / Lejanos": [
+                    { nombre: "España 🇪🇸", precio: 950, desc: "Vuelo promocional + estancia compartida" },
+                    { nombre: "Estados Unidos 🇺🇸", precio: 850, desc: "Miami / Orlando económicamente" }
+                ]
+            },
+            nac: {
+                "Costa": [{ nombre: "Playa Atacames 🏖️", precio: 80, desc: "Fin de semana universitario" }, { nombre: "Manta 🌊", precio: 100, desc: "Hospedaje compartido" }],
+                "Sierra": [{ nombre: "Baños de Agua Santa 🌊", precio: 60, desc: "Paseo de fin de semana" }, { nombre: "Mitad del Mundo 🏛️", precio: 25, desc: "Tour rápido" }],
+                "Amazonía": [{ nombre: "Puyo / Misahuallí 🌿", precio: 90, desc: "Naturaleza accesible" }],
+                "Insular": [{ nombre: "Galápagos Estudiantil 🐢", precio: 380, desc: "Vuelo oferta + hostal" }]
+            },
+            tecno: {
+                "Dispositivos": [
+                    { nombre: "Audífonos Inalámbricos 🎧", precio: 35, desc: "Sin distracciones" },
+                    { nombre: "Smartwatch Universitario ⌚", precio: 50, desc: "Ejercicio y avisos" },
+                    { nombre: "Smartphone de Estudio 📱", precio: 180, desc: "Gama media equilibrada" },
+                    { nombre: "Laptop de Estudio 💻", precio: 450, desc: "Tareas y proyectos" }
+                ]
+            },
+            cuidado: {
+                "Estética": [
+                    { nombre: "Kit de Cuidado Capilar 🧴", precio: 25, desc: "Tratamiento básico" },
+                    { nombre: "Rutina Skincare ✨", precio: 30, desc: "Cremas y limpiador" },
+                    { nombre: "Perfume Favorito 🧴", precio: 55, desc: "Uso diario" }
+                ]
+            },
+            moda: {
+                "Prendas": [
+                    { nombre: "Zapatillas Deportivas 👟", precio: 60, desc: "Campus diario" },
+                    { nombre: "Outfit Universitario 👕", precio: 45, desc: "Ropa casual" },
+                    { nombre: "Chaqueta / Blazer 🧥", precio: 50, desc: "Exposiciones" }
+                ]
+            },
+            regalos: {
+                "Detalles": [
+                    { nombre: "Detalle de Cumpleaños 🎂", precio: 25, desc: "Regalo personal" },
+                    { nombre: "Cena de Pareja 🎁", precio: 35, desc: "Salida especial" }
+                ]
+            }
+        };
+
+        const etiquetasCategorias = { inter: "Viaje Internacional", nac: "Turismo Ecuador", tecno: "Tecnología", cuidado: "Cuidado Personal", moda: "Moda y Calzado", regalos: "Regalos" };
+        let catActual = null;
+        let miMetaActiva = JSON.parse(localStorage.getItem('finea_meta_activa')) || null;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('usuario-saludo').innerText = sessionStorage.getItem('usuarioFinea') || 'Estudiante';
+            actualizarInterfazAlcancia();
+        });
+
+        function seleccionarCategoria(catKey) {
+            catActual = catKey;
+            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('border-amber-500', 'bg-amber-500/10'));
+            const activeBtn = document.getElementById(`cat-${catKey}`);
+            if(activeBtn) activeBtn.classList.add('border-amber-500', 'bg-amber-500/10');
+
+            const contenedor = document.getElementById('contenedor-subcategorias');
+            contenedor.innerHTML = "";
+            contenedor.classList.remove('hidden');
+
+            for (const [subcatNombre, opciones] of Object.entries(datosModulo[catKey])) {
+                let tarjetasHTML = "";
+                opciones.forEach(item => {
+                    tarjetasHTML += `
+                        <div onclick="abrirPlanAhorro('${item.nombre}', ${item.precio})" class="border border-neutral-800 bg-neutral-950 p-4 rounded-2xl cursor-pointer hover:border-amber-400 hover:bg-neutral-900 transition flex justify-between items-center group">
+                            <div>
+                                <span class="text-xs font-bold text-amber-200 group-hover:text-amber-400 transition">${item.nombre}</span>
+                                <p class="text-[10px] text-neutral-400 mt-0.5">${item.desc}</p>
+                            </div>
+                            <span class="text-xs font-black text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-xl">$${item.precio}</span>
+                        </div>`;
+                });
+                contenedor.innerHTML += `<div><h4 class="text-[11px] font-bold text-neutral-400 uppercase tracking-wider mb-2 border-b border-neutral-800 pb-1"><i class="fa-solid fa-angle-right text-amber-400"></i> ${subcatNombre}</h4><div class="grid grid-cols-1 sm:grid-cols-2 gap-3">${tarjetasHTML}</div></div>`;
+            }
+        }
+
+        function buscarMetaDirecta(query) {
+            if (!query.trim()) {
+                document.getElementById('contenedor-subcategorias').classList.add('hidden');
+                return;
+            }
+
+            const contenedor = document.getElementById('contenedor-subcategorias');
+            contenedor.innerHTML = "";
+            contenedor.classList.remove('hidden');
+
+            let coincidencia = false;
+            let resultadosHTML = "";
+
+            for (const [catKey, subcats] of Object.entries(datosModulo)) {
+                for (const [subcat, lista] of Object.entries(subcats)) {
+                    lista.forEach(item => {
+                        if (item.nombre.toLowerCase().includes(query.toLowerCase()) || item.desc.toLowerCase().includes(query.toLowerCase())) {
+                            coincidencia = true;
+                            resultadosHTML += `
+                                <div onclick="abrirPlanAhorro('${item.nombre}', ${item.precio})" class="border border-neutral-800 bg-neutral-950 p-4 rounded-2xl cursor-pointer hover:border-amber-400 hover:bg-neutral-900 transition flex justify-between items-center group">
+                                    <div>
+                                        <span class="text-xs font-bold text-amber-200 group-hover:text-amber-400 transition">${item.nombre}</span>
+                                        <p class="text-[10px] text-neutral-400 mt-0.5">${item.desc}</p>
+                                    </div>
+                                    <span class="text-xs font-black text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-xl">$${item.precio}</span>
+                                </div>`;
+                        }
+                    });
+                }
+            }
+
+            if (coincidencia) {
+                contenedor.innerHTML = `<h4 class="text-[11px] font-bold text-neutral-400 uppercase tracking-wider mb-2"><i class="fa-solid fa-magnifying-glass text-amber-400"></i> Resultados de búsqueda:</h4><div class="grid grid-cols-1 sm:grid-cols-2 gap-3">${resultadosHTML}</div>`;
+            } else {
+                contenedor.innerHTML = `<p class="text-xs text-neutral-500 italic text-center py-4">No se encontraron metas con esa palabra. ¡Prueba la opción de "+ Meta Personalizada" arriba!</p>`;
+            }
+        }
+
+        function abrirPlanAhorro(nombre, precio) {
+            document.getElementById('modal-categoria-padre').innerText = etiquetasCategorias[catActual] || "Personalizada";
+            document.getElementById('modal-input-nombre').value = nombre;
+            document.getElementById('modal-input-precio').value = precio;
+            recalcularModal();
+
+            const modal = document.getElementById('modal-plan');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.querySelector('.modal-content').classList.remove('scale-90');
+        }
+
+        function cerrarModal() {
+            const modal = document.getElementById('modal-plan');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.querySelector('.modal-content').classList.add('scale-90');
+        }
+
+        function recalcularModal() {
+            const precio = parseFloat(document.getElementById('modal-input-precio').value) || 0;
+            const ahorro = parseFloat(document.getElementById('modal-input-ahorro').value) || 0;
+            if (ahorro <= 0 || precio <= 0) {
+                document.getElementById('modal-meses').innerText = "Indefinido";
+                document.getElementById('modal-diario').innerText = "$0.00 al día";
+                return;
+            }
+            const meses = Math.ceil(precio / ahorro);
+            document.getElementById('modal-meses').innerText = `${meses} Meses`;
+            document.getElementById('modal-diario').innerText = `$${(ahorro / 30).toFixed(2)} al día`;
+        }
+
+        function iniciarMeta() {
+            const nombreIngresado = document.getElementById('modal-input-nombre').value.trim() || "Mi Meta";
+            const precioIngresado = parseFloat(document.getElementById('modal-input-precio').value) || 100;
+
+            miMetaActiva = { nombre: nombreIngresado, costo: precioIngresado, ahorrado: 0 };
+            localStorage.setItem('finea_meta_activa', JSON.stringify(miMetaActiva));
+            cerrarModal();
+            actualizarInterfazAlcancia();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function actualizarInterfazAlcancia() {
+            const secAlcancia = document.getElementById('seccion-alcancia');
+            if (!miMetaActiva) {
+                secAlcancia.classList.add('hidden');
+                return;
+            }
+            secAlcancia.classList.remove('hidden');
+            document.getElementById('alcancia-nombre').innerText = miMetaActiva.nombre;
+            document.getElementById('alcancia-costo-total').innerText = `$${miMetaActiva.costo}`;
+            document.getElementById('alcancia-monto-actual').innerText = `$${miMetaActiva.ahorrado.toFixed(2)}`;
+
+            const falta = Math.max(0, miMetaActiva.costo - miMetaActiva.ahorrado);
+            const porcentaje = Math.min(100, Math.round((miMetaActiva.ahorrado / miMetaActiva.costo) * 100));
+            document.getElementById('alcancia-falta').innerText = `$${falta.toFixed(2)}`;
+            document.getElementById('alcancia-porcentaje').innerText = `${porcentaje}%`;
+            document.getElementById('alcancia-barra').style.width = `${porcentaje}%`;
+        }
+
+        function depositar(monto) {
+            if(!miMetaActiva) return;
+            miMetaActiva.ahorrado += monto;
+            localStorage.setItem('finea_meta_activa', JSON.stringify(miMetaActiva));
+
+            const pig = document.getElementById('pig-icon');
+            pig.classList.add('pig-bounce');
+            setTimeout(() => pig.classList.remove('pig-bounce'), 400);
+
+            actualizarInterfazAlcancia();
+        }
+
+        function depositarCustom() {
+            const val = parseFloat(document.getElementById('input-custom-deposit').value);
+            if(val && val > 0) {
+                depositar(val);
+                document.getElementById('input-custom-deposit').value = "";
+            }
+        }
+
+        function confirmarCambiarMeta() {
+            const modal = document.getElementById('modal-confirmar-cambio');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.querySelector('.modal-content').classList.remove('scale-90');
+        }
+
+        function cerrarModalCambio() {
+            const modal = document.getElementById('modal-confirmar-cambio');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.querySelector('.modal-content').classList.add('scale-90');
+        }
+
+        function aceptarCambioMeta() {
+            miMetaActiva = null;
+            localStorage.removeItem('finea_meta_activa');
+            cerrarModalCambio();
+            actualizarInterfazAlcancia();
+            document.getElementById('contenedor-subcategorias').classList.add('hidden');
+            window.scrollTo({ top: 150, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

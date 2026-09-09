@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FINÉA | Presupuesto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .modal-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .modal-scroll::-webkit-scrollbar-track {
+            background: #171717;
+        }
+
+        .modal-scroll::-webkit-scrollbar-thumb {
+            background: #525252;
+            border-radius: 10px;
+        }
+
+        .pie-chart {
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            margin: auto;
+            position: relative;
+            transition: background 0.5s ease;
+        }
+
+        .pie-chart::after {
+            content: "";
+            position: absolute;
+            inset: 38px;
+            background: #0a0a0a;
+            border-radius: 50%;
+        }
+
+        .option-btn {
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .progress-bar {
+            transition: width 0.4s ease;
+        }
+    </style>
+</head>
+<body class="bg-neutral-950 text-amber-100 min-h-screen flex flex-col font-sans">
+
+    <!-- =========================
+         MENÚ
+    ========================== -->
+    <nav class="border-b border-neutral-800 bg-neutral-950 p-4 flex justify-between items-center px-6 md:px-8">
+        <div class="flex items-center gap-4">
+            <a href="menu.html"
+               class="text-neutral-400 hover:text-amber-300 transition flex items-center gap-2 text-sm"
+               title="Volver">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <span class="text-amber-400 font-bold tracking-widest text-sm">
+                FINÉA | Presupuesto
+            </span>
+        </div>
+
+        <span class="text-xs text-amber-300 font-bold border-b border-amber-400 pb-1 flex items-center gap-1.5">
+            <i class="fa-solid fa-calculator"></i>
+            Presupuesto
+        </span>
+    </nav>
+
+
+    <!-- =========================
+         PANTALLA PRINCIPAL
+    ========================== -->
+    <main id="pantalla-presupuesto"
+          class="max-w-3xl mx-auto p-5 md:p-8 w-full flex-grow">
+
+        <!-- PRESENTACIÓN -->
+        <section class="text-center mb-7">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl
+                        bg-amber-400/10 border border-amber-400/20 mb-4">
+                <i class="fa-solid fa-wallet text-amber-300 text-xl"></i>
+            </div>
+
+            <h1 class="text-2xl md:text-3xl font-bold text-amber-100">
+                Tu presupuesto, a tu manera.
+            </h1>
+
+            <p class="text-xs md:text-sm text-neutral-400 mt-2 max-w-lg mx-auto leading-relaxed">
+                Registra cuánto dinero recibes y en qué lo utilizas.
+                Después, FINÉA analizará tu situación.
+            </p>
+        </section>
+
+
+        <!-- =========================
+             INGRESOS
+        ========================== -->
+        <section class="border border-neutral-800 bg-neutral-900/50
+                        p-5 md:p-6 rounded-3xl mb-5">
+
+            <div class="flex items-start gap-3 mb-5">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10
+                            border border-emerald-500/20 flex items-center justify-center">
+                    <i class="fa-solid fa-arrow-down-long text-emerald-400"></i>
+                </div>
+
+                <div>
+                    <h2 class="text-sm font-bold text-emerald-400">
+                        Ingresos del mes
+                    </h2>
+                    <p class="text-xs text-neutral-500 mt-1">
+                        ¿De dónde viene el dinero que tienes este mes?
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                    <label class="text-[11px] text-neutral-500 block mb-1.5">
+                        Concepto
+                    </label>
+                    <input
+                        type="text"
+                        id="ingreso-concepto"
+                        placeholder="Ej. Beca, trabajo, mesada..."
+                        class="w-full bg-neutral-950 border border-neutral-800
+                               text-xs text-neutral-200 p-3 rounded-xl
+                               focus:outline-none focus:border-amber-400">
+                </div>
+
+                <div>
+                    <label class="text-[11px] text-neutral-500 block mb-1.5">
+                        ¿Cuánto recibes?
+                    </label>
+                    <input
+                        type="number"
+                        id="ingreso-monto"
+                        placeholder="Ej. $200"
+                        min="0"
+                        step="0.01"
+                        class="w-full bg-neutral-950 border border-neutral-800
+                               text-xs text-neutral-200 p-3 rounded-xl
+                               focus:outline-none focus:border-amber-400">
+                </div>
+            </div>
+
+            <button
+                onclick="agregarIngreso()"
+                class="w-full mt-3 bg-emerald-600 hover:bg-emerald-500
+                       text-white text-xs font-bold py-3 rounded-xl transition">
+                <i class="fa-solid fa-plus mr-1"></i>
+                Agregar ingreso
+            </button>
+
+            <div id="contenedor-ingresos" class="mt-5 hidden">
+                <p class="text-[11px] text-neutral-500 mb-2">
+                    Ingresos registrados
+                </p>
+                <ul id="lista-ingresos" class="space-y-2"></ul>
+            </div>
+        </section>
+
+
+        <!-- =========================
+             GASTOS
+        ========================== -->
+        <section class="border border-neutral-800 bg-neutral-900/50
+                        p-5 md:p-6 rounded-3xl mb-5">
+
+            <div class="flex items-start gap-3 mb-5">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10
+                            border border-rose-500/20 flex items-center justify-center">
+                    <i class="fa-solid fa-arrow-up-long text-rose-400"></i>
+                </div>
+
+                <div>
+                    <h2 class="text-sm font-bold text-rose-400">
+                        Gastos del mes
+                    </h2>
+                    <p class="text-xs text-neutral-500 mt-1">
+                        ¿En qué estás utilizando tu dinero?
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                    <label class="text-[11px] text-neutral-500 block mb-1.5">
+                        Concepto
+                    </label>
+                    <input
+                        type="text"
+                        id="gasto-concepto"
+                        placeholder="Ej. Almuerzo, bus, materiales..."
+                        class="w-full bg-neutral-950 border border-neutral-800
+                               text-xs text-neutral-200 p-3 rounded-xl
+                               focus:outline-none focus:border-amber-400">
+                </div>
+
+                <div>
+                    <label class="text-[11px] text-neutral-500 block mb-1.5">
+                        ¿Cuánto gastas?
+                    </label>
+                    <input
+                        type="number"
+                        id="gasto-monto"
+                        placeholder="Ej. $10"
+                        min="0"
+                        step="0.01"
+                        class="w-full bg-neutral-950 border border-neutral-800
+                               text-xs text-neutral-200 p-3 rounded-xl
+                               focus:outline-none focus:border-amber-400">
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <label class="text-[11px] text-neutral-500 block mb-1.5">
+                    Categoría
+                </label>
+                <select
+                    id="gasto-categoria"
+                    class="w-full bg-neutral-950 border border-neutral-800
+                           text-xs text-neutral-200 p-3 rounded-xl
+                           focus:outline-none focus:border-amber-400">
+                    <option value="Alimentación">Alimentación</option>
+                    <option value="Transporte">Transporte</option>
+                    <option value="Educación">Educación</option>
+                    <option value="Entretenimiento">Entretenimiento</option>
+                    <option value="Salud">Salud</option>
+                    <option value="Vivienda">Vivienda</option>
+                    <option value="Otros">Otros</option>
+                </select>
+            </div>
+
+            <button
+                onclick="agregarGasto()"
+                class="w-full mt-3 bg-rose-600 hover:bg-rose-500
+                       text-white text-xs font-bold py-3 rounded-xl transition">
+                <i class="fa-solid fa-plus mr-1"></i>
+                Agregar gasto
+            </button>
+
+            <div id="contenedor-gastos" class="mt-5 hidden">
+                <p class="text-[11px] text-neutral-500 mb-2">
+                    Gastos registrados
+                </p>
+                <ul id="lista-gastos" class="space-y-2"></ul>
+            </div>
+        </section>
+
+
+        <!-- =========================
+             BOTÓN ANALIZAR
+        ========================== -->
+        <button
+            onclick="mostrarAnalisis()"
+            class="w-full bg-amber-400 hover:bg-amber-300
+                   text-neutral-950 text-sm font-bold py-4 rounded-2xl
+                   transition shadow-lg shadow-amber-400/5">
+            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>
+            FINÉA, analiza mi presupuesto
+        </button>
+
+        <p class="text-center text-[10px] text-neutral-600 mt-3">
+            Registra al menos un ingreso y un gasto para obtener un análisis completo.
+        </p>
+    </main>
+
+
+    <!-- =========================
+         MODAL DE ALERTA PERSONALIZADO (FINÉA)
+    ========================== -->
+    <div id="modal-alerta" 
+         class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-[80]">
+        
+        <div class="bg-neutral-950 border border-neutral-800 rounded-3xl w-full max-w-sm p-6 text-center shadow-2xl relative">
+            
+            <div class="w-12 h-12 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center mx-auto mb-4">
+                <i class="fa-solid fa-triangle-exclamation text-amber-400 text-xl"></i>
+            </div>
+
+            <p class="text-[10px] text-amber-400 font-bold tracking-widest uppercase mb-1">
+                FINÉA
+            </p>
+
+            <h3 id="alerta-titulo" class="text-base font-bold text-amber-100 mb-2">
+                Atención
+            </h3>
+
+            <p id="alerta-mensaje" class="text-xs text-neutral-400 leading-relaxed mb-6">
+                Primero registra al menos un ingreso.
+            </p>
+
+            <button onclick="cerrarAlerta()" 
+                    class="w-full bg-amber-400 hover:bg-amber-300 text-neutral-950 text-xs font-bold py-3 rounded-xl transition shadow-lg shadow-amber-400/5">
+                Aceptar
+            </button>
+        </div>
+    </div>
+
+
+    <!-- =========================
+         MODAL DE ANÁLISIS
+    ========================== -->
+    <div id="modal-analisis"
+         class="fixed inset-0 bg-black/85 backdrop-blur-sm hidden
+                items-center justify-center p-3 md:p-5 z-50">
+
+        <div class="bg-neutral-950 border border-neutral-800 rounded-3xl
+                    w-full max-w-3xl max-h-[94vh] overflow-y-auto modal-scroll
+                    shadow-2xl">
+
+            <!-- CABECERA -->
+            <div class="p-5 md:p-6 border-b border-neutral-800
+                        flex justify-between items-start sticky top-0
+                        bg-neutral-950/95 backdrop-blur z-10">
+                <div>
+                    <p class="text-[10px] text-amber-400 font-bold tracking-widest mb-1">
+                        FINÉA
+                    </p>
+                    <h2 class="text-xl font-bold text-amber-100">
+                        Análisis de tu presupuesto
+                    </h2>
+                    <p class="text-xs text-neutral-500 mt-1">
+                        Veamos qué está pasando con tu dinero.
+                    </p>
+                </div>
+
+                <button
+                    onclick="cerrarAnalisis()"
+                    class="text-neutral-500 hover:text-white text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="p-5 md:p-6 space-y-5">
+
+                <!-- RESUMEN -->
+                <section class="border border-neutral-800 bg-neutral-900/50 p-5 rounded-2xl">
+                    <h3 class="text-sm font-bold text-amber-300 mb-4">
+                        Así va tu presupuesto
+                    </h3>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div class="bg-neutral-950 border border-neutral-800 p-4 rounded-xl">
+                            <span class="text-[10px] text-neutral-500 block mb-1">
+                                Ingresos
+                            </span>
+                            <span id="analisis-ingresos" class="text-xl font-bold text-emerald-400">
+                                $0.00
+                            </span>
+                        </div>
+
+                        <div class="bg-neutral-950 border border-neutral-800 p-4 rounded-xl">
+                            <span class="text-[10px] text-neutral-500 block mb-1">
+                                Gastos
+                            </span>
+                            <span id="analisis-gastos" class="text-xl font-bold text-rose-400">
+                                $0.00
+                            </span>
+                        </div>
+
+                        <div class="bg-amber-400/5 border border-amber-400/20 p-4 rounded-xl">
+                            <span class="text-[10px] text-amber-300/70 block mb-1">
+                                Disponible
+                            </span>
+                            <span id="analisis-disponible" class="text-xl font-bold text-amber-300">
+                                $0.00
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-4 rounded-xl bg-neutral-950 border border-neutral-800">
+                        <p id="mensaje-analisis" class="text-xs text-neutral-300 leading-relaxed"></p>
+                    </div>
+                </section>
+
+                <!-- GRÁFICO -->
+                <section class="border border-neutral-800 bg-neutral-900/50 p-5 rounded-2xl">
+                    <h3 class="text-sm font-bold text-amber-300 mb-5">
+                        ¿En qué se está yendo tu dinero?
+                    </h3>
+
+                    <div id="contenedor-grafico" class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                        <div>
+                            <div id="grafico-pie" class="pie-chart"></div>
+                        </div>
+                        <div id="leyenda-grafico" class="space-y-3"></div>
+                    </div>
+                </section>
+
+                <!-- RIESGO -->
+                <section class="border border-neutral-800 bg-neutral-900/50 p-5 rounded-2xl">
+                    <h3 class="text-sm font-bold text-amber-300 mb-5">
+                        FINÉA analiza
+                    </h3>
+
+                    <div class="mb-4">
+                        <div class="flex justify-between text-[10px] mb-2">
+                            <span class="text-emerald-400">Bajo</span>
+                            <span class="text-amber-400">Atención</span>
+                            <span class="text-rose-400">Peligro</span>
+                        </div>
+
+                        <div class="w-full h-3 rounded-full bg-neutral-800 overflow-hidden flex">
+                            <div class="w-1/3 bg-emerald-500"></div>
+                            <div class="w-1/3 bg-amber-500"></div>
+                            <div class="w-1/3 bg-rose-500"></div>
+                        </div>
+
+                        <div class="relative h-3">
+                            <div id="indicador-riesgo"
+                                 class="absolute -top-1 w-5 h-5 rounded-full bg-white border-4 border-neutral-950 shadow-lg transition-all duration-500"
+                                 style="left:0%">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="riesgo-presupuesto"></div>
+                </section>
+
+                <!-- RETO -->
+                <section class="border border-amber-500/30 bg-amber-500/5 p-5 rounded-2xl">
+                    <h3 class="text-sm font-bold text-amber-300 mb-3">
+                        Misión FINÉA
+                    </h3>
+                    <p id="reto-financiero" class="text-base text-neutral-100 font-bold"></p>
+                    <p id="explicacion-reto" class="text-xs text-neutral-400 mt-2 leading-relaxed"></p>
+                </section>
+
+                <!-- SUPERVIVENCIA -->
+                <section class="border border-violet-500/20 bg-violet-500/5 p-5 rounded-2xl">
+                    <div class="flex items-start gap-3">
+                        <div class="w-11 h-11 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
+                            <i class="fa-solid fa-gamepad text-violet-400"></i>
+                        </div>
+
+                        <div class="flex-1">
+                            <h3 class="text-sm font-bold text-violet-300">
+                                ¿Quieres poner a prueba tus decisiones?
+                            </h3>
+                            <p class="text-xs text-neutral-400 mt-1 leading-relaxed">
+                                Responde situaciones de la vida real y descubre si sobrevivirías financieramente este mes.
+                            </p>
+                        </div>
+                    </div>
+
+                    <button
+                        onclick="abrirSupervivencia()"
+                        class="w-full mt-4 bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold py-3 rounded-xl transition">
+                        Comenzar supervivencia FINÉA
+                    </button>
+                </section>
+
+                <!-- ACCIONES -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button
+                        onclick="cerrarAnalisis()"
+                        class="border border-neutral-800 bg-neutral-900 hover:bg-neutral-800 text-neutral-300 text-xs font-bold py-3 rounded-xl transition">
+                        <i class="fa-solid fa-pen mr-1"></i>
+                        Editar presupuesto
+                    </button>
+
+                    <button
+                        onclick="nuevoPresupuesto()"
+                        class="border border-rose-500/20 bg-rose-500/5 hover:bg-rose-500/10 text-rose-300 text-xs font-bold py-3 rounded-xl transition">
+                        <i class="fa-solid fa-rotate-right mr-1"></i>
+                        Nuevo presupuesto
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==================================================
+         MODAL SUPERVIVENCIA
+    ================================================== -->
+    <div id="modal-supervivencia"
+         class="fixed inset-0 bg-black/90 backdrop-blur-sm hidden items-center justify-center p-3 md:p-5 z-[60]">
+
+        <div class="bg-neutral-950 border border-violet-500/20 rounded-3xl w-full max-w-xl max-h-[94vh] overflow-y-auto modal-scroll shadow-2xl">
+            <div class="p-5 border-b border-neutral-800 flex justify-between items-start">
+                <div>
+                    <p class="text-[10px] text-violet-400 font-bold tracking-widest">
+                        FINÉA
+                    </p>
+                    <h2 class="text-xl font-bold text-violet-200 mt-1">
+                        Supervivencia FINÉA
+                    </h2>
+                </div>
+
+                <button onclick="cerrarSupervivencia()" class="text-neutral-500 hover:text-white text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="p-5 md:p-6">
+                <!-- PROGRESO -->
+                <div class="flex justify-between items-center mb-3">
+                    <span id="numero-pregunta" class="text-xs text-neutral-400">
+                        Pregunta 1 de 5
+                    </span>
+                    <span class="text-xs text-violet-400 font-bold">
+                        Toma una decisión
+                    </span>
+                </div>
+
+                <div class="w-full h-2 bg-neutral-800 rounded-full overflow-hidden mb-6">
+                    <div id="progreso-juego" class="progress-bar h-full bg-violet-500" style="width:20%"></div>
+                </div>
+
+                <!-- PREGUNTA -->
+                <div class="border border-neutral-800 bg-neutral-900/50 rounded-2xl p-5">
+                    <p id="categoria-pregunta" class="text-[10px] text-violet-400 font-bold uppercase tracking-widest mb-3"></p>
+                    <h3 id="texto-pregunta" class="text-base md:text-lg font-bold text-neutral-100 leading-relaxed"></h3>
+                </div>
+
+                <!-- OPCIONES -->
+                <div id="opciones-pregunta" class="space-y-3 mt-5"></div>
+
+                <p class="text-center text-[10px] text-neutral-600 mt-5">
+                    No hay respuestas perfectas. El objetivo es descubrir tus hábitos.
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==================================================
+         MODAL RESULTADO
+    ================================================== -->
+    <div id="modal-resultado"
+         class="fixed inset-0 bg-black/90 backdrop-blur-sm hidden items-center justify-center p-3 md:p-5 z-[70]">
+
+        <div class="bg-neutral-950 border border-neutral-800 rounded-3xl w-full max-w-xl max-h-[94vh] overflow-y-auto modal-scroll shadow-2xl">
+            <div class="p-6 text-center border-b border-neutral-800">
+                <p class="text-[10px] text-amber-400 font-bold tracking-widest mb-2">
+                    RESULTADO FINÉA
+                </p>
+                <h2 class="text-2xl font-bold text-amber-100">
+                    Tu supervivencia financiera
+                </h2>
+                <p class="text-xs text-neutral-500 mt-2">
+                    Tus decisiones dicen algunas cosas interesantes sobre tus hábitos.
+                </p>
+            </div>
+
+            <div class="p-5 md:p-6 space-y-5">
+                <div id="resultado-titulo" class="text-center"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================================================
+         JAVASCRIPT DE CONTROL
+    ================================================== -->
+    <script>
+        // Funciones para controlar la ventana flotante de alerta
+        function mostrarAlerta(mensaje, titulo = "Atención") {
+            document.getElementById('alerta-titulo').innerText = titulo;
+            document.getElementById('alerta-mensaje').innerText = mensaje;
+            
+            const modal = document.getElementById('modal-alerta');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function cerrarAlerta() {
+            const modal = document.getElementById('modal-alerta');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Ejemplo de uso en la función de agregar gasto:
+        /*
+        function agregarGasto() {
+            if (ingresos.length === 0) {
+                mostrarAlerta("Primero registra al menos un ingreso.");
+                return;
+            }
+        }
+        */
+    </script>
+
+<script>// ==========================================
+// ESTADO GLOBAL
+// ==========================================
+let ingresos = [];
+let gastos = [];
+
+// Variables para la Dinámica de Supervivencia
+let indicePreguntaActual = 0;
+let puntosSupervivencia = 0;
+
+const preguntasSupervivencia = [
+    {
+        categoria: "Ahorro vs. Gustos",
+        texto: "Dia 20 del mes: tienes $12 y todavia faltan 10 dias. ¿Que decision tomarias?",
+        opciones: [
+            { texto: "Gasto los 12 antes de que desaparezca magicamente", puntos: 1 },
+            { texto: "Revisar gastos y priorizar lo necesario.", puntos: 2 },
+            { texto: "Dios proveera.", puntos: 0 }
+        ]
+    },
+    {
+        categoria: "Imprevistos",
+        texto: "Encuentras una oferta increible justo cuando estas intentando ahorrar. ¿Que haces?",
+        opciones: [
+            { texto: "Me pregunto si realmente lo necesito.", puntos: 2 },
+            { texto: "Cierro la aplicacion antes de cometer un crimen financiero.", puntos: 1 },
+            { texto: "Lo compro por que esta en oferta.", puntos: 0 }
+        ]
+    },
+    {
+        categoria: "Compras",
+        texto: "Se daño tu cargador y necesitas uno nuevo. Cuesta 18$. ¿Que harias?",
+        opciones: [
+            { texto: "Busco una opcion economica y ajusto otro gasto.", puntos: 2 },
+            { texto: "compro el primero que encuentro.", puntos: 1 },
+            { texto: "Miro mi cargador roto y espero un milagro.", puntos: 0 }
+        ]
+    },
+    {
+        categoria: "Planificación",
+        texto: "Tienes 5$ y estas muriendo de hambre. ¿Que haces?",
+        opciones: [
+            { texto: "Compro algo economico que me alcance.", puntos: 2 },
+            { texto: "Pido delivery y que mi yo del futuro se encargue.", puntos: 1 },
+            { texto: "Miro el menú durante 20 minuros y termino comprando lo mas caro.", puntos: 0 }
+        ]
+    },
+    {
+        categoria: "Transporte",
+        texto: "Te quedan 10$  y necesitas transporte para toda la semana. ¿Qué haces?",
+        opciones: [
+            { texto: "Separo primero el dinero de transposte.", puntos: 2 },
+            { texto: "Me gasto 6 y camino con fe.", puntos: 1 },
+            { texto: "Descubro que caminar 40 minutos era parte de mi desarrollo personal.", puntos: 0 }
+        ]
+    }
+];
+
+// ==========================================
+// CONTROL DE ALERTA PERSONALIZADA
+// ==========================================
+function mostrarAlerta(mensaje, titulo = "Atención") {
+    document.getElementById('alerta-titulo').innerText = titulo;
+    document.getElementById('alerta-mensaje').innerText = mensaje;
+    
+    const modal = document.getElementById('modal-alerta');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+}
+
+function cerrarAlerta() {
+    const modal = document.getElementById('modal-alerta');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+}
+
+// ==========================================
+// REGISTRO DE INGRESOS Y GASTOS
+// ==========================================
+function agregarIngreso() {
+    const conceptoInput = document.getElementById('ingreso-concepto');
+    const montoInput = document.getElementById('ingreso-monto');
+
+    const concepto = conceptoInput.value.trim();
+    const monto = parseFloat(montoInput.value);
+
+    if (!concepto || isNaN(monto) || monto <= 0) {
+        mostrarAlerta("Ingresa un concepto y un monto válido.");
+        return;
+    }
+
+    ingresos.push({ concepto, monto });
+    conceptoInput.value = '';
+    montoInput.value = '';
+
+    renderizarListas();
+}
+
+function agregarGasto() {
+    if (ingresos.length === 0) {
+        mostrarAlerta("Primero registra al menos un ingreso.");
+        return;
+    }
+
+    const conceptoInput = document.getElementById('gasto-concepto');
+    const montoInput = document.getElementById('gasto-monto');
+    const categoriaSelect = document.getElementById('gasto-categoria');
+
+    const concepto = conceptoInput.value.trim();
+    const monto = parseFloat(montoInput.value);
+    const categoria = categoriaSelect.value;
+
+    if (!concepto || isNaN(monto) || monto <= 0) {
+        mostrarAlerta("Ingresa un concepto y un monto válido para el gasto.");
+        return;
+    }
+
+    gastos.push({ concepto, monto, categoria });
+    conceptoInput.value = '';
+    montoInput.value = '';
+
+    renderizarListas();
+}
+
+function eliminarIngreso(index) {
+    ingresos.splice(index, 1);
+    renderizarListas();
+}
+
+function eliminarGasto(index) {
+    gastos.splice(index, 1);
+    renderizarListas();
+}
+
+function renderizarListas() {
+    const contenedorIngresos = document.getElementById('contenedor-ingresos');
+    const listaIngresos = document.getElementById('lista-ingresos');
+    listaIngresos.innerHTML = '';
+
+    if (ingresos.length > 0) {
+        contenedorIngresos.classList.remove('hidden');
+        ingresos.forEach((ing, index) => {
+            listaIngresos.innerHTML += `
+                <li class="flex justify-between items-center bg-neutral-950 p-3 rounded-xl border border-neutral-800 text-xs">
+                    <span class="font-bold text-neutral-200">${ing.concepto}</span>
+                    <div class="flex items-center gap-3">
+                        <span class="text-emerald-400 font-bold">$${ing.monto.toFixed(2)}</span>
+                        <button onclick="eliminarIngreso(${index})" class="text-neutral-500 hover:text-rose-400">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                </li>`;
+        });
+    } else {
+        contenedorIngresos.classList.add('hidden');
+    }
+
+    const contenedorGastos = document.getElementById('contenedor-gastos');
+    const listaGastos = document.getElementById('lista-gastos');
+    listaGastos.innerHTML = '';
+
+    if (gastos.length > 0) {
+        contenedorGastos.classList.remove('hidden');
+        gastos.forEach((gst, index) => {
+            listaGastos.innerHTML += `
+                <li class="flex justify-between items-center bg-neutral-950 p-3 rounded-xl border border-neutral-800 text-xs">
+                    <div>
+                        <span class="font-bold text-neutral-200">${gst.concepto}</span>
+                        <span class="text-[10px] text-neutral-500 block">${gst.categoria}</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-rose-400 font-bold">$${gst.monto.toFixed(2)}</span>
+                        <button onclick="eliminarGasto(${index})" class="text-neutral-500 hover:text-rose-400">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                </li>`;
+        });
+    } else {
+        contenedorGastos.classList.add('hidden');
+    }
+}
+
+// ==========================================
+// CÁLCULO Y ANÁLISIS DEL PRESUPUESTO
+// ==========================================
+function mostrarAnalisis() {
+    if (ingresos.length === 0 || gastos.length === 0) {
+        mostrarAlerta("Registra al menos un ingreso y un gasto para obtener el análisis.");
+        return;
+    }
+
+    const totalIngresos = ingresos.reduce((sum, i) => sum + i.monto, 0);
+    const totalGastos = gastos.reduce((sum, g) => sum + g.monto, 0);
+    const disponible = totalIngresos - totalGastos;
+
+    document.getElementById('analisis-ingresos').innerText = `$${totalIngresos.toFixed(2)}`;
+    document.getElementById('analisis-gastos').innerText = `$${totalGastos.toFixed(2)}`;
+    
+    const elemDisponible = document.getElementById('analisis-disponible');
+    elemDisponible.innerText = `$${disponible.toFixed(2)}`;
+
+    if (disponible < 0) {
+        elemDisponible.className = 'text-xl font-bold text-rose-400';
+    } else {
+        elemDisponible.className = 'text-xl font-bold text-amber-300';
+    }
+
+    generarDiagnostico(totalIngresos, totalGastos, disponible);
+    generarGraficoPie(totalGastos);
+
+    const modalAnalisis = document.getElementById('modal-analisis');
+    modalAnalisis.classList.remove('hidden');
+    modalAnalisis.classList.add('flex');
+}
+
+function cerrarAnalisis() {
+    const modalAnalisis = document.getElementById('modal-analisis');
+    modalAnalisis.classList.add('hidden');
+    modalAnalisis.classList.remove('flex');
+}
+
+function nuevoPresupuesto() {
+    ingresos = [];
+    gastos = [];
+    renderizarListas();
+    cerrarAnalisis();
+}
+
+function generarGraficoPie(totalGastos) {
+    const categorias = {};
+    gastos.forEach(g => {
+        categorias[g.categoria] = (categorias[g.categoria] || 0) + g.monto;
+    });
+
+    const colores = {
+        'Alimentación': '#f59e0b',
+        'Transporte': '#3b82f6',
+        'Educación': '#8b5cf6',
+        'Entretenimiento': '#ec4899',
+        'Salud': '#ef4444',
+        'Vivienda': '#10b981',
+        'Otros': '#6b7280'
+    };
+
+    let acumulado = 0;
+    const gradientes = [];
+    const leyendaHtml = [];
+
+    for (const [cat, monto] of Object.entries(categorias)) {
+        const porcentaje = (monto / totalGastos) * 100;
+        const inicio = acumulado;
+        acumulado += porcentaje;
+
+        const color = colores[cat] || '#6b7280';
+        gradientes.push(`${color} ${inicio}% ${acumulado}%`);
+
+        leyendaHtml.push(`
+            <div class="flex items-center justify-between text-xs">
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full inline-block" style="background-color: ${color}"></span>
+                    <span class="text-neutral-300">${cat}</span>
+                </div>
+                <span class="font-bold text-neutral-100">$${monto.toFixed(2)} (${porcentaje.toFixed(0)}%)</span>
+            </div>
+        `);
+    }
+
+    document.getElementById('grafico-pie').style.background = `conic-gradient(${gradientes.join(', ')})`;
+    document.getElementById('leyenda-grafico').innerHTML = leyendaHtml.join('');
+}
+
+function generarDiagnostico(ingresosTotal, gastosTotal, disponible) {
+    const porcentajeGasto = (gastosTotal / ingresosTotal) * 100;
+    const mensajeElem = document.getElementById('mensaje-analisis');
+    const indicador = document.getElementById('indicador-riesgo');
+    const riesgoElem = document.getElementById('riesgo-presupuesto');
+    const retoElem = document.getElementById('reto-financiero');
+    const explicacionElem = document.getElementById('explicacion-reto');
+
+    let riesgoPosicion = 0;
+
+    if (porcentajeGasto <= 60) {
+        mensajeElem.innerText = "Excelente gestión. Estás gastando dentro de un margen seguro y mantienes un buen nivel de ahorro.";
+        riesgoPosicion = 15;
+        riesgoElem.innerHTML = `<p class="text-xs text-emerald-400 font-bold">Nivel de Riesgo: Bajo</p><p class="text-xs text-neutral-400 mt-1">Tu salud financiera actual es óptima.</p>`;
+        retoElem.innerText = "Ahorra el 20% de tu disponible";
+        explicacionElem.innerText = "Aprovecha que tus gastos están controlados para separar un fondo de emergencia.";
+    } else if (porcentajeGasto <= 90) {
+        mensajeElem.innerText = "Tu presupuesto está algo ajustado. Estás utilizando gran parte de tus ingresos este mes.";
+        riesgoPosicion = 50;
+        riesgoElem.innerHTML = `<p class="text-xs text-amber-400 font-bold">Nivel de Riesgo: Moderado</p><p class="text-xs text-neutral-400 mt-1">Procura no realizar gastos adicionales este mes.</p>`;
+        retoElem.innerText = "Recorta un 10% en gastos no esenciales";
+        explicacionElem.innerText = "Revisa las categorías como Entretenimiento u Otros para ajustar el presupuesto.";
+    } else {
+        mensajeElem.innerText = "Alerta: Tus gastos superan o rozan el total de tus ingresos. Es necesario ajustar gastos inmediatamente.";
+        riesgoPosicion = 85;
+        riesgoElem.innerHTML = `<p class="text-xs text-rose-400 font-bold">Nivel de Riesgo: Alto</p><p class="text-xs text-neutral-400 mt-1">Estás en riesgo de endeudamiento o déficit.</p>`;
+        retoElem.innerText = "Prioriza únicamente gastos básicos";
+        explicacionElem.innerText = "Pausa compras no urgentes hasta nivelar tus ingresos con tus egresos.";
+    }
+
+    indicador.style.left = `${riesgoPosicion}%`;
+}
+
+// ==========================================
+// JUEGO INTERACTIVO: SUPERVIVENCIA FINÉA
+// ==========================================
+function abrirSupervivencia() {
+    cerrarAnalisis();
+    indicePreguntaActual = 0;
+    puntosSupervivencia = 0;
+
+    const modalSupervivencia = document.getElementById('modal-supervivencia');
+    modalSupervivencia.classList.remove('hidden');
+    modalSupervivencia.classList.add('flex');
+
+    cargarPregunta();
+}
+
+function cerrarSupervivencia() {
+    const modalSupervivencia = document.getElementById('modal-supervivencia');
+    modalSupervivencia.classList.add('hidden');
+    modalSupervivencia.classList.remove('flex');
+}
+
+function cargarPregunta() {
+    const pregunta = preguntasSupervivencia[indicePreguntaActual];
+    const totalPreguntas = preguntasSupervivencia.length;
+
+    // Actualizar encabezados y barra de progreso
+    document.getElementById('numero-pregunta').innerText = `Pregunta ${indicePreguntaActual + 1} de ${totalPreguntas}`;
+    document.getElementById('progreso-juego').style.width = `${((indicePreguntaActual + 1) / totalPreguntas) * 100}%`;
+    document.getElementById('categoria-pregunta').innerText = pregunta.categoria;
+    document.getElementById('texto-pregunta').innerText = pregunta.texto;
+
+    // Renderizar opciones
+    const contenedorOpciones = document.getElementById('opciones-pregunta');
+    contenedorOpciones.innerHTML = '';
+
+    pregunta.opciones.forEach((opcion) => {
+        contenedorOpciones.innerHTML += `
+            <button onclick="seleccionarRespuesta(${opcion.puntos})" 
+                    class="option-btn w-full text-left bg-neutral-950 border border-neutral-800 hover:border-violet-500/50 p-4 rounded-xl text-xs text-neutral-200 transition">
+                ${opcion.texto}
+            </button>
+        `;
+    });
+}
+
+function seleccionarRespuesta(puntos) {
+    puntosSupervivencia += puntos;
+    indicePreguntaActual++;
+
+    if (indicePreguntaActual < preguntasSupervivencia.length) {
+        cargarPregunta();
+    } else {
+        finalizarSupervivencia();
+    }
+}
+
+function finalizarSupervivencia() {
+    cerrarSupervivencia();
+
+    const contenedorResultado = document.getElementById('resultado-titulo');
+    let perfil = "";
+    let descripcion = "";
+
+    if (puntosSupervivencia >= 8) {
+        perfil = "Estratega Financiero";
+        descripcion = "Tienes un control excepcional sobre tus impulsos y priorizas la estabilidad. Tus decisiones te permiten sobrevivir con holgura ante cualquier reto del mes.";
+    } else if (puntosSupervivencia >= 5) {
+        perfil = "Superviviente Moderado";
+        descripcion = "Mantienes un equilibrio razonable, aunque a veces cedes ante gastos imprevistos o gustos momentáneos. Con un poco más de planificación evitarás sobresaltos.";
+    } else {
+        perfil = "En Riesgo Financiero";
+        descripcion = "Sueles tomar decisiones guiadas por la improvisación o la emoción del momento. Te conviene ajustar tus hábitos para no comprometer tu presupuesto mensual.";
+    }
+
+    contenedorResultado.innerHTML = `
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-amber-400/10 border border-amber-400/20 mb-4">
+            <i class="fa-solid fa-trophy text-amber-300 text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-amber-100">${perfil}</h3>
+        <p class="text-xs text-neutral-400 mt-2 leading-relaxed max-w-md mx-auto">${descripcion}</p>
+        <button onclick="cerrarResultado()" class="mt-6 w-full bg-amber-400 hover:bg-amber-300 text-neutral-950 font-bold text-xs py-3 rounded-xl transition">
+            Volver al presupuesto
+        </button>
+    `;
+
+    const modalResultado = document.getElementById('modal-resultado');
+    modalResultado.classList.remove('hidden');
+    modalResultado.classList.add('flex');
+}
+
+function cerrarResultado() {
+    const modalResultado = document.getElementById('modal-resultado');
+    modalResultado.classList.add('hidden');
+    modalResultado.classList.remove('flex');
+}</script>
+</body>
+</html>
