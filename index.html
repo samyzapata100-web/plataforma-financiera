@@ -10,22 +10,20 @@
 
     <style>
         /* =====================================================
-           FONDO EXACTO DE REFERENCIA (PAISAJE + LIBROS + CAFÉ)
+           FONDO FINÉA - NEGRO + DORADO
         ===================================================== */
         body {
-            /* Imagen de referencia integrada directamente con capa de luz suave */
-            background: 
-                linear-gradient(rgba(245, 242, 235, 0.2), rgba(210, 200, 185, 0.3)),
-                url('https://i.ibb.co/L95mGk7/finea-bg.jpg') center/cover no-repeat fixed;
-            color: #2D3748;
+            background:
+                radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.08), transparent 60%),
+                radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.05), transparent 45%),
+                #0a0a0a;
+            color: #f5f5f5;
         }
-
-        /* En caso de que quieras usar tu propia foto guardada localmente, solo cambia la URL de arriba por 'fondo.jpg' */
 
         .fondo-finea {
             background:
-                radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.25), transparent 60%),
-                radial-gradient(circle at 80% 80%, rgba(45, 90, 69, 0.12), transparent 45%);
+                radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.10), transparent 60%),
+                radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.06), transparent 45%);
         }
 
         /* ANIMACIONES DE INTRODUCCIÓN */
@@ -87,73 +85,73 @@
         }
 
         /* =====================================================
-           TARJETA GLASSMORPHISM REALISTA (ESTILO REFERENCIA)
+           TARJETA FINÉA - NEGRO + DORADO
         ===================================================== */
         .tarjeta-finea {
-            background: rgba(245, 242, 235, 0.55);
-            backdrop-filter: blur(18px) saturate(130%);
-            -webkit-backdrop-filter: blur(18px) saturate(130%);
-            border: 1.5px solid rgba(255, 255, 255, 0.75);
+            background: rgba(23, 23, 23, 0.92);
+            backdrop-filter: blur(18px) saturate(120%);
+            -webkit-backdrop-filter: blur(18px) saturate(120%);
+            border: 1.5px solid rgba(212, 175, 55, 0.28);
             box-shadow:
-                0 25px 50px -12px rgba(0, 0, 0, 0.18),
-                inset 0 1px 2px rgba(255, 255, 255, 0.9);
+                0 25px 50px -12px rgba(0, 0, 0, 0.65),
+                inset 0 1px 2px rgba(212, 175, 55, 0.08);
         }
 
-        /* CAMPOS TRANSLÚCIDOS */
+        /* CAMPOS */
         .campo-finea {
-            background: rgba(255, 255, 255, 0.58);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            color: #2D3748;
+            background: rgba(38, 38, 38, 0.90);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            color: #f5f5f5;
             transition: all 0.2s ease;
         }
 
         .campo-finea::placeholder {
-            color: #64748B;
+            color: #a3a3a3;
         }
 
         .campo-finea:hover {
-            background: rgba(255, 255, 255, 0.80);
-            border-color: rgba(45, 90, 69, 0.5);
+            background: rgba(45, 45, 45, 0.95);
+            border-color: rgba(212, 175, 55, 0.5);
         }
 
         .campo-finea:focus {
-            background: rgba(255, 255, 255, 0.95);
-            border-color: #2D5A45;
-            box-shadow: 0 0 0 3px rgba(45, 90, 69, 0.15);
+            background: rgba(45, 45, 45, 1);
+            border-color: #D4AF37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.12);
         }
 
-        /* BOTÓN PRINCIPAL EN VERDE BOSQUE CON DEGRADADO */
+        /* BOTÓN PRINCIPAL DORADO */
         .btn-principal {
-            background: linear-gradient(135deg, #3B6E56, #2D5A45);
-            color: #FFFFFF;
-            box-shadow: 0 10px 20px rgba(45, 90, 69, 0.35);
+            background: linear-gradient(135deg, #D4AF37, #B8860B);
+            color: #111111;
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.20);
             transition: all 0.25s ease;
         }
 
         .btn-principal:hover {
-            background: linear-gradient(135deg, #2D5A45, #224535);
-            box-shadow: 0 14px 25px rgba(45, 90, 69, 0.45);
+            background: linear-gradient(135deg, #E2C45A, #D4AF37);
+            box-shadow: 0 14px 25px rgba(212, 175, 55, 0.30);
         }
 
         .btn-password {
-            color: #64748B;
+            color: #a3a3a3;
             transition: color 0.2s ease;
         }
 
         .btn-password:hover {
-            color: #2D5A45;
+            color: #D4AF37;
         }
 
-        /* ISOLOGOTIPO OFICIAL FINÉA EN EL CARD */
+        /* ISOLOGOTIPO FINÉA */
         .logo-finea {
-            background: rgba(255, 255, 255, 0.75);
-            border: 1.5px solid rgba(212, 175, 55, 0.5);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            background: rgba(23, 23, 23, 0.90);
+            border: 1.5px solid rgba(212, 175, 55, 0.45);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
             backdrop-filter: blur(8px);
         }
 
         .linea-finea {
-            background: linear-gradient(to bottom, #D4AF37, #2D5A45);
+            background: linear-gradient(to bottom, #D4AF37, #B8860B);
         }
 
         .linea-dorada {
@@ -170,17 +168,17 @@
         }
 
         .enlace-finea {
-            color: #2D5A45;
+            color: #D4AF37;
             transition: color 0.2s ease;
         }
 
         .enlace-finea:hover {
-            color: #1E3A2C;
+            color: #E2C45A;
         }
 
         @media (max-width: 640px) {
             .tarjeta-finea {
-                background: rgba(245, 242, 235, 0.85);
+                background: rgba(23, 23, 23, 0.96);
             }
         }
     </style>
@@ -188,7 +186,7 @@
 
 <body class="min-h-screen flex items-center justify-center font-sans overflow-hidden">
 
-<div id="pantalla-intro" class="fixed inset-0 bg-[#EBE6DC]/80 backdrop-blur-md flex items-center justify-center z-50 overflow-hidden">
+<div id="pantalla-intro" class="fixed inset-0 bg-neutral-950/95 backdrop-blur-md flex items-center justify-center z-50 overflow-hidden">
     <div class="absolute inset-0 fondo-finea pointer-events-none"></div>
 
     <div class="flex items-center gap-4 sm:gap-6 z-10 px-4">
@@ -196,10 +194,10 @@
             <div class="logo-finea w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center p-3">
                 <svg viewBox="0 0 100 100" class="w-full h-full">
                     <polygon points="50,5 53,15 63,18 53,21 50,31 47,21 37,18 47,15" fill="#D4AF37"/>
-                    <path d="M50 85 C45 60 30 35 30 25 C45 25 50 50 50 85 Z" fill="#2D5A45"/>
-                    <path d="M50 85 C55 60 70 35 70 25 C55 25 50 50 50 85 Z" fill="#3B6E56"/>
-                    <path d="M10 75 Q 30 65 50 85 Q 30 55 10 75 Z" fill="#224535"/>
-                    <path d="M90 75 Q 70 65 50 85 Q 70 55 90 75 Z" fill="#1E3A2C"/>
+                    <path d="M50 85 C45 60 30 35 30 25 C45 25 50 50 50 85 Z" fill="#D4AF37"/>
+                    <path d="M50 85 C55 60 70 35 70 25 C55 25 50 50 50 85 Z" fill="#B8860B"/>
+                    <path d="M10 75 Q 30 65 50 85 Q 30 55 10 75 Z" fill="#8F741C"/>
+                    <path d="M90 75 Q 70 65 50 85 Q 70 55 90 75 Z" fill="#6F5A16"/>
                     <path d="M20 60 Q 35 52 50 72 Q 35 45 20 60 Z" fill="#D4AF37" opacity="0.6"/>
                     <path d="M80 60 Q 65 52 50 72 Q 65 45 80 60 Z" fill="#D4AF37" opacity="0.6"/>
                 </svg>
@@ -209,10 +207,10 @@
         <div class="anim-linea linea-finea w-1 rounded-full"></div>
 
         <div class="anim-texto-brand text-left">
-            <h1 class="text-3xl sm:text-5xl font-black tracking-widest text-[#2D5A45] leading-none mb-1">
+            <h1 class="text-3xl sm:text-5xl font-black tracking-widest text-[#D4AF37] leading-none mb-1">
                 FINÉA
             </h1>
-            <p class="text-[10px] sm:text-xs text-[#B8860B] uppercase tracking-[0.25em] font-semibold">
+            <p class="text-[10px] sm:text-xs text-[#D4AF37] uppercase tracking-[0.25em] font-semibold">
                 Educación Financiera Superior
             </p>
         </div>
@@ -229,20 +227,20 @@
         <div class="logo-finea w-16 h-16 rounded-2xl mx-auto flex items-center justify-center p-2.5 mb-4">
             <svg viewBox="0 0 100 100" class="w-full h-full">
                 <polygon points="50,5 53,15 63,18 53,21 50,31 47,21 37,18 47,15" fill="#D4AF37"/>
-                <path d="M50 85 C45 60 30 35 30 25 C45 25 50 50 50 85 Z" fill="#2D5A45"/>
-                <path d="M50 85 C55 60 70 35 70 25 C55 25 50 50 50 85 Z" fill="#3B6E56"/>
-                <path d="M10 75 Q 30 65 50 85 Q 30 55 10 75 Z" fill="#224535"/>
-                <path d="M90 75 Q 70 65 50 85 Q 70 55 90 75 Z" fill="#1E3A2C"/>
+                <path d="M50 85 C45 60 30 35 30 25 C45 25 50 50 50 85 Z" fill="#D4AF37"/>
+                <path d="M50 85 C55 60 70 35 70 25 C55 25 50 50 50 85 Z" fill="#B8860B"/>
+                <path d="M10 75 Q 30 65 50 85 Q 30 55 10 75 Z" fill="#8F741C"/>
+                <path d="M90 75 Q 70 65 50 85 Q 70 55 90 75 Z" fill="#6F5A16"/>
                 <path d="M20 60 Q 35 52 50 72 Q 35 45 20 60 Z" fill="#D4AF37" opacity="0.6"/>
                 <path d="M80 60 Q 65 52 50 72 Q 65 45 80 60 Z" fill="#D4AF37" opacity="0.6"/>
             </svg>
         </div>
 
-        <h2 class="text-3xl font-black text-[#2D5A45] tracking-wider mb-1">
+        <h2 class="text-3xl font-black text-[#D4AF37] tracking-wider mb-1">
             FINÉA
         </h2>
 
-        <p class="text-[#B8860B] text-xs font-semibold tracking-wider uppercase mb-7">
+        <p class="text-[#D4AF37] text-xs font-semibold tracking-wider uppercase mb-7">
             Finanzas • Educación • Ahorro
         </p>
 
@@ -250,13 +248,13 @@
 
         <div id="form-login" class="formulario">
             <div class="text-left mb-5">
-                <h3 class="text-lg font-bold text-[#2D3748]">Bienvenido/a</h3>
-                <p class="text-xs text-[#64748B] mt-1">Ingresa tus datos para continuar en FINÉA.</p>
+                <h3 class="text-lg font-bold text-neutral-100">Bienvenido/a</h3>
+                <p class="text-xs text-neutral-400 mt-1">Ingresa tus datos para continuar en FINÉA.</p>
             </div>
 
             <form onsubmit="iniciarSesion(event)" class="space-y-4">
                 <div class="relative text-left">
-                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#2D5A45]">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#D4AF37]">
                         <i class="fa-solid fa-user text-sm"></i>
                     </span>
                     <input id="login-usuario" type="text" autocomplete="username" placeholder="Usuario o correo electrónico" required
@@ -264,7 +262,7 @@
                 </div>
 
                 <div class="relative text-left">
-                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#2D5A45]">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#D4AF37]">
                         <i class="fa-solid fa-lock text-sm"></i>
                     </span>
                     <input id="login-password" type="password" autocomplete="current-password" placeholder="Contraseña" required
@@ -280,8 +278,8 @@
                 </button>
             </form>
 
-            <div class="mt-6 pt-5 border-t border-black/10">
-                <p class="text-xs text-[#64748B] mb-2">¿Es tu primera vez en FINÉA?</p>
+            <div class="mt-6 pt-5 border-t border-white/10">
+                <p class="text-xs text-neutral-400 mb-2">¿Es tu primera vez en FINÉA?</p>
                 <button onclick="mostrarRegistro()" class="enlace-finea text-xs font-bold transition">
                     Crear una cuenta
                     <i class="fa-solid fa-user-plus ml-1"></i>
@@ -291,13 +289,13 @@
 
         <div id="form-registro" class="formulario oculto">
             <div class="text-left mb-5">
-                <h3 class="text-lg font-bold text-[#2D3748]">Crear cuenta</h3>
-                <p class="text-xs text-[#64748B] mt-1">Regístrate para comenzar tu experiencia financiera.</p>
+                <h3 class="text-lg font-bold text-neutral-100">Crear cuenta</h3>
+                <p class="text-xs text-neutral-400 mt-1">Regístrate para comenzar tu experiencia financiera.</p>
             </div>
 
             <form onsubmit="registrarUsuario(event)" class="space-y-3.5">
                 <div class="relative text-left">
-                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#2D5A45]">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#D4AF37]">
                         <i class="fa-solid fa-id-card text-sm"></i>
                     </span>
                     <input id="registro-nombre" type="text" autocomplete="given-name" placeholder="Nombre" required maxlength="40"
@@ -305,7 +303,7 @@
                 </div>
 
                 <div class="relative text-left">
-                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#2D5A45]">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#D4AF37]">
                         <i class="fa-solid fa-user text-sm"></i>
                     </span>
                     <input id="registro-apellido" type="text" autocomplete="family-name" placeholder="Apellido" required maxlength="40"
@@ -313,7 +311,7 @@
                 </div>
 
                 <div class="relative text-left">
-                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#2D5A45]">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#D4AF37]">
                         <i class="fa-solid fa-at text-sm"></i>
                     </span>
                     <input id="registro-usuario" type="text" autocomplete="username" placeholder="Nombre de usuario" required minlength="4" maxlength="20"
@@ -321,7 +319,7 @@
                 </div>
 
                 <div class="relative text-left">
-                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#2D5A45]">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#D4AF37]">
                         <i class="fa-solid fa-envelope text-sm"></i>
                     </span>
                     <input id="registro-correo" type="email" autocomplete="email" placeholder="Correo electrónico" required maxlength="100"
@@ -329,7 +327,7 @@
                 </div>
 
                 <div class="relative text-left">
-                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#2D5A45]">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#D4AF37]">
                         <i class="fa-solid fa-lock text-sm"></i>
                     </span>
                     <input id="registro-password" type="password" autocomplete="new-password" placeholder="Contraseña" required minlength="6" maxlength="50"
@@ -340,7 +338,7 @@
                 </div>
 
                 <div class="relative text-left">
-                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#2D5A45]">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#D4AF37]">
                         <i class="fa-solid fa-shield-halved text-sm"></i>
                     </span>
                     <input id="registro-confirmar" type="password" autocomplete="new-password" placeholder="Confirmar contraseña" required minlength="6" maxlength="50"
@@ -356,8 +354,8 @@
                 </button>
             </form>
 
-            <div class="mt-5 pt-4 border-t border-black/10">
-                <p class="text-xs text-[#64748B] mb-2">¿Ya tienes una cuenta?</p>
+            <div class="mt-5 pt-4 border-t border-white/10">
+                <p class="text-xs text-neutral-400 mb-2">¿Ya tienes una cuenta?</p>
                 <button onclick="mostrarLogin()" class="enlace-finea text-xs font-bold transition">
                     Iniciar sesión
                     <i class="fa-solid fa-arrow-right ml-1"></i>
@@ -365,7 +363,7 @@
             </div>
         </div>
 
-        <p class="text-[10px] text-[#64748B] mt-6 tracking-wide">
+        <p class="text-[10px] text-neutral-500 mt-6 tracking-wide">
             Tu experiencia financiera comienza aquí.
         </p>
     </div>
