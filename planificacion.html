@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -13,6 +14,7 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -20,10 +22,19 @@
         body {
             margin: 0;
             background:
-                radial-gradient(circle at top right, rgba(245, 158, 11, 0.07), transparent 28%),
+                radial-gradient(
+                    circle at top right,
+                    rgba(245, 158, 11, 0.07),
+                    transparent 28%
+                ),
                 #09090b;
+
             color: #f4f4f5;
             font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body.modal-open {
+            overflow: hidden;
         }
 
         ::-webkit-scrollbar {
@@ -43,9 +54,13 @@
             color: #fbbf24;
         }
 
+        /* =========================
+           TARJETAS
+        ========================= */
+
         .main-card {
-            background: rgba(24, 24, 27, 0.90);
-            border: 1px solid rgba(63, 63, 70, 0.8);
+            background: rgba(24, 24, 27, 0.92);
+            border: 1px solid rgba(63, 63, 70, 0.85);
             border-radius: 24px;
         }
 
@@ -53,7 +68,13 @@
             background: #18181b;
             border: 1px solid #27272a;
             border-radius: 20px;
-            transition: all .25s ease;
+
+            transition:
+                transform .25s ease,
+                border-color .25s ease,
+                background .25s ease,
+                box-shadow .25s ease;
+
             cursor: pointer;
         }
 
@@ -65,17 +86,25 @@
         }
 
         .icon-box {
-            width: 52px;
-            height: 52px;
-            border-radius: 16px;
+            width: 54px;
+            height: 54px;
+
+            border-radius: 17px;
+
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(245, 158, 11, .10);
+
+            background: rgba(245,158,11,.10);
             color: #fbbf24;
+
             font-size: 21px;
             flex-shrink: 0;
         }
+
+        /* =========================
+           ESTADÍSTICAS
+        ========================= */
 
         .stat-card {
             background: #18181b;
@@ -83,12 +112,21 @@
             border-radius: 18px;
         }
 
+        /* =========================
+           BOTONES
+        ========================= */
+
         .btn-gold {
             background: #f59e0b;
             color: #18181b;
+
             font-weight: 800;
+
             border-radius: 14px;
+
             transition: .2s;
+
+            cursor: pointer;
         }
 
         .btn-gold:hover {
@@ -99,30 +137,57 @@
         .btn-dark {
             background: #27272a;
             color: #e4e4e7;
+
             border: 1px solid #3f3f46;
             border-radius: 14px;
+
             transition: .2s;
+
+            cursor: pointer;
         }
 
         .btn-dark:hover {
             background: #3f3f46;
         }
 
+        /* =========================
+           INPUTS
+        ========================= */
+
         input,
-        select {
+        select,
+        textarea {
+
             width: 100%;
+
             background: #09090b !important;
             color: #f4f4f5 !important;
+
             border: 1px solid #3f3f46 !important;
+
             border-radius: 13px !important;
+
             padding: 13px 14px !important;
+
             outline: none;
+
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 95px;
         }
 
         input:focus,
-        select:focus {
+        select:focus,
+        textarea:focus {
+
             border-color: #f59e0b !important;
-            box-shadow: 0 0 0 2px rgba(245, 158, 11, .10);
+
+            box-shadow:
+                0 0 0 2px
+                rgba(245,158,11,.10);
         }
 
         option {
@@ -130,15 +195,27 @@
             color: white;
         }
 
+        /* =========================
+           MODALES
+        ========================= */
+
         .modal-bg {
+
             position: fixed;
+
             inset: 0;
-            background: rgba(0, 0, 0, .78);
-            backdrop-filter: blur(6px);
+
+            background: rgba(0,0,0,.80);
+
+            backdrop-filter: blur(7px);
+
             display: none;
+
             align-items: center;
             justify-content: center;
+
             padding: 18px;
+
             z-index: 100;
         }
 
@@ -147,36 +224,66 @@
         }
 
         .modal {
+
             width: 100%;
-            max-width: 650px;
+
+            max-width: 700px;
+
             max-height: 92vh;
+
             overflow-y: auto;
+
             background: #111113;
+
             border: 1px solid #3f3f46;
+
             border-radius: 26px;
-            box-shadow: 0 25px 80px rgba(0,0,0,.55);
-            animation: modalIn .2s ease;
+
+            box-shadow:
+                0 25px 80px rgba(0,0,0,.60);
+
+            animation: modalIn .20s ease;
         }
 
         @keyframes modalIn {
+
             from {
                 opacity: 0;
-                transform: translateY(15px) scale(.98);
+                transform:
+                    translateY(15px)
+                    scale(.98);
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform:
+                    translateY(0)
+                    scale(1);
             }
         }
 
         .modal-header {
-            padding: 22px 22px 15px;
-            border-bottom: 1px solid #27272a;
+
+            padding: 22px;
+
+            border-bottom:
+                1px solid #27272a;
+
             display: flex;
+
             align-items: flex-start;
+
             justify-content: space-between;
+
             gap: 15px;
+
+            position: sticky;
+
+            top: 0;
+
+            background: #111113;
+
+            z-index: 5;
         }
 
         .modal-body {
@@ -184,101 +291,393 @@
         }
 
         .close-btn {
+
             width: 38px;
             height: 38px;
+
             border-radius: 12px;
+
             background: #27272a;
+
             color: #a1a1aa;
+
             display: flex;
+
             align-items: center;
             justify-content: center;
+
             cursor: pointer;
+
             transition: .2s;
+
             flex-shrink: 0;
         }
 
         .close-btn:hover {
+
             background: #3f3f46;
             color: white;
         }
 
-        .result-box {
-            background: rgba(245, 158, 11, .07);
-            border: 1px solid rgba(245, 158, 11, .25);
-            border-radius: 18px;
+        /* =========================
+           PASOS
+        ========================= */
+
+        .step-pill {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            background:
+                rgba(245,158,11,.10);
+
+            color: #fbbf24;
+
+            padding: 7px 11px;
+
+            border-radius: 999px;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: .06em;
         }
 
-        .info-box {
-            background: #18181b;
-            border: 1px solid #27272a;
-            border-radius: 16px;
-        }
+        .step-circle {
 
-        .choice {
-            border: 1px solid #3f3f46;
-            background: #18181b;
-            border-radius: 16px;
-            padding: 16px;
-            cursor: pointer;
-            transition: .2s;
-        }
+            width: 34px;
+            height: 34px;
 
-        .choice:hover {
-            border-color: #f59e0b;
-            background: #1c1c20;
-        }
+            border-radius: 11px;
 
-        .choice.selected {
-            border-color: #f59e0b;
-            background: rgba(245, 158, 11, .09);
-        }
+            display: flex;
 
-        .feedback {
-            border-radius: 17px;
-            padding: 16px;
-            margin-top: 16px;
-            display: none;
-        }
+            align-items: center;
+            justify-content: center;
 
-        .feedback.show {
-            display: block;
+            background:
+                rgba(245,158,11,.12);
+
+            color: #fbbf24;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            flex-shrink: 0;
         }
 
         .progress-bg {
-            height: 8px;
+
+            height: 7px;
+
             background: #27272a;
+
             border-radius: 10px;
+
             overflow: hidden;
         }
 
         .progress-bar {
+
             height: 100%;
+
             background: #f59e0b;
-            width: 0%;
+
+            width: 14%;
+
             transition: width .3s ease;
         }
 
-        .mini-label {
-            color: #a1a1aa;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: .08em;
-            font-weight: 700;
+        /* =========================
+           CAJAS
+        ========================= */
+
+        .info-box {
+
+            background: #18181b;
+
+            border:
+                1px solid #27272a;
+
+            border-radius: 17px;
         }
 
-        .scenario-number {
-            width: 36px;
-            height: 36px;
-            border-radius: 12px;
-            background: rgba(245,158,11,.12);
-            color: #fbbf24;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .result-box {
+
+            background:
+                rgba(245,158,11,.07);
+
+            border:
+                1px solid rgba(245,158,11,.25);
+
+            border-radius: 18px;
+        }
+
+        .mini-label {
+
+            color: #a1a1aa;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: .08em;
+
             font-weight: 800;
         }
 
-        @media (max-width: 640px) {
+        .choice {
+
+            border:
+                1px solid #3f3f46;
+
+            background: #18181b;
+
+            border-radius: 16px;
+
+            padding: 16px;
+
+            cursor: pointer;
+
+            transition: .2s;
+        }
+
+        .choice:hover {
+
+            border-color: #f59e0b;
+
+            background: #1c1c20;
+        }
+
+        .choice.selected {
+
+            border-color: #f59e0b;
+
+            background:
+                rgba(245,158,11,.09);
+        }
+
+        /* =========================
+           CALENDARIO
+        ========================= */
+
+        .calendar-header {
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .calendar-nav {
+
+            width: 38px;
+            height: 38px;
+
+            border-radius: 12px;
+
+            background: #27272a;
+            color: #d4d4d8;
+
+            border: 1px solid #3f3f46;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .calendar-nav:hover {
+            background: #3f3f46;
+            color: #fbbf24;
+        }
+
+        .calendar-weekdays,
+        .calendar-days {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(7, minmax(0, 1fr));
+
+            gap: 6px;
+        }
+
+        .calendar-weekdays {
+
+            margin-bottom: 6px;
+        }
+
+        .calendar-weekdays div {
+
+            text-align: center;
+
+            color: #71717a;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+        }
+
+        .calendar-day {
+
+            min-height: 48px;
+
+            border-radius: 13px;
+
+            background: #18181b;
+
+            border: 1px solid #27272a;
+
+            color: #d4d4d8;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 3px;
+
+            cursor: pointer;
+
+            transition: .2s;
+
+            font-size: 13px;
+        }
+
+        .calendar-day:hover {
+
+            border-color: rgba(245,158,11,.55);
+
+            background: #1c1c20;
+        }
+
+        .calendar-day.other-month {
+
+            color: #52525b;
+
+            background: #111113;
+
+        }
+
+        .calendar-day.today {
+
+            border-color: #f59e0b;
+
+            color: #fbbf24;
+        }
+
+        .calendar-day.has-expense {
+
+            border-color: rgba(245,158,11,.50);
+
+        }
+
+        .calendar-day-number {
+            font-weight: 800;
+        }
+
+        .calendar-dot {
+
+            width: 5px;
+            height: 5px;
+
+            border-radius: 50%;
+
+            background: #f59e0b;
+        }
+
+        .calendar-alert {
+
+            background: rgba(245,158,11,.08);
+
+            border: 1px solid rgba(245,158,11,.22);
+
+            border-radius: 17px;
+
+            padding: 15px;
+
+            margin-bottom: 18px;
+        }
+
+        .expense-detail {
+
+            background: #18181b;
+
+            border: 1px solid #27272a;
+
+            border-radius: 17px;
+
+            padding: 16px;
+
+            margin-top: 18px;
+        }
+
+        .expense-progress {
+
+            height: 7px;
+
+            background: #27272a;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+
+            margin-top: 10px;
+        }
+
+        .expense-progress-bar {
+
+            height: 100%;
+
+            background: #f59e0b;
+
+            transition: width .3s ease;
+        }
+
+        /* =========================
+           RESUMEN
+        ========================= */
+
+        .summary-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 12px 0;
+
+            border-bottom:
+                1px solid #27272a;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media(max-width:640px) {
+
             .main-card {
                 border-radius: 19px;
             }
@@ -286,559 +685,410 @@
             .modal {
                 border-radius: 21px;
             }
+
+            .modal-body {
+                padding: 18px;
+            }
+
+            .calendar-days,
+            .calendar-weekdays {
+                gap: 4px;
+            }
+
+            .calendar-day {
+                min-height: 43px;
+                border-radius: 10px;
+            }
+
         }
+
     </style>
 </head>
 
+
 <body>
 
-<!-- =========================
-     CONTENEDOR PRINCIPAL
-========================= -->
 
-<div class="min-h-screen">
+<!-- =====================================================
+     BARRA SUPERIOR
+===================================================== -->
 
-    <!-- TOPBAR -->
-    <header class="border-b border-zinc-800 bg-zinc-950/90 backdrop-blur sticky top-0 z-40">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-
-            <div class="flex items-center gap-3">
-
-                <button onclick="volverInicio()"
-                        class="w-10 h-10 rounded-xl bg-zinc-800 hover:bg-zinc-700 flex items-center justify-center transition">
-                    <i class="fa-solid fa-arrow-left text-zinc-300"></i>
-                </button>
-
-                <div>
-                    <div class="font-bold text-white">
-                        FINÉA <span class="text-zinc-500">|</span>
-                        <span class="gold">Planificación</span>
-                    </div>
-
-                    <div class="text-xs text-zinc-500">
-                        Tu futuro empieza con una buena decisión
-                    </div>
-                </div>
+<header class="bg-neutral-900 border-b border-amber-500/20 sticky top-0 z-30">
+        <div class="max-w-5xl mx-auto px-4 py-3.5 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <a href="menu.html" class="w-9 h-9 bg-neutral-800 border border-neutral-700 rounded-xl flex items-center justify-center text-amber-400 hover:bg-amber-500 hover:text-neutral-950 transition">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <h1 class="text-lg font-black tracking-widest text-amber-300">FINÉA | Planificación</h1>
             </div>
-
-            <div class="text-right">
-                <div class="text-xs text-zinc-500">Usuario</div>
-                <div id="nombreUsuario" class="font-semibold text-zinc-200">
-                    Estudiante
-                </div>
-            </div>
-
+            <span id="nombreUsuario" class="text-xs bg-neutral-950 px-3 py-1.5 rounded-xl border border-neutral-800 text-amber-200">Estudiante</span>
         </div>
     </header>
 
 
-    <!-- CONTENIDO -->
-    <main class="max-w-6xl mx-auto px-4 py-7">
 
-        <!-- CABECERA -->
-        <section class="main-card p-6 md:p-8 mb-5">
+<!-- =====================================================
+     CONTENIDO PRINCIPAL
+===================================================== -->
 
-            <div class="flex flex-col md:flex-row md:items-center gap-5">
+<main class="max-w-6xl mx-auto px-4 py-7">
 
-                <div class="w-16 h-16 rounded-2xl bg-amber-400/10 flex items-center justify-center">
-                    <i class="fa-solid fa-compass text-amber-400 text-3xl"></i>
-                </div>
 
-                <div class="flex-1">
+    <!-- CABECERA -->
 
-                    <div class="text-xs uppercase tracking-widest text-amber-400 font-bold mb-2">
-                        FINÉA · Módulo 03
-                    </div>
+    <section
+        class="main-card
+               p-6 md:p-8
+               mb-5">
 
-                    <h1 class="text-3xl md:text-4xl font-black text-white">
-                        Planificación Económica
-                    </h1>
+        <div
+            class="flex flex-col
+                   md:flex-row
+                   md:items-center
+                   gap-5">
 
-                    <p class="text-zinc-400 mt-2 max-w-2xl">
-                        Anticípate a los imprevistos, analiza tus decisiones
-                        y aprende a organizar tus prioridades financieras.
-                    </p>
 
-                </div>
+            <div class="w-16 h-16 rounded-2xl
+                        bg-amber-400/10
+                        flex items-center
+                        justify-center">
+
+                <i class="fa-solid fa-compass
+                          text-amber-400 text-3xl"></i>
 
             </div>
 
-        </section>
+
+            <div class="flex-1">
+
+                <h1
+                    class="text-3xl md:text-4xl
+                           font-black text-white">
+
+                    Planificación Económica
+
+                </h1>
 
 
-        <!-- ESTADÍSTICAS -->
-        <section class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+                <p
+                    class="text-zinc-400
+                           mt-2
+                           max-w-2xl">
 
-            <div class="stat-card p-4">
-                <div class="flex items-center gap-3">
-                    <div class="icon-box">
-                        <i class="fa-solid fa-shield-halved"></i>
-                    </div>
+                    Convierte una idea en un pequeño proyecto,
+                    analiza sus posibilidades y aprende a tomar
+                    mejores decisiones financieras.
 
-                    <div>
-                        <div class="mini-label">Fondo calculado</div>
-                        <div id="statFondo" class="text-xl font-black text-white">
-                            $0
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="stat-card p-4">
-                <div class="flex items-center gap-3">
-                    <div class="icon-box">
-                        <i class="fa-solid fa-brain"></i>
-                    </div>
-
-                    <div>
-                        <div class="mini-label">Decisiones</div>
-                        <div id="statDecisiones" class="text-xl font-black text-white">
-                            0
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="stat-card p-4">
-                <div class="flex items-center gap-3">
-                    <div class="icon-box">
-                        <i class="fa-solid fa-bullseye"></i>
-                    </div>
-
-                    <div>
-                        <div class="mini-label">Reto FINÉA</div>
-                        <div id="statReto" class="text-xl font-black text-white">
-                            0%
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             OPCIONES PRINCIPALES
-        ========================== -->
-
-        <section>
-
-            <div class="mb-4">
-                <div class="text-xs uppercase tracking-widest text-amber-400 font-bold">
-                    Explora
-                </div>
-
-                <h2 class="text-2xl font-black mt-1">
-                    ¿Qué quieres planificar hoy?
-                </h2>
-
-                <p class="text-zinc-500 text-sm mt-1">
-                    Elige una opción para comenzar.
                 </p>
-            </div>
-
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-
-                <!-- FONDO DE EMERGENCIA -->
-                <div class="option-card p-5"
-                     onclick="abrirModal('modalEmergencia')">
-
-                    <div class="flex gap-4">
-
-                        <div class="icon-box">
-                            <i class="fa-solid fa-shield-halved"></i>
-                        </div>
-
-                        <div class="flex-1">
-
-                            <div class="flex justify-between items-start gap-3">
-
-                                <div>
-                                    <h3 class="font-bold text-lg">
-                                        Fondo de Emergencia
-                                    </h3>
-
-                                    <p class="text-sm text-zinc-500 mt-1">
-                                        Calcula cuánto necesitarías para enfrentar
-                                        un imprevisto.
-                                    </p>
-                                </div>
-
-                                <i class="fa-solid fa-chevron-right text-zinc-600 mt-1"></i>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- DECISIONES -->
-                <div class="option-card p-5"
-                     onclick="abrirModal('modalDecisiones')">
-
-                    <div class="flex gap-4">
-
-                        <div class="icon-box">
-                            <i class="fa-solid fa-brain"></i>
-                        </div>
-
-                        <div class="flex-1">
-
-                            <div class="flex justify-between items-start gap-3">
-
-                                <div>
-                                    <h3 class="font-bold text-lg">
-                                        Decisiones Financieras
-                                    </h3>
-
-                                    <p class="text-sm text-zinc-500 mt-1">
-                                        Enfrenta situaciones de la vida estudiantil
-                                        y decide qué harías.
-                                    </p>
-                                </div>
-
-                                <i class="fa-solid fa-chevron-right text-zinc-600 mt-1"></i>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- CREDITO -->
-                <div class="option-card p-5"
-                     onclick="abrirModal('modalCredito')">
-
-                    <div class="flex gap-4">
-
-                        <div class="icon-box">
-                            <i class="fa-solid fa-credit-card"></i>
-                        </div>
-
-                        <div class="flex-1">
-
-                            <div class="flex justify-between items-start gap-3">
-
-                                <div>
-                                    <h3 class="font-bold text-lg">
-                                        Crédito Responsable
-                                    </h3>
-
-                                    <p class="text-sm text-zinc-500 mt-1">
-                                        Aprende a comparar el costo real de
-                                        una compra financiada.
-                                    </p>
-                                </div>
-
-                                <i class="fa-solid fa-chevron-right text-zinc-600 mt-1"></i>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- PRIORIDADES -->
-                <div class="option-card p-5"
-                     onclick="abrirModal('modalPrioridades')">
-
-                    <div class="flex gap-4">
-
-                        <div class="icon-box">
-                            <i class="fa-solid fa-list-check"></i>
-                        </div>
-
-                        <div class="flex-1">
-
-                            <div class="flex justify-between items-start gap-3">
-
-                                <div>
-                                    <h3 class="font-bold text-lg">
-                                        Ordena tus Prioridades
-                                    </h3>
-
-                                    <p class="text-sm text-zinc-500 mt-1">
-                                        Aprende a distinguir entre una necesidad,
-                                        un deseo y una decisión que puede esperar.
-                                    </p>
-                                </div>
-
-                                <i class="fa-solid fa-chevron-right text-zinc-600 mt-1"></i>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- RETO -->
-                <div class="option-card p-5 md:col-span-2"
-                     onclick="abrirModal('modalReto')">
-
-                    <div class="flex gap-4">
-
-                        <div class="icon-box">
-                            <i class="fa-solid fa-bolt"></i>
-                        </div>
-
-                        <div class="flex-1">
-
-                            <div class="flex justify-between items-start gap-3">
-
-                                <div>
-
-                                    <div class="flex items-center gap-2">
-                                        <h3 class="font-bold text-lg">
-                                            Reto FINÉA
-                                        </h3>
-
-                                        <span class="text-[10px] font-bold uppercase
-                                                     bg-amber-400/10 text-amber-400
-                                                     px-2 py-1 rounded-full">
-                                            Interactivo
-                                        </span>
-                                    </div>
-
-                                    <p class="text-sm text-zinc-500 mt-1">
-                                        Pon a prueba tus decisiones en diferentes
-                                        situaciones económicas.
-                                    </p>
-
-                                </div>
-
-                                <i class="fa-solid fa-chevron-right text-zinc-600 mt-1"></i>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
 
             </div>
 
-        </section>
+        </div>
+
+    </section>
 
 
-        <!-- CONSEJO -->
-        <section class="mt-6 main-card p-5">
 
-            <div class="flex gap-4 items-start">
+    <!-- =================================================
+         ESTADÍSTICAS
+    ================================================== -->
+
+    <section
+        class="grid grid-cols-1
+               sm:grid-cols-3
+               gap-3 mb-6">
+
+
+        <!-- EMPRENDIMIENTO -->
+
+        <div class="stat-card p-4">
+
+            <div class="flex items-center gap-3">
 
                 <div class="icon-box">
+
                     <i class="fa-solid fa-lightbulb"></i>
+
                 </div>
 
+
                 <div>
-                    <div class="text-sm font-bold text-amber-400">
-                        Aprende con FINÉA
+
+                    <div class="mini-label">
+                        Mi emprendimiento
                     </div>
 
-                    <p class="text-sm text-zinc-400 mt-1">
-                        Planificar no significa saber exactamente qué ocurrirá.
-                        Significa estar mejor preparado para decidir cuando ocurra.
-                    </p>
+                    <div
+                        id="statEmprendimiento"
+                        class="text-lg
+                               font-black
+                               text-white">
+
+                        Sin crear
+
+                    </div>
+
                 </div>
 
             </div>
-
-        </section>
-
-    </main>
-
-</div>
-
-
-<!-- =====================================================
-     MODAL 1 · FONDO DE EMERGENCIA
-===================================================== -->
-
-<div id="modalEmergencia" class="modal-bg"
-     onclick="cerrarAlFondo(event, 'modalEmergencia')">
-
-    <div class="modal">
-
-        <div class="modal-header">
-
-            <div class="flex gap-3">
-
-                <div class="icon-box">
-                    <i class="fa-solid fa-shield-halved"></i>
-                </div>
-
-                <div>
-                    <div class="text-xs uppercase tracking-widest text-amber-400 font-bold">
-                        Prevención
-                    </div>
-
-                    <h2 class="text-xl font-black mt-1">
-                        Fondo de Emergencia
-                    </h2>
-                </div>
-
-            </div>
-
-            <button class="close-btn"
-                    onclick="cerrarModal('modalEmergencia')">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
 
         </div>
 
 
-        <div class="modal-body">
+        <!-- GANANCIA -->
 
-            <p class="text-zinc-400 text-sm mb-5">
-                Un fondo de emergencia puede ayudarte a enfrentar gastos
-                inesperados sin afectar completamente tu economía.
+        <div class="stat-card p-4">
+
+            <div class="flex items-center gap-3">
+
+                <div class="icon-box">
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                </div>
+
+
+                <div>
+
+                    <div class="mini-label">
+                        Ganancia estimada
+                    </div>
+
+                    <div
+                        id="statGanancia"
+                        class="text-xl
+                               font-black
+                               text-white">
+
+                        $0.00
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RETO -->
+
+        <div class="stat-card p-4">
+
+            <div class="flex items-center gap-3">
+
+                <div class="icon-box">
+
+                    <i class="fa-solid fa-bolt"></i>
+
+                </div>
+
+
+                <div>
+
+                    <div class="mini-label">
+                        Reto emprendedor
+                    </div>
+
+                    <div
+                        id="statReto"
+                        class="text-xl
+                               font-black
+                               text-white">
+
+                        0%
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         OPCIONES
+    ================================================== -->
+
+    <section>
+
+        <div class="mb-4">
+
+            <div
+                class="text-xs uppercase
+                       tracking-widest
+                       text-amber-400
+                       font-bold">
+
+                Explora
+
+            </div>
+
+
+            <h2
+                class="text-2xl
+                       font-black
+                       mt-1">
+
+                ¿Qué quieres planificar hoy?
+
+            </h2>
+
+
+            <p class="text-zinc-500 text-sm mt-1">
+
+                Construye una idea, organiza tus gastos
+                y pon a prueba tus decisiones.
+
             </p>
 
-
-            <div class="space-y-4">
-
-                <div>
-                    <label class="text-sm font-semibold text-zinc-300">
-                        ¿Cuánto gastas aproximadamente al mes?
-                    </label>
-
-                    <input type="number"
-                           id="gastosEmergencia"
-                           placeholder="Ej. 400"
-                           min="0">
-                </div>
-
-
-                <div>
-                    <label class="text-sm font-semibold text-zinc-300">
-                        ¿Cuántos meses quieres cubrir?
-                    </label>
-
-                    <select id="mesesEmergencia">
-
-                        <option value="1">1 mes</option>
-                        <option value="2">2 meses</option>
-                        <option value="3" selected>3 meses</option>
-                        <option value="4">4 meses</option>
-                        <option value="5">5 meses</option>
-                        <option value="6">6 meses</option>
-
-                    </select>
-
-                </div>
-
-
-                <button onclick="calcularEmergencia()"
-                        class="btn-gold w-full py-3.5 mt-2">
-                    <i class="fa-solid fa-calculator mr-2"></i>
-                    CALCULAR META
-                </button>
-
-
-                <div id="resultadoEmergencia"
-                     class="result-box p-5 hidden">
-
-                    <div class="mini-label text-amber-400">
-                        Tu meta sugerida
-                    </div>
-
-                    <div id="valorEmergencia"
-                         class="text-4xl font-black text-white mt-1">
-                        $0
-                    </div>
-
-                    <p id="mensajeEmergencia"
-                       class="text-sm text-zinc-400 mt-3">
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-</div>
-
-
-<!-- =====================================================
-     MODAL 2 · DECISIONES
-===================================================== -->
-
-<div id="modalDecisiones" class="modal-bg"
-     onclick="cerrarAlFondo(event, 'modalDecisiones')">
-
-    <div class="modal">
-
-        <div class="modal-header">
-
-            <div class="flex gap-3">
-
-                <div class="icon-box">
-                    <i class="fa-solid fa-brain"></i>
-                </div>
-
-                <div>
-                    <div class="text-xs uppercase tracking-widest text-amber-400 font-bold">
-                        Toma de decisiones
-                    </div>
-
-                    <h2 class="text-xl font-black mt-1">
-                        Decisiones Financieras
-                    </h2>
-                </div>
-
-            </div>
-
-            <button class="close-btn"
-                    onclick="cerrarModal('modalDecisiones')">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
         </div>
 
 
-        <div class="modal-body">
 
-            <div class="info-box p-4 mb-5">
+        <div
+            class="grid grid-cols-1
+                   md:grid-cols-2
+                   gap-4">
 
-                <div class="flex items-start gap-3">
 
-                    <div class="scenario-number">
-                        01
+            <!-- =================================================
+                 CREAR EMPRENDIMIENTO
+            ================================================== -->
+
+            <div
+                class="option-card p-5
+                       md:col-span-2"
+                onclick="abrirModal('modalEmprendimiento')">
+
+
+                <div class="flex gap-4">
+
+                    <div class="icon-box">
+
+                        <i class="fa-solid fa-rocket"></i>
+
                     </div>
 
-                    <div>
 
-                        <div class="text-xs text-amber-400 font-bold uppercase">
-                            Situación
+                    <div class="flex-1">
+
+                        <div
+                            class="flex
+                                   justify-between
+                                   items-start
+                                   gap-3">
+
+
+                            <div>
+
+                                <div class="flex items-center gap-2">
+
+                                    <h3
+                                        class="font-bold
+                                               text-lg">
+
+                                        Crea tu emprendimiento
+
+                                    </h3>
+
+                                </div>
+
+
+                                <p
+                                    class="text-sm
+                                           text-zinc-500
+                                           mt-1">
+
+                                    Construye tu idea paso a paso,
+                                    calcula costos, define un precio
+                                    y descubre cuánto podrías generar.
+
+                                </p>
+
+                            </div>
+
+
+                            <i
+                                class="fa-solid
+                                       fa-chevron-right
+                                       text-zinc-600
+                                       mt-1">
+
+                            </i>
+
                         </div>
 
-                        <p class="text-zinc-200 font-semibold mt-1">
-                            Tu celular dejó de funcionar y lo necesitas
-                            para estudiar.
-                        </p>
+                    </div>
 
-                        <p class="text-zinc-500 text-sm mt-2">
-                            Tienes un presupuesto limitado este mes.
-                            ¿Qué harías?
-                        </p>
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 PLANIFICA TUS GASTOS
+            ================================================== -->
+
+            <div
+                class="option-card p-5"
+                onclick="abrirModal('modalGastos')">
+
+                <div class="flex gap-4">
+
+                    <div class="icon-box">
+
+                        <i class="fa-solid fa-calendar-days"></i>
+
+                    </div>
+
+
+                    <div class="flex-1">
+
+                        <div
+                            class="flex
+                                   justify-between
+                                   items-start
+                                   gap-3">
+
+                            <div>
+
+                                <h3
+                                    class="font-bold text-lg">
+
+                                    Planifica tus gastos
+
+                                </h3>
+
+
+                                <p
+                                    class="text-sm
+                                           text-zinc-500
+                                           mt-1">
+
+                                    Registra los pagos que vienen,
+                                    conoce cuándo debes realizarlos
+                                    y prepárate con tiempo.
+
+                                </p>
+
+                            </div>
+
+
+                            <i
+                                class="fa-solid
+                                       fa-chevron-right
+                                       text-zinc-600
+                                       mt-1">
+
+                            </i>
+
+                        </div>
 
                     </div>
 
@@ -847,181 +1097,75 @@
             </div>
 
 
-            <div class="space-y-3">
 
-                <div class="choice"
-                     onclick="seleccionarDecision(this, 'A')">
+            <!-- =================================================
+                 RETO
+            ================================================== -->
 
-                    <div class="font-bold">
-                        A. Comprar el celular más caro porque tiene mejores funciones.
+            <div
+                class="option-card p-5"
+                onclick="abrirModal('modalReto')">
+
+                <div class="flex gap-4">
+
+                    <div class="icon-box">
+
+                        <i class="fa-solid fa-bolt"></i>
+
                     </div>
 
-                    <div class="text-xs text-zinc-500 mt-1">
-                        Priorizas características aunque aumente el gasto.
+
+                    <div class="flex-1">
+
+                        <div
+                            class="flex
+                                   justify-between
+                                   items-start
+                                   gap-3">
+
+                            <div>
+
+                                <div
+                                    class="flex
+                                           items-center
+                                           gap-2">
+
+                                    <h3
+                                        class="font-bold
+                                               text-lg">
+
+                                        Reto Emprendedor
+
+                                    </h3>
+
+                                </div>
+
+
+                                <p
+                                    class="text-sm
+                                           text-zinc-500
+                                           mt-1">
+
+                                    Enfrenta situaciones que podrían
+                                    ocurrir en un emprendimiento
+                                    y decide qué harías.
+
+                                </p>
+
+                            </div>
+
+
+                            <i
+                                class="fa-solid
+                                       fa-chevron-right
+                                       text-zinc-600
+                                       mt-1">
+
+                            </i>
+
+                        </div>
+
                     </div>
-
-                </div>
-
-
-                <div class="choice"
-                     onclick="seleccionarDecision(this, 'B')">
-
-                    <div class="font-bold">
-                        B. Comparar opciones y elegir una que cubra lo necesario.
-                    </div>
-
-                    <div class="text-xs text-zinc-500 mt-1">
-                        Buscas satisfacer la necesidad sin pagar de más.
-                    </div>
-
-                </div>
-
-
-                <div class="choice"
-                     onclick="seleccionarDecision(this, 'C')">
-
-                    <div class="font-bold">
-                        C. Comprar inmediatamente sin revisar cuánto tienes disponible.
-                    </div>
-
-                    <div class="text-xs text-zinc-500 mt-1">
-                        Tomas la decisión sin revisar sus consecuencias.
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div id="feedbackDecision"
-                 class="feedback">
-
-            </div>
-
-        </div>
-
-    </div>
-</div>
-
-
-<!-- =====================================================
-     MODAL 3 · CRÉDITO
-===================================================== -->
-
-<div id="modalCredito" class="modal-bg"
-     onclick="cerrarAlFondo(event, 'modalCredito')">
-
-    <div class="modal">
-
-        <div class="modal-header">
-
-            <div class="flex gap-3">
-
-                <div class="icon-box">
-                    <i class="fa-solid fa-credit-card"></i>
-                </div>
-
-                <div>
-
-                    <div class="text-xs uppercase tracking-widest text-amber-400 font-bold">
-                        Crédito
-                    </div>
-
-                    <h2 class="text-xl font-black mt-1">
-                        Crédito Responsable
-                    </h2>
-
-                </div>
-
-            </div>
-
-            <button class="close-btn"
-                    onclick="cerrarModal('modalCredito')">
-
-                <i class="fa-solid fa-xmark"></i>
-
-            </button>
-
-        </div>
-
-
-        <div class="modal-body">
-
-            <p class="text-zinc-400 text-sm mb-5">
-                Antes de financiar una compra, compara cuánto terminarás
-                pagando realmente.
-            </p>
-
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
-
-                <div class="info-box p-4">
-
-                    <div class="mini-label">
-                        Precio de contado
-                    </div>
-
-                    <div class="text-2xl font-black mt-1">
-                        $800
-                    </div>
-
-                    <div class="text-xs text-zinc-500 mt-2">
-                        Pagas el producto inmediatamente.
-                    </div>
-
-                </div>
-
-
-                <div class="info-box p-4">
-
-                    <div class="mini-label">
-                        Financiamiento
-                    </div>
-
-                    <div class="text-2xl font-black mt-1">
-                        12 × $80
-                    </div>
-
-                    <div class="text-xs text-zinc-500 mt-2">
-                        Pagas durante 12 meses.
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="result-box p-5">
-
-                <div class="mini-label text-amber-400">
-                    Costo total financiado
-                </div>
-
-                <div class="text-3xl font-black mt-1">
-                    $960
-                </div>
-
-                <div class="text-sm text-zinc-400 mt-2">
-                    Estarías pagando <strong class="text-white">$160</strong>
-                    más que el precio de contado.
-                </div>
-
-            </div>
-
-
-            <div class="info-box p-4 mt-4">
-
-                <div class="flex gap-3">
-
-                    <i class="fa-solid fa-lightbulb text-amber-400 mt-1"></i>
-
-                    <p class="text-sm text-zinc-400">
-                        <strong class="text-zinc-200">
-                            Consejo FINÉA:
-                        </strong>
-                        una cuota pequeña puede parecer cómoda, pero siempre
-                        debes mirar el costo total de la compra.
-                    </p>
 
                 </div>
 
@@ -1029,207 +1173,115 @@
 
         </div>
 
-    </div>
-</div>
+    </section>
 
 
-<!-- =====================================================
-     MODAL 4 · PRIORIDADES
-===================================================== -->
 
-<div id="modalPrioridades" class="modal-bg"
-     onclick="cerrarAlFondo(event, 'modalPrioridades')">
+    <!-- CONSEJO -->
 
-    <div class="modal">
+    <section
+        class="mt-6
+               main-card
+               p-5">
 
-        <div class="modal-header">
+        <div class="flex gap-4 items-start">
 
-            <div class="flex gap-3">
+            <div class="icon-box">
 
-                <div class="icon-box">
-                    <i class="fa-solid fa-list-check"></i>
-                </div>
-
-                <div>
-
-                    <div class="text-xs uppercase tracking-widest text-amber-400 font-bold">
-                        Prioridades
-                    </div>
-
-                    <h2 class="text-xl font-black mt-1">
-                        Ordena tus Prioridades
-                    </h2>
-
-                </div>
+                <i class="fa-solid fa-lightbulb"></i>
 
             </div>
 
-            <button class="close-btn"
-                    onclick="cerrarModal('modalPrioridades')">
 
-                <i class="fa-solid fa-xmark"></i>
+            <div>
 
-            </button>
+                <div
+                    class="text-sm
+                           font-bold
+                           text-amber-400">
 
-        </div>
+                    Aprende con FINÉA
 
-
-        <div class="modal-body">
-
-            <p class="text-zinc-400 text-sm mb-5">
-                No todo gasto tiene la misma prioridad. Analiza la situación
-                antes de decidir.
-            </p>
-
-
-            <div class="info-box p-5">
-
-                <div class="text-xs text-amber-400 font-bold uppercase mb-2">
-                    Situación
                 </div>
 
-                <p class="text-zinc-200 font-semibold">
-                    Este mes tienes dinero limitado y debes elegir
-                    qué gasto realizar primero.
+
+                <p
+                    class="text-sm
+                           text-zinc-400
+                           mt-1">
+
+                    Una buena idea también necesita planificación.
+                    Conocer tus costos, estimar tus ventas y anticipar
+                    diferentes escenarios te ayuda a tomar mejores decisiones.
+
                 </p>
 
             </div>
 
-
-            <div class="mt-5">
-
-                <div class="text-sm font-bold mb-3">
-                    ¿Cuál priorizarías?
-                </div>
-
-
-                <div class="space-y-3">
-
-                    <div class="choice"
-                         onclick="evaluarPrioridad('educacion')">
-
-                        <div class="flex items-center gap-3">
-
-                            <div class="icon-box">
-                                <i class="fa-solid fa-book"></i>
-                            </div>
-
-                            <div>
-
-                                <div class="font-bold">
-                                    Material para tus estudios
-                                </div>
-
-                                <div class="text-xs text-zinc-500">
-                                    Lo necesitas para una actividad académica.
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="choice"
-                         onclick="evaluarPrioridad('ropa')">
-
-                        <div class="flex items-center gap-3">
-
-                            <div class="icon-box">
-                                <i class="fa-solid fa-shirt"></i>
-                            </div>
-
-                            <div>
-
-                                <div class="font-bold">
-                                    Comprar ropa nueva
-                                </div>
-
-                                <div class="text-xs text-zinc-500">
-                                    Tu ropa actual todavía puede utilizarse.
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="choice"
-                         onclick="evaluarPrioridad('entretenimiento')">
-
-                        <div class="flex items-center gap-3">
-
-                            <div class="icon-box">
-                                <i class="fa-solid fa-gamepad"></i>
-                            </div>
-
-                            <div>
-
-                                <div class="font-bold">
-                                    Salir a divertirte
-                                </div>
-
-                                <div class="text-xs text-zinc-500">
-                                    Es un gasto de ocio que puede esperar.
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div id="feedbackPrioridad"
-                 class="feedback">
-            </div>
-
         </div>
 
-    </div>
-</div>
+    </section>
+
+</main>
+
 
 
 <!-- =====================================================
-     MODAL 5 · RETO FINÉA
+     MODAL · CREA TU EMPRENDIMIENTO
 ===================================================== -->
 
-<div id="modalReto" class="modal-bg"
-     onclick="cerrarAlFondo(event, 'modalReto')">
+<div
+    id="modalEmprendimiento"
+    class="modal-bg"
+    onclick="cerrarAlFondo(event, 'modalEmprendimiento')">
+
 
     <div class="modal">
+
+
+        <!-- HEADER -->
 
         <div class="modal-header">
 
             <div class="flex gap-3">
 
                 <div class="icon-box">
-                    <i class="fa-solid fa-bolt"></i>
+
+                    <i class="fa-solid fa-rocket"></i>
+
                 </div>
+
 
                 <div>
 
-                    <div class="text-xs uppercase tracking-widest text-amber-400 font-bold">
-                        Reto interactivo
+                    <div
+                        class="text-xs uppercase
+                               tracking-widest
+                               text-amber-400
+                               font-bold">
+
+                        Constructor FINÉA
+
                     </div>
 
-                    <h2 class="text-xl font-black mt-1">
-                        Reto FINÉA
+
+                    <h2
+                        class="text-xl
+                               font-black
+                               mt-1">
+
+                        Crea tu emprendimiento
+
                     </h2>
 
                 </div>
 
             </div>
 
-            <button class="close-btn"
-                    onclick="cerrarModal('modalReto')">
+
+            <button
+                class="close-btn"
+                onclick="cerrarModal('modalEmprendimiento')">
 
                 <i class="fa-solid fa-xmark"></i>
 
@@ -1238,18 +1290,33 @@
         </div>
 
 
+
+        <!-- BODY -->
+
         <div class="modal-body">
+
 
             <!-- PROGRESO -->
 
             <div class="flex justify-between items-center mb-2">
 
-                <span class="text-xs text-zinc-500">
-                    Pregunta <span id="numeroPregunta">1</span> de 5
+                <span
+                    id="textoPaso"
+                    class="text-xs
+                           text-zinc-500">
+
+                    Paso 1 de 7
+
                 </span>
 
-                <span class="text-xs font-bold text-amber-400">
-                    <span id="puntosReto">0</span> puntos
+
+                <span
+                    class="text-xs
+                           font-bold
+                           text-amber-400">
+
+                    Construyendo tu idea
+
                 </span>
 
             </div>
@@ -1257,82 +1324,1738 @@
 
             <div class="progress-bg mb-6">
 
-                <div id="barraReto"
-                     class="progress-bar">
+                <div
+                    id="barraEmprendimiento"
+                    class="progress-bar">
+
                 </div>
 
             </div>
 
 
-            <!-- PREGUNTA -->
 
-            <div class="info-box p-5 mb-5">
+            <!-- PASO 1 -->
 
-                <div id="preguntaReto"
-                     class="text-lg font-bold leading-relaxed">
+            <div
+                id="paso1"
+                class="paso-emprendimiento">
+
+
+                <div class="flex gap-3 mb-5">
+
+                    <div class="step-circle">
+                        1
+                    </div>
+
+
+                    <div>
+
+                        <h3
+                            class="text-lg
+                                   font-black">
+
+                            ¿Qué quieres emprender?
+
+                        </h3>
+
+
+                        <p
+                            class="text-sm
+                                   text-zinc-500
+                                   mt-1">
+
+                            Comienza con una idea que puedas
+                            convertir en un pequeño proyecto.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <label
+                    class="text-sm
+                           font-semibold
+                           text-zinc-300">
+
+                    Nombre de tu emprendimiento
+
+                </label>
+
+
+                <input
+                    id="nombreEmprendimiento"
+                    class="mt-2"
+                    type="text">
+
+
+
+                <label
+                    class="block
+                           text-sm
+                           font-semibold
+                           text-zinc-300
+                           mt-5">
+
+                    ¿Qué categoría representa mejor tu idea?
+
+                </label>
+
+
+                <select
+                    id="categoriaEmprendimiento"
+                    class="mt-2">
+
+                    <option value="">
+                        Selecciona una categoría
+                    </option>
+
+                    <option>Alimentación</option>
+                    <option>Moda y ropa</option>
+                    <option>Tecnología</option>
+                    <option>Diseño y creatividad</option>
+                    <option>Educación</option>
+                    <option>Cuidado personal</option>
+                    <option>Comercio</option>
+                    <option>Otro</option>
+
+                </select>
+
+
+                <label
+                    class="block
+                           text-sm
+                           font-semibold
+                           text-zinc-300
+                           mt-5">
+
+                    ¿Qué vas a ofrecer?
+
+                </label>
+
+
+                <textarea
+                    id="descripcionEmprendimiento"
+                    class="mt-2">
+                </textarea>
+
+
+            </div>
+
+
+
+            <!-- PASO 2 -->
+
+            <div
+                id="paso2"
+                class="paso-emprendimiento hidden">
+
+                <div class="flex gap-3 mb-5">
+
+                    <div class="step-circle">
+                        2
+                    </div>
+
+
+                    <div>
+
+                        <h3
+                            class="text-lg
+                                   font-black">
+
+                            ¿Quién compraría?
+
+                        </h3>
+
+
+                        <p
+                            class="text-sm
+                                   text-zinc-500
+                                   mt-1">
+
+                            Identifica a las personas a quienes
+                            quieres ofrecer tu producto o servicio.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <label
+                    class="text-sm
+                           font-semibold
+                           text-zinc-300">
+
+                    Público al que quieres llegar
+
+                </label>
+
+
+                <select
+                    id="publicoEmprendimiento"
+                    class="mt-2">
+
+                    <option value="">
+                        Selecciona una opción
+                    </option>
+
+                    <option>Estudiantes</option>
+                    <option>Jóvenes</option>
+                    <option>Familias</option>
+                    <option>Profesionales</option>
+                    <option>Personas de mi localidad</option>
+                    <option>Público general</option>
+
+                </select>
+
+
+                <label
+                    class="block
+                           text-sm
+                           font-semibold
+                           text-zinc-300
+                           mt-5">
+
+                    ¿Qué necesidad quieres atender?
+
+                </label>
+
+
+                <textarea
+                    id="necesidadEmprendimiento"
+                    class="mt-2">
+                </textarea>
+
+
+                <div
+                    class="info-box
+                           p-4
+                           mt-5">
+
+                    <div class="flex gap-3">
+
+                        <i
+                            class="fa-solid
+                                   fa-lightbulb
+                                   text-amber-400
+                                   mt-1">
+
+                        </i>
+
+
+                        <p
+                            class="text-sm
+                                   text-zinc-400">
+
+                            <strong class="text-zinc-200">
+                                Consejo:
+                            </strong>
+
+                            una idea tiene más posibilidades de ser útil
+                            cuando responde a una necesidad real.
+
+                        </p>
+
+                    </div>
+
                 </div>
 
             </div>
 
 
-            <!-- RESPUESTAS -->
 
-            <div id="opcionesReto"
-                 class="space-y-3">
+            <!-- PASO 3 -->
+
+            <div
+                id="paso3"
+                class="paso-emprendimiento hidden">
+
+                <div class="flex gap-3 mb-5">
+
+                    <div class="step-circle">
+                        3
+                    </div>
+
+
+                    <div>
+
+                        <h3
+                            class="text-lg
+                                   font-black">
+
+                            ¿Qué necesitas para comenzar?
+
+                        </h3>
+
+
+                        <p
+                            class="text-sm
+                                   text-zinc-500
+                                   mt-1">
+
+                            Estima la inversión inicial necesaria
+                            para poner en marcha tu idea.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                    <div>
+
+                        <label
+                            class="text-sm
+                                   font-semibold
+                                   text-zinc-300">
+
+                            Materiales
+
+                        </label>
+
+                        <input
+                            id="inversionMateriales"
+                            class="mt-2"
+                            type="number"
+                            min="0">
+
+                    </div>
+
+
+                    <div>
+
+                        <label
+                            class="text-sm
+                                   font-semibold
+                                   text-zinc-300">
+
+                            Herramientas
+
+                        </label>
+
+                        <input
+                            id="inversionHerramientas"
+                            class="mt-2"
+                            type="number"
+                            min="0">
+
+                    </div>
+
+
+                    <div>
+
+                        <label
+                            class="text-sm
+                                   font-semibold
+                                   text-zinc-300">
+
+                            Publicidad
+
+                        </label>
+
+                        <input
+                            id="inversionPublicidad"
+                            class="mt-2"
+                            type="number"
+                            min="0">
+
+                    </div>
+
+
+                    <div>
+
+                        <label
+                            class="text-sm
+                                   font-semibold
+                                   text-zinc-300">
+
+                            Transporte
+
+                        </label>
+
+                        <input
+                            id="inversionTransporte"
+                            class="mt-2"
+                            type="number"
+                            min="0">
+
+                    </div>
+
+                </div>
+
+
+                <label
+                    class="block
+                           text-sm
+                           font-semibold
+                           text-zinc-300
+                           mt-5">
+
+                    Otros gastos iniciales
+
+                </label>
+
+
+                <input
+                    id="inversionOtros"
+                    class="mt-2"
+                    type="number"
+                    min="0">
+
+
+                <div
+                    class="result-box
+                           p-5
+                           mt-5">
+
+                    <div class="mini-label text-amber-400">
+                        Inversión inicial estimada
+                    </div>
+
+                    <div
+                        id="totalInversion"
+                        class="text-3xl
+                               font-black
+                               mt-1">
+
+                        $0.00
+
+                    </div>
+
+                </div>
+
             </div>
 
 
-            <!-- FEEDBACK -->
 
-            <div id="feedbackReto"
-                 class="feedback">
+            <!-- PASO 4 -->
+
+            <div
+                id="paso4"
+                class="paso-emprendimiento hidden">
+
+                <div class="flex gap-3 mb-5">
+
+                    <div class="step-circle">
+                        4
+                    </div>
+
+
+                    <div>
+
+                        <h3
+                            class="text-lg
+                                   font-black">
+
+                            ¿Cuánto cuesta tu producto?
+
+                        </h3>
+
+
+                        <p
+                            class="text-sm
+                                   text-zinc-500
+                                   mt-1">
+
+                            Calcula aproximadamente cuánto necesitas
+                            gastar para producir una unidad.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <label
+                    class="text-sm
+                           font-semibold
+                           text-zinc-300">
+
+                    Nombre del producto o servicio
+
+                </label>
+
+
+                <input
+                    id="nombreProducto"
+                    class="mt-2"
+                    type="text">
+
+
+                <div
+                    class="grid
+                           grid-cols-1
+                           sm:grid-cols-3
+                           gap-4
+                           mt-5">
+
+                    <div>
+
+                        <label
+                            class="text-sm
+                                   font-semibold
+                                   text-zinc-300">
+
+                            Materiales por unidad
+
+                        </label>
+
+                        <input
+                            id="costoMateriales"
+                            class="mt-2"
+                            type="number"
+                            min="0">
+
+                    </div>
+
+
+                    <div>
+
+                        <label
+                            class="text-sm
+                                   font-semibold
+                                   text-zinc-300">
+
+                            Empaque
+
+                        </label>
+
+                        <input
+                            id="costoEmpaque"
+                            class="mt-2"
+                            type="number"
+                            min="0">
+
+                    </div>
+
+
+                    <div>
+
+                        <label
+                            class="text-sm
+                                   font-semibold
+                                   text-zinc-300">
+
+                            Otros costos
+
+                        </label>
+
+                        <input
+                            id="costoOtros"
+                            class="mt-2"
+                            type="number"
+                            min="0">
+
+                    </div>
+
+                </div>
+
+
+                <label
+                    class="block
+                           text-sm
+                           font-semibold
+                           text-zinc-300
+                           mt-5">
+
+                    Precio de venta por unidad
+
+                </label>
+
+
+                <input
+                    id="precioVenta"
+                    class="mt-2"
+                    type="number"
+                    min="0">
+
+
+                <div
+                    class="result-box
+                           p-5
+                           mt-5">
+
+                    <div
+                        class="grid
+                               grid-cols-1
+                               sm:grid-cols-2
+                               gap-4">
+
+                        <div>
+
+                            <div class="mini-label">
+                                Costo por unidad
+                            </div>
+
+                            <div
+                                id="costoUnidad"
+                                class="text-2xl
+                                       font-black
+                                       mt-1">
+
+                                $0.00
+
+                            </div>
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="mini-label">
+                                Ganancia por unidad
+                            </div>
+
+                            <div
+                                id="gananciaUnidad"
+                                class="text-2xl
+                                       font-black
+                                       mt-1
+                                       text-amber-400">
+
+                                $0.00
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
 
 
-            <!-- SIGUIENTE -->
 
-            <button id="btnSiguiente"
-                    onclick="siguientePregunta()"
-                    class="btn-gold w-full py-3.5 mt-5 hidden">
+            <!-- PASO 5 -->
 
-                SIGUIENTE
-                <i class="fa-solid fa-arrow-right ml-2"></i>
+            <div
+                id="paso5"
+                class="paso-emprendimiento hidden">
 
-            </button>
+                <div class="flex gap-3 mb-5">
+
+                    <div class="step-circle">
+                        5
+                    </div>
+
+
+                    <div>
+
+                        <h3
+                            class="text-lg
+                                   font-black">
+
+                            ¿Cuánto esperas vender?
+
+                        </h3>
+
+
+                        <p
+                            class="text-sm
+                                   text-zinc-500
+                                   mt-1">
+
+                            Haz una estimación de tus ventas durante
+                            tu primer mes.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <label
+                    class="text-sm
+                           font-semibold
+                           text-zinc-300">
+
+                    Unidades que esperas vender
+
+                </label>
+
+
+                <input
+                    id="unidadesVenta"
+                    class="mt-2"
+                    type="number"
+                    min="0">
+
+
+                <div
+                    class="grid
+                           grid-cols-1
+                           sm:grid-cols-3
+                           gap-3
+                           mt-5">
+
+                    <div class="info-box p-4">
+
+                        <div class="mini-label">
+                            Ingresos
+                        </div>
+
+                        <div
+                            id="resultadoIngresos"
+                            class="text-xl
+                                   font-black
+                                   mt-1">
+
+                            $0.00
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box p-4">
+
+                        <div class="mini-label">
+                            Costos
+                        </div>
+
+                        <div
+                            id="resultadoCostos"
+                            class="text-xl
+                                   font-black
+                                   mt-1">
+
+                            $0.00
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="result-box p-4">
+
+                        <div class="mini-label text-amber-400">
+                            Ganancia
+                        </div>
+
+                        <div
+                            id="resultadoGanancia"
+                            class="text-xl
+                                   font-black
+                                   mt-1">
+
+                            $0.00
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PASO 6 -->
+
+            <div
+                id="paso6"
+                class="paso-emprendimiento hidden">
+
+                <div class="flex gap-3 mb-5">
+
+                    <div class="step-circle">
+                        6
+                    </div>
+
+
+                    <div>
+
+                        <h3
+                            class="text-lg
+                                   font-black">
+
+                            ¿Cuándo recuperarías tu inversión?
+
+                        </h3>
+
+
+                        <p
+                            class="text-sm
+                                   text-zinc-500
+                                   mt-1">
+
+                            Observa aproximadamente cuántas unidades
+                            necesitas vender para recuperar lo invertido.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="result-box
+                           p-6
+                           text-center">
+
+                    <div class="mini-label text-amber-400">
+                        Punto de recuperación estimado
+                    </div>
+
+                    <div
+                        id="puntoEquilibrio"
+                        class="text-4xl
+                               font-black
+                               mt-2">
+
+                        0 unidades
+
+                    </div>
+
+                    <p
+                        id="mensajeRecuperacion"
+                        class="text-sm
+                               text-zinc-400
+                               mt-3">
+
+                        Completa los datos anteriores
+                        para realizar la estimación.
+
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="info-box
+                           p-4
+                           mt-5">
+
+                    <div class="flex gap-3">
+
+                        <i
+                            class="fa-solid
+                                   fa-circle-info
+                                   text-amber-400
+                                   mt-1">
+
+                        </i>
+
+
+                        <p
+                            class="text-sm
+                                   text-zinc-400">
+
+                            El punto de recuperación es una
+                            estimación educativa que indica cuántas
+                            unidades necesitarías vender para recuperar
+                            tu inversión inicial.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PASO 7 -->
+
+            <div
+                id="paso7"
+                class="paso-emprendimiento hidden">
+
+                <div class="flex gap-3 mb-5">
+
+                    <div class="step-circle">
+                        7
+                    </div>
+
+
+                    <div>
+
+                        <h3
+                            class="text-lg
+                                   font-black">
+
+                            ¿Qué harías con tus ganancias?
+
+                        </h3>
+
+
+                        <p
+                            class="text-sm
+                                   text-zinc-500
+                                   mt-1">
+
+                            Una vez que tu emprendimiento genere
+                            ganancias, también tendrás que decidir
+                            cómo utilizarlas.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="space-y-3">
+
+                    <div
+                        class="choice"
+                        onclick="seleccionarUsoGanancia(this, 'reinvertir')">
+
+                        <div class="font-bold">
+                            Reinvertir una parte
+                        </div>
+
+                        <div
+                            class="text-xs
+                                   text-zinc-500
+                                   mt-1">
+
+                            Utilizar parte de la ganancia para
+                            hacer crecer el emprendimiento.
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="choice"
+                        onclick="seleccionarUsoGanancia(this, 'guardar')">
+
+                        <div class="font-bold">
+                            Guardar una parte
+                        </div>
+
+                        <div
+                            class="text-xs
+                                   text-zinc-500
+                                   mt-1">
+
+                            Separar parte de la ganancia para
+                            una futura necesidad u objetivo.
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="choice"
+                        onclick="seleccionarUsoGanancia(this, 'todo')">
+
+                        <div class="font-bold">
+                            Gastarlo todo
+                        </div>
+
+                        <div
+                            class="text-xs
+                                   text-zinc-500
+                                   mt-1">
+
+                            Utilizar inmediatamente toda la ganancia.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="feedbackGanancia"
+                    class="info-box
+                           p-4
+                           mt-5
+                           hidden">
+
+                </div>
+
+            </div>
+
+
+
+            <!-- BOTONES -->
+
+            <div
+                id="botonesPasos"
+                class="flex gap-3 mt-6">
+
+                <button
+                    id="btnAnterior"
+                    onclick="pasoAnterior()"
+                    class="btn-dark
+                           flex-1
+                           py-3.5
+                           hidden">
+
+                    <i class="fa-solid
+                              fa-arrow-left
+                              mr-2"></i>
+
+                    ANTERIOR
+
+                </button>
+
+
+                <button
+                    id="btnSiguienteEmprendimiento"
+                    onclick="siguientePaso()"
+                    class="btn-gold
+                           flex-1
+                           py-3.5">
+
+                    CONTINUAR
+
+                    <i class="fa-solid
+                              fa-arrow-right
+                              ml-2"></i>
+
+                </button>
+
+            </div>
+
 
 
             <!-- RESULTADO FINAL -->
 
-            <div id="resultadoReto"
-                 class="hidden text-center">
+            <div
+                id="resultadoEmprendimiento"
+                class="hidden">
 
-                <div class="w-20 h-20 rounded-full bg-amber-400/10
-                            flex items-center justify-center mx-auto mb-4">
+                <div
+                    class="text-center
+                           mb-6">
 
-                    <i class="fa-solid fa-trophy text-amber-400 text-3xl"></i>
+                    <div
+                        class="w-20 h-20
+                               rounded-full
+                               bg-amber-400/10
+                               flex items-center
+                               justify-center
+                               mx-auto mb-4">
+
+                        <i
+                            class="fa-solid
+                                   fa-rocket
+                                   text-amber-400
+                                   text-3xl">
+
+                        </i>
+
+                    </div>
+
+
+                    <div
+                        class="text-xs
+                               uppercase
+                               tracking-widest
+                               text-amber-400
+                               font-bold">
+
+                        Tu emprendimiento
+
+                    </div>
+
+
+                    <h3
+                        id="resumenNombre"
+                        class="text-2xl
+                               font-black
+                               mt-1">
+
+                        Mi emprendimiento
+
+                    </h3>
 
                 </div>
 
-                <div class="text-xs uppercase tracking-widest
-                            text-amber-400 font-bold">
+
+                <div
+                    class="info-box
+                           p-4">
+
+                    <div class="summary-row">
+
+                        <span class="text-zinc-500">
+                            Categoría
+                        </span>
+
+                        <strong id="resumenCategoria">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span class="text-zinc-500">
+                            Inversión inicial
+                        </span>
+
+                        <strong id="resumenInversion">
+                            $0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span class="text-zinc-500">
+                            Precio de venta
+                        </span>
+
+                        <strong id="resumenPrecio">
+                            $0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span class="text-zinc-500">
+                            Ventas estimadas
+                        </span>
+
+                        <strong id="resumenVentas">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span class="text-zinc-500">
+                            Ingresos estimados
+                        </span>
+
+                        <strong id="resumenIngresos">
+                            $0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span class="text-zinc-500">
+                            Ganancia estimada
+                        </span>
+
+                        <strong
+                            id="resumenGanancia"
+                            class="text-amber-400">
+
+                            $0.00
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span class="text-zinc-500">
+                            Recuperación
+                        </span>
+
+                        <strong id="resumenRecuperacion">
+                            0 unidades
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="result-box
+                           p-5
+                           mt-5">
+
+                    <div class="flex gap-3">
+
+                        <i
+                            class="fa-solid
+                                   fa-lightbulb
+                                   text-amber-400
+                                   mt-1">
+
+                        </i>
+
+
+                        <p
+                            class="text-sm
+                                   text-zinc-400">
+
+                            <strong class="text-zinc-200">
+                                Aprende con FINÉA:
+                            </strong>
+
+                            estos resultados son estimaciones.
+                            En un emprendimiento real, los costos,
+                            ventas y resultados pueden cambiar.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    onclick="guardarEmprendimiento()"
+                    class="btn-gold
+                           w-full
+                           py-3.5
+                           mt-5">
+
+                    <i class="fa-solid
+                              fa-floppy-disk
+                              mr-2"></i>
+
+                    GUARDAR MI EMPRENDIMIENTO
+
+                </button>
+
+
+                <button
+                    onclick="cerrarModal('modalEmprendimiento')"
+                    class="btn-dark
+                           w-full
+                           py-3.5
+                           mt-3">
+
+                    VOLVER A PLANIFICACIÓN
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     MODAL · PLANIFICA TUS GASTOS
+===================================================== -->
+
+<div
+    id="modalGastos"
+    class="modal-bg"
+    onclick="cerrarAlFondo(event, 'modalGastos')">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div class="flex gap-3">
+
+                <div class="icon-box">
+
+                    <i class="fa-solid fa-calendar-days"></i>
+
+                </div>
+
+                <div>
+
+                    <div
+                        class="text-xs uppercase
+                               tracking-widest
+                               text-amber-400
+                               font-bold">
+
+                        Planificación
+
+                    </div>
+
+                    <h2
+                        class="text-xl
+                               font-black
+                               mt-1">
+
+                        Planifica tus gastos
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="close-btn"
+                onclick="cerrarModal('modalGastos')">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <div
+                id="alertaGasto"
+                class="calendar-alert hidden">
+
+            </div>
+
+
+            <!-- CALENDARIO -->
+
+            <div class="info-box p-5">
+
+                <div class="calendar-header">
+
+                    <button
+                        type="button"
+                        class="calendar-nav"
+                        onclick="cambiarMes(-1)">
+
+                        <i class="fa-solid fa-chevron-left"></i>
+
+                    </button>
+
+
+                    <div
+                        id="nombreMesCalendario"
+                        class="font-black text-lg text-center">
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="calendar-nav"
+                        onclick="cambiarMes(1)">
+
+                        <i class="fa-solid fa-chevron-right"></i>
+
+                    </button>
+
+                </div>
+
+
+                <div class="calendar-weekdays">
+
+                    <div>Lun</div>
+                    <div>Mar</div>
+                    <div>Mié</div>
+                    <div>Jue</div>
+                    <div>Vie</div>
+                    <div>Sáb</div>
+                    <div>Dom</div>
+
+                </div>
+
+
+                <div
+                    id="diasCalendario"
+                    class="calendar-days">
+
+                </div>
+
+            </div>
+
+
+            <!-- FORMULARIO -->
+
+            <div
+                id="formularioGasto"
+                class="info-box p-5 mt-4 hidden">
+
+                <div
+                    class="flex items-center gap-3 mb-5">
+
+                    <div class="step-circle">
+
+                        <i class="fa-solid fa-plus"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h3
+                            class="font-black text-lg">
+
+                            Agregar gasto
+
+                        </h3>
+
+                        <p
+                            id="fechaSeleccionadaTexto"
+                            class="text-xs text-zinc-500 mt-1">
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <label
+                    class="text-sm
+                           font-semibold
+                           text-zinc-300">
+
+                    ¿Qué debes pagar?
+
+                </label>
+
+
+                <input
+                    id="nombreGasto"
+                    class="mt-2"
+                    type="text">
+
+
+                <label
+                    class="block
+                           text-sm
+                           font-semibold
+                           text-zinc-300
+                           mt-4">
+
+                    Monto del pago
+
+                </label>
+
+
+                <input
+                    id="montoGasto"
+                    class="mt-2"
+                    type="number"
+                    min="0"
+                    step="0.01">
+
+
+                <label
+                    class="block
+                           text-sm
+                           font-semibold
+                           text-zinc-300
+                           mt-4">
+
+                    ¿Cuánto tienes reservado?
+
+                    <span class="text-zinc-500 font-normal">
+                        (opcional)
+                    </span>
+
+                </label>
+
+
+                <input
+                    id="reservadoGasto"
+                    class="mt-2"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="Puedes dejarlo vacío">
+
+
+                <p
+                    class="text-xs
+                           text-zinc-500
+                           mt-2">
+
+                    Si ya tienes todo el dinero para este pago,
+                    no necesitas llenar este campo.
+
+                </p>
+
+
+                <button
+                    type="button"
+                    onclick="guardarGasto()"
+                    class="btn-gold
+                           w-full
+                           py-3.5
+                           mt-5">
+
+                    <i class="fa-solid fa-calendar-check mr-2"></i>
+
+                    GUARDAR GASTO
+
+                </button>
+
+            </div>
+
+
+            <!-- DETALLE DEL GASTO -->
+
+            <div
+                id="detalleGasto"
+                class="expense-detail hidden">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     MODAL · RETO EMPRENDEDOR
+===================================================== -->
+
+<div
+    id="modalReto"
+    class="modal-bg"
+    onclick="cerrarAlFondo(event, 'modalReto')">
+
+
+    <div class="modal">
+
+
+        <div class="modal-header">
+
+            <div class="flex gap-3">
+
+                <div class="icon-box">
+
+                    <i class="fa-solid fa-bolt"></i>
+
+                </div>
+
+
+                <div>
+
+                    <div
+                        class="text-xs uppercase
+                               tracking-widest
+                               text-amber-400
+                               font-bold">
+
+                        Reto emprendedor
+
+                    </div>
+
+
+                    <h2
+                        class="text-xl
+                               font-black
+                               mt-1">
+
+                        Reto Emprendedor
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="close-btn"
+                onclick="cerrarModal('modalReto')">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+
+        <div class="modal-body">
+
+
+            <div
+                class="flex
+                       justify-between
+                       items-center
+                       mb-2">
+
+                <span
+                    class="text-xs
+                           text-zinc-500">
+
+                    Situación
+                    <span id="numeroReto">
+                        1
+                    </span>
+                    de 5
+
+                </span>
+
+
+                <span
+                    class="text-xs
+                           font-bold
+                           text-amber-400">
+
+                    <span id="puntosReto">
+                        0
+                    </span>
+                    puntos
+
+                </span>
+
+            </div>
+
+
+            <div
+                class="progress-bg
+                       mb-6">
+
+                <div
+                    id="barraReto"
+                    class="progress-bar"
+                    style="width:20%;">
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="info-box
+                       p-5
+                       mb-5">
+
+                <div
+                    id="preguntaReto"
+                    class="text-lg
+                           font-bold
+                           leading-relaxed">
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="opcionesReto"
+                class="space-y-3">
+
+            </div>
+
+
+            <div
+                id="feedbackReto"
+                class="info-box
+                       p-4
+                       mt-5
+                       hidden">
+
+            </div>
+
+
+            <button
+                id="btnSiguienteReto"
+                onclick="siguienteReto()"
+                class="btn-gold
+                       w-full
+                       py-3.5
+                       mt-5
+                       hidden">
+
+                SIGUIENTE
+
+                <i class="fa-solid
+                          fa-arrow-right
+                          ml-2"></i>
+
+            </button>
+
+
+            <div
+                id="resultadoReto"
+                class="hidden
+                       text-center">
+
+
+                <div
+                    class="w-20 h-20
+                           rounded-full
+                           bg-amber-400/10
+                           flex items-center
+                           justify-center
+                           mx-auto mb-4">
+
+                    <i
+                        class="fa-solid
+                               fa-trophy
+                               text-amber-400
+                               text-3xl">
+
+                    </i>
+
+                </div>
+
+
+                <div
+                    class="text-xs
+                           uppercase
+                           tracking-widest
+                           text-amber-400
+                           font-bold">
 
                     Reto completado
 
                 </div>
 
-                <div id="resultadoPuntos"
-                     class="text-4xl font-black mt-2">
+
+                <div
+                    id="resultadoPuntos"
+                    class="text-4xl
+                           font-black
+                           mt-2">
+
                     0/5
+
                 </div>
 
-                <p id="mensajeFinalReto"
-                   class="text-zinc-400 text-sm mt-3">
+
+                <p
+                    id="mensajeFinalReto"
+                    class="text-zinc-400
+                           text-sm
+                           mt-3">
+
                 </p>
 
-                <button onclick="reiniciarReto()"
-                        class="btn-dark w-full py-3 mt-5">
 
-                    <i class="fa-solid fa-rotate-right mr-2"></i>
+                <button
+                    onclick="iniciarReto()"
+                    class="btn-dark
+                           w-full
+                           py-3
+                           mt-5">
+
+                    <i
+                        class="fa-solid
+                               fa-rotate-right
+                               mr-2">
+
+                    </i>
+
                     REPETIR RETO
 
                 </button>
@@ -1346,694 +3069,2769 @@
 </div>
 
 
+
 <script>
 
-    /* =====================================================
-       CONFIGURACIÓN GENERAL
-    ===================================================== */
 
-    let decisionesAnalizadas =
-        Number(localStorage.getItem("finea_decisiones_planificacion")) || 0;
+/* =====================================================
+   VARIABLES
+===================================================== */
 
-    let fondoCalculado =
-        Number(localStorage.getItem("finea_fondo_emergencia")) || 0;
+let pasoActual = 1;
+
+let datosEmprendimiento = {
+
+    nombre: "",
+    categoria: "",
+    descripcion: "",
+
+    publico: "",
+    necesidad: "",
+
+    inversion: 0,
+
+    costoUnidad: 0,
+    precioVenta: 0,
+
+    unidades: 0,
+
+    ingresos: 0,
+    costos: 0,
+    ganancia: 0,
+
+    puntoEquilibrio: 0,
+
+    usoGanancia: ""
+
+};
 
 
-    /* =====================================================
-       USUARIO
-    ===================================================== */
+let retoActual = 0;
+let puntosReto = 0;
+let respondioReto = false;
 
-    function cargarUsuario() {
 
-        const nombre =
-            localStorage.getItem("finea_nombre") ||
-            localStorage.getItem("nombreUsuario") ||
-            localStorage.getItem("usuarioNombre");
+/* =====================================================
+   PLANIFICACIÓN DE GASTOS
+===================================================== */
 
-        if (nombre) {
-            document.getElementById("nombreUsuario").textContent = nombre;
-        }
+let fechaCalendario = new Date();
+
+let fechaSeleccionadaGasto = "";
+
+let gastosPlanificados =
+    JSON.parse(
+        localStorage.getItem("finea_gastos_planificados") || "[]"
+    );
+
+
+/* =====================================================
+   USUARIO
+===================================================== */
+
+function cargarUsuario() {
+
+    const nombre =
+        localStorage.getItem("finea_nombre") ||
+        localStorage.getItem("nombreUsuario") ||
+        localStorage.getItem("usuarioNombre");
+
+    if (nombre) {
+
+        document.getElementById("nombreUsuario")
+            .textContent = nombre;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   MODALES
+===================================================== */
+
+function abrirModal(id) {
+
+    const modal =
+        document.getElementById(id);
+
+    if (!modal) return;
+
+    modal.classList.add("active");
+
+    document.body.classList.add("modal-open");
+
+
+    if (id === "modalEmprendimiento") {
+
+        iniciarEmprendimiento();
 
     }
 
 
-    /* =====================================================
-       MODALES
-    ===================================================== */
-
-    function abrirModal(id) {
-
-        const modal = document.getElementById(id);
-
-        if (modal) {
-            modal.classList.add("active");
-            document.body.style.overflow = "hidden";
-        }
-
-        if (id === "modalReto") {
-            iniciarReto();
-        }
-
-    }
-
-
-    function cerrarModal(id) {
-
-        const modal = document.getElementById(id);
-
-        if (modal) {
-            modal.classList.remove("active");
-        }
-
-        document.body.style.overflow = "";
-
-    }
-
-
-    function cerrarAlFondo(event, id) {
-
-        if (event.target.id === id) {
-            cerrarModal(id);
-        }
-
-    }
-
-
-    document.addEventListener("keydown", function(event) {
-
-        if (event.key === "Escape") {
-
-            document.querySelectorAll(".modal-bg.active")
-                .forEach(modal => {
-
-                    modal.classList.remove("active");
-
-                });
-
-            document.body.style.overflow = "";
-
-        }
-
-    });
-
-
-    /* =====================================================
-       FONDO DE EMERGENCIA
-    ===================================================== */
-
-    function calcularEmergencia() {
-
-        const gastos =
-            Number(document.getElementById("gastosEmergencia").value);
-
-        const meses =
-            Number(document.getElementById("mesesEmergencia").value);
-
-        if (!gastos || gastos <= 0) {
-
-            alert("Ingresa un valor válido para tus gastos mensuales.");
-
-            return;
-
-        }
-
-        const meta = gastos * meses;
-
-        fondoCalculado = meta;
-
-        localStorage.setItem(
-            "finea_fondo_emergencia",
-            meta
-        );
-
-        document.getElementById("resultadoEmergencia")
-            .classList.remove("hidden");
-
-        document.getElementById("valorEmergencia")
-            .textContent = dinero(meta);
-
-        document.getElementById("mensajeEmergencia")
-            .textContent =
-            `Para cubrir aproximadamente ${meses} ${
-                meses === 1 ? "mes" : "meses"
-            } de gastos, tu meta sería de ${dinero(meta)}.`;
-
-        actualizarEstadisticas();
-
-    }
-
-
-    /* =====================================================
-       DECISIONES
-    ===================================================== */
-
-    function seleccionarDecision(elemento, respuesta) {
-
-        document.querySelectorAll("#modalDecisiones .choice")
-            .forEach(opcion => {
-
-                opcion.classList.remove("selected");
-
-            });
-
-        elemento.classList.add("selected");
-
-        const feedback =
-            document.getElementById("feedbackDecision");
-
-        feedback.classList.add("show");
-
-        if (respuesta === "B") {
-
-            feedback.className =
-                "feedback show bg-emerald-400/10 border border-emerald-400/20 text-emerald-300";
-
-            feedback.innerHTML = `
-                <div class="font-bold mb-1">
-                    <i class="fa-solid fa-circle-check mr-2"></i>
-                    Buena decisión
-                </div>
-
-                <div class="text-sm">
-                    Comparar alternativas y elegir una opción que cubra
-                    realmente tu necesidad ayuda a evitar gastos innecesarios.
-                </div>
-            `;
-
-        } else {
-
-            feedback.className =
-                "feedback show bg-amber-400/10 border border-amber-400/20 text-amber-300";
-
-            feedback.innerHTML = `
-                <div class="font-bold mb-1">
-                    <i class="fa-solid fa-lightbulb mr-2"></i>
-                    Piénsalo un poco más
-                </div>
-
-                <div class="text-sm">
-                    Antes de comprar, conviene revisar qué necesitas,
-                    cuánto puedes gastar y qué consecuencias tendrá la decisión.
-                </div>
-            `;
-
-        }
-
-        decisionesAnalizadas++;
-
-        localStorage.setItem(
-            "finea_decisiones_planificacion",
-            decisionesAnalizadas
-        );
-
-        actualizarEstadisticas();
-
-    }
-
-
-    /* =====================================================
-       PRIORIDADES
-    ===================================================== */
-
-    function evaluarPrioridad(tipo) {
-
-        const feedback =
-            document.getElementById("feedbackPrioridad");
-
-        feedback.classList.add("show");
-
-        decisionesAnalizadas++;
-
-        localStorage.setItem(
-            "finea_decisiones_planificacion",
-            decisionesAnalizadas
-        );
-
-        actualizarEstadisticas();
-
-
-        if (tipo === "educacion") {
-
-            feedback.className =
-                "feedback show bg-emerald-400/10 border border-emerald-400/20 text-emerald-300";
-
-            feedback.innerHTML = `
-                <div class="font-bold mb-1">
-                    <i class="fa-solid fa-circle-check mr-2"></i>
-                    Prioridad identificada
-                </div>
-
-                <div class="text-sm">
-                    Si el material es realmente necesario para tus estudios,
-                    puede considerarse una necesidad prioritaria.
-                </div>
-            `;
-
-        } else {
-
-            feedback.className =
-                "feedback show bg-amber-400/10 border border-amber-400/20 text-amber-300";
-
-            feedback.innerHTML = `
-                <div class="font-bold mb-1">
-                    <i class="fa-solid fa-lightbulb mr-2"></i>
-                    Puede esperar
-                </div>
-
-                <div class="text-sm">
-                    Cuando el dinero es limitado, los gastos que no son
-                    indispensables pueden esperar hasta tener mayor margen.
-                </div>
-            `;
-
-        }
-
-    }
-
-
-    /* =====================================================
-       RETO FINÉA
-    ===================================================== */
-
-    const preguntasReto = [
-
-        {
-            pregunta:
-                "Recibes un ingreso inesperado. ¿Qué sería más responsable hacer primero?",
-
-            opciones: [
-                "Gastarlo inmediatamente en algo que quiero.",
-                "Analizar mis prioridades antes de decidir.",
-                "Usarlo todo en entretenimiento."
-            ],
-
-            correcta: 1,
-
-            explicacion:
-                "Antes de gastar un ingreso inesperado, analizar tus prioridades permite tomar una decisión más consciente."
-        },
-
-
-        {
-            pregunta:
-                "Tienes un gasto importante el próximo mes. ¿Qué podrías hacer?",
-
-            opciones: [
-                "Ignorarlo hasta que llegue el momento.",
-                "Planificar con anticipación cómo afrontarlo.",
-                "Pedir dinero sin analizar otras opciones."
-            ],
-
-            correcta: 1,
-
-            explicacion:
-                "Anticiparte a un gasto reduce la posibilidad de que se convierta en un problema financiero."
-        },
-
-
-        {
-            pregunta:
-                "Una tienda ofrece una compra en muchas cuotas. ¿Qué deberías revisar?",
-
-            opciones: [
-                "Solo el valor de la cuota.",
-                "El color del producto.",
-                "El costo total que terminaré pagando."
-            ],
-
-            correcta: 2,
-
-            explicacion:
-                "Una cuota pequeña no significa necesariamente que la compra sea barata. Revisa siempre el costo total."
-        },
-
-
-        {
-            pregunta:
-                "Si tienes varias metas al mismo tiempo, ¿qué estrategia es más útil?",
-
-            opciones: [
-                "Intentar cumplirlas todas sin ningún orden.",
-                "Definir cuáles son más importantes y priorizarlas.",
-                "Abandonarlas todas."
-            ],
-
-            correcta: 1,
-
-            explicacion:
-                "Priorizar permite concentrar tus recursos en lo que realmente importa."
-        },
-
-
-        {
-            pregunta:
-                "¿Qué significa planificar financieramente?",
-
-            opciones: [
-                "Predecir exactamente todo lo que ocurrirá.",
-                "Prepararte para tomar mejores decisiones ante diferentes situaciones.",
-                "No gastar nunca dinero."
-            ],
-
-            correcta: 1,
-
-            explicacion:
-                "Planificar no significa controlar el futuro, sino estar mejor preparado para enfrentarlo."
-        }
-
-    ];
-
-
-    let preguntaActual = 0;
-    let puntosReto = 0;
-    let respondida = false;
-
-
-    function iniciarReto() {
-
-        preguntaActual = 0;
-        puntosReto = 0;
-        respondida = false;
-
-        document.getElementById("resultadoReto")
-            .classList.add("hidden");
-
-        document.getElementById("preguntaReto")
-            .parentElement.classList.remove("hidden");
-
-        document.getElementById("opcionesReto")
-            .classList.remove("hidden");
-
-        document.getElementById("btnSiguiente")
-            .classList.add("hidden");
-
-        document.getElementById("feedbackReto")
-            .className = "feedback";
-
-        cargarPregunta();
-
-    }
-
-
-    function cargarPregunta() {
-
-        const pregunta =
-            preguntasReto[preguntaActual];
-
-        respondida = false;
-
-        document.getElementById("numeroPregunta")
-            .textContent = preguntaActual + 1;
-
-        document.getElementById("puntosReto")
-            .textContent = puntosReto;
-
-        const progreso =
-            ((preguntaActual) / preguntasReto.length) * 100;
-
-        document.getElementById("barraReto")
-            .style.width = progreso + "%";
-
-
-        document.getElementById("preguntaReto")
-            .textContent = pregunta.pregunta;
-
-
-        const contenedor =
-            document.getElementById("opcionesReto");
-
-        contenedor.innerHTML = "";
-
-
-        pregunta.opciones.forEach((opcion, index) => {
-
-            const elemento =
-                document.createElement("div");
-
-            elemento.className = "choice";
-
-            elemento.innerHTML = `
-                <div class="flex items-start gap-3">
-                    <div class="scenario-number">
-                        ${String.fromCharCode(65 + index)}
-                    </div>
-
-                    <div class="font-semibold text-zinc-200 pt-1">
-                        ${opcion}
-                    </div>
-                </div>
-            `;
-
-            elemento.onclick = () =>
-                responderReto(index, elemento);
-
-            contenedor.appendChild(elemento);
-
-        });
-
-    }
-
-
-    function responderReto(indice, elemento) {
-
-        if (respondida) return;
-
-        respondida = true;
-
-        const pregunta =
-            preguntasReto[preguntaActual];
-
-
-        document.querySelectorAll("#opcionesReto .choice")
-            .forEach(opcion => {
-
-                opcion.style.pointerEvents = "none";
-
-            });
-
-
-        const feedback =
-            document.getElementById("feedbackReto");
-
-        feedback.classList.add("show");
-
-
-        if (indice === pregunta.correcta) {
-
-            puntosReto++;
-
-            elemento.classList.add("selected");
-
-            feedback.className =
-                "feedback show bg-emerald-400/10 border border-emerald-400/20 text-emerald-300";
-
-            feedback.innerHTML = `
-                <div class="font-bold mb-1">
-                    <i class="fa-solid fa-circle-check mr-2"></i>
-                    ¡Correcto!
-                </div>
-
-                <div class="text-sm">
-                    ${pregunta.explicacion}
-                </div>
-            `;
-
-        } else {
-
-            feedback.className =
-                "feedback show bg-amber-400/10 border border-amber-400/20 text-amber-300";
-
-            feedback.innerHTML = `
-                <div class="font-bold mb-1">
-                    <i class="fa-solid fa-lightbulb mr-2"></i>
-                    Buena oportunidad para aprender
-                </div>
-
-                <div class="text-sm">
-                    ${pregunta.explicacion}
-                </div>
-            `;
-
-        }
-
-
-        document.getElementById("puntosReto")
-            .textContent = puntosReto;
-
-
-        const boton =
-            document.getElementById("btnSiguiente");
-
-        boton.classList.remove("hidden");
-
-        if (preguntaActual === preguntasReto.length - 1) {
-
-            boton.innerHTML = `
-                VER RESULTADO
-                <i class="fa-solid fa-trophy ml-2"></i>
-            `;
-
-        }
-
-    }
-
-
-    function siguientePregunta() {
-
-        if (!respondida) return;
-
-        preguntaActual++;
-
-        if (preguntaActual >= preguntasReto.length) {
-
-            finalizarReto();
-
-            return;
-
-        }
-
-        document.getElementById("feedbackReto")
-            .className = "feedback";
-
-        document.getElementById("btnSiguiente")
-            .classList.add("hidden");
-
-        cargarPregunta();
-
-    }
-
-
-    function finalizarReto() {
-
-        document.getElementById("preguntaReto")
-            .parentElement.classList.add("hidden");
-
-        document.getElementById("opcionesReto")
-            .classList.add("hidden");
-
-        document.getElementById("feedbackReto")
-            .classList.remove("show");
-
-        document.getElementById("btnSiguiente")
-            .classList.add("hidden");
-
-
-        document.getElementById("resultadoReto")
-            .classList.remove("hidden");
-
-
-        document.getElementById("resultadoPuntos")
-            .textContent =
-            `${puntosReto}/${preguntasReto.length}`;
-
-
-        let mensaje = "";
-
-        if (puntosReto === 5) {
-
-            mensaje =
-                "¡Excelente! Demostraste muy buenas habilidades para analizar situaciones financieras.";
-
-        } else if (puntosReto >= 3) {
-
-            mensaje =
-                "¡Buen trabajo! Ya tienes buenas bases. Sigue practicando para mejorar tus decisiones.";
-
-        } else {
-
-            mensaje =
-                "Cada decisión es una oportunidad para aprender. Revisa las explicaciones e inténtalo nuevamente.";
-
-        }
-
-
-        document.getElementById("mensajeFinalReto")
-            .textContent = mensaje;
-
-
-        localStorage.setItem(
-            "finea_reto_planificacion",
-            puntosReto
-        );
-
-
-        actualizarEstadisticas();
-
-    }
-
-
-    function reiniciarReto() {
+    if (id === "modalReto") {
 
         iniciarReto();
 
     }
 
 
-    /* =====================================================
-       ESTADÍSTICAS
-    ===================================================== */
+    if (id === "modalGastos") {
 
-    function actualizarEstadisticas() {
+        fechaCalendario = new Date();
 
-        document.getElementById("statFondo")
-            .textContent = dinero(fondoCalculado);
+        renderizarCalendario();
+
+        mostrarAlertaProximoGasto();
+
+    }
+
+}
 
 
-        document.getElementById("statDecisiones")
-            .textContent = decisionesAnalizadas;
+
+function cerrarModal(id) {
+
+    const modal =
+        document.getElementById(id);
+
+    if (!modal) return;
+
+    modal.classList.remove("active");
+
+    document.body.classList.remove("modal-open");
+
+}
 
 
-        const retoGuardado =
-            Number(localStorage.getItem("finea_reto_planificacion")) || 0;
+
+function cerrarAlFondo(event, id) {
+
+    if (event.target.id === id) {
+
+        cerrarModal(id);
+
+    }
+
+}
+
+
+
+/* ESC */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Escape") {
+
+            document
+                .querySelectorAll(".modal-bg.active")
+                .forEach(modal => {
+
+                    modal.classList.remove("active");
+
+                });
+
+            document.body.classList.remove("modal-open");
+
+        }
+
+    }
+);
+
+
+
+/* =====================================================
+   CALENDARIO
+===================================================== */
+
+function fechaLocalISO(fecha) {
+
+    const año = fecha.getFullYear();
+
+    const mes =
+        String(
+            fecha.getMonth() + 1
+        ).padStart(2, "0");
+
+    const dia =
+        String(
+            fecha.getDate()
+        ).padStart(2, "0");
+
+    return `${año}-${mes}-${dia}`;
+
+}
+
+
+
+function crearFechaLocal(iso) {
+
+    const partes = iso.split("-");
+
+    return new Date(
+        Number(partes[0]),
+        Number(partes[1]) - 1,
+        Number(partes[2])
+    );
+
+}
+
+
+
+function diasEntre(fechaInicio, fechaFin) {
+
+    const inicio =
+        new Date(
+            fechaInicio.getFullYear(),
+            fechaInicio.getMonth(),
+            fechaInicio.getDate()
+        );
+
+    const fin =
+        new Date(
+            fechaFin.getFullYear(),
+            fechaFin.getMonth(),
+            fechaFin.getDate()
+        );
+
+    const diferencia =
+        fin.getTime() -
+        inicio.getTime();
+
+    return Math.round(
+        diferencia /
+        (1000 * 60 * 60 * 24)
+    );
+
+}
+
+
+
+function cambiarMes(cantidad) {
+
+    fechaCalendario.setMonth(
+        fechaCalendario.getMonth() + cantidad
+    );
+
+    renderizarCalendario();
+
+}
+
+
+
+function renderizarCalendario() {
+
+    const contenedor =
+        document.getElementById(
+            "diasCalendario"
+        );
+
+    const titulo =
+        document.getElementById(
+            "nombreMesCalendario"
+        );
+
+    if (!contenedor || !titulo) return;
+
+
+    const año =
+        fechaCalendario.getFullYear();
+
+    const mes =
+        fechaCalendario.getMonth();
+
+
+    const nombreMes =
+        fechaCalendario.toLocaleDateString(
+            "es-EC",
+            {
+                month: "long",
+                year: "numeric"
+            }
+        );
+
+
+    titulo.textContent =
+        nombreMes.charAt(0).toUpperCase() +
+        nombreMes.slice(1);
+
+
+    contenedor.innerHTML = "";
+
+
+    const primerDia =
+        new Date(
+            año,
+            mes,
+            1
+        );
+
+
+    let diaSemana =
+        primerDia.getDay();
+
+
+    /*
+       JavaScript comienza la semana
+       en domingo. Lo convertimos
+       para que el calendario comience
+       en lunes.
+    */
+
+    diaSemana =
+        diaSemana === 0
+            ? 6
+            : diaSemana - 1;
+
+
+    const diasMes =
+        new Date(
+            año,
+            mes + 1,
+            0
+        ).getDate();
+
+
+    const diasMesAnterior =
+        new Date(
+            año,
+            mes,
+            0
+        ).getDate();
+
+
+    const totalCeldas =
+        Math.ceil(
+            (diaSemana + diasMes) / 7
+        ) * 7;
+
+
+    const hoy =
+        new Date();
+
+
+    for (
+        let i = 0;
+        i < totalCeldas;
+        i++
+    ) {
+
+        let numeroDia;
+        let fechaCelda;
+        let esOtroMes = false;
+
+
+        if (i < diaSemana) {
+
+            numeroDia =
+                diasMesAnterior -
+                diaSemana +
+                i +
+                1;
+
+            fechaCelda =
+                new Date(
+                    año,
+                    mes - 1,
+                    numeroDia
+                );
+
+            esOtroMes = true;
+
+        }
+
+        else if (
+            i >=
+            diaSemana + diasMes
+        ) {
+
+            numeroDia =
+                i -
+                (diaSemana + diasMes) +
+                1;
+
+            fechaCelda =
+                new Date(
+                    año,
+                    mes + 1,
+                    numeroDia
+                );
+
+            esOtroMes = true;
+
+        }
+
+        else {
+
+            numeroDia =
+                i -
+                diaSemana +
+                1;
+
+            fechaCelda =
+                new Date(
+                    año,
+                    mes,
+                    numeroDia
+                );
+
+        }
+
+
+        const iso =
+            fechaLocalISO(
+                fechaCelda
+            );
+
+
+        const tieneGasto =
+            gastosPlanificados.some(
+                gasto =>
+                    gasto.fecha === iso
+            );
+
+
+        const esHoy =
+            fechaCelda.getFullYear() ===
+                hoy.getFullYear() &&
+            fechaCelda.getMonth() ===
+                hoy.getMonth() &&
+            fechaCelda.getDate() ===
+                hoy.getDate();
+
+
+        const boton =
+            document.createElement("button");
+
+
+        boton.type = "button";
+
+        boton.className =
+            "calendar-day" +
+            (esOtroMes
+                ? " other-month"
+                : "") +
+            (esHoy
+                ? " today"
+                : "") +
+            (tieneGasto
+                ? " has-expense"
+                : "");
+
+
+        boton.innerHTML = `
+
+            <span class="calendar-day-number">
+                ${numeroDia}
+            </span>
+
+            ${
+                tieneGasto
+                    ? `<span class="calendar-dot"></span>`
+                    : ""
+            }
+
+        `;
+
+
+        boton.addEventListener(
+            "click",
+            function() {
+
+                seleccionarFechaGasto(
+                    iso
+                );
+
+            }
+        );
+
+
+        contenedor.appendChild(
+            boton
+        );
+
+    }
+
+}
+
+
+
+function seleccionarFechaGasto(iso) {
+
+    fechaSeleccionadaGasto = iso;
+
+
+    const fecha =
+        crearFechaLocal(iso);
+
+
+    const fechaTexto =
+        fecha.toLocaleDateString(
+            "es-EC",
+            {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            }
+        );
+
+
+    const gastoExistente =
+        gastosPlanificados.find(
+            gasto =>
+                gasto.fecha === iso
+        );
+
+
+    if (gastoExistente) {
+
+        mostrarDetalleGasto(
+            gastoExistente
+        );
+
+        return;
+
+    }
+
+
+    document
+        .getElementById(
+            "formularioGasto"
+        )
+        .classList.remove("hidden");
+
+
+    document
+        .getElementById(
+            "detalleGasto"
+        )
+        .classList.add("hidden");
+
+
+    document
+        .getElementById(
+            "fechaSeleccionadaTexto"
+        )
+        .textContent =
+        "Fecha seleccionada: " +
+        fechaTexto;
+
+
+    document
+        .getElementById(
+            "nombreGasto"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "montoGasto"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "reservadoGasto"
+        )
+        .value = "";
+
+}
+
+
+
+function guardarGasto() {
+
+    const nombre =
+        document
+            .getElementById(
+                "nombreGasto"
+            )
+            .value
+            .trim();
+
+
+    const monto =
+        Number(
+            document
+                .getElementById(
+                    "montoGasto"
+                )
+                .value
+        );
+
+
+    const reservadoTexto =
+        document
+            .getElementById(
+                "reservadoGasto"
+            )
+            .value
+            .trim();
+
+
+    const reservado =
+        reservadoTexto === ""
+            ? null
+            : Number(
+                reservadoTexto
+              );
+
+
+    if (!fechaSeleccionadaGasto) {
+
+        alert(
+            "Selecciona una fecha en el calendario."
+        );
+
+        return;
+
+    }
+
+
+    if (!nombre) {
+
+        alert(
+            "Escribe qué debes pagar."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !Number.isFinite(monto) ||
+        monto <= 0
+    ) {
+
+        alert(
+            "Ingresa un monto válido."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        reservado !== null &&
+        (
+            !Number.isFinite(reservado) ||
+            reservado < 0
+        )
+    ) {
+
+        alert(
+            "Ingresa una cantidad reservada válida."
+        );
+
+        return;
+
+    }
+
+
+    const nuevoGasto = {
+
+        id:
+            Date.now(),
+
+        nombre:
+            nombre,
+
+        monto:
+            monto,
+
+        fecha:
+            fechaSeleccionadaGasto,
+
+        reservado:
+            reservado
+
+    };
+
+
+    gastosPlanificados.push(
+        nuevoGasto
+    );
+
+
+    localStorage.setItem(
+        "finea_gastos_planificados",
+        JSON.stringify(
+            gastosPlanificados
+        )
+    );
+
+
+    document
+        .getElementById(
+            "formularioGasto"
+        )
+        .classList.add("hidden");
+
+
+    mostrarDetalleGasto(
+        nuevoGasto
+    );
+
+
+    renderizarCalendario();
+
+    mostrarAlertaProximoGasto();
+
+}
+
+
+
+function mostrarDetalleGasto(gasto) {
+
+    document
+        .getElementById(
+            "formularioGasto"
+        )
+        .classList.add("hidden");
+
+
+    const detalle =
+        document.getElementById(
+            "detalleGasto"
+        );
+
+
+    detalle.classList.remove(
+        "hidden"
+    );
+
+
+    const fecha =
+        crearFechaLocal(
+            gasto.fecha
+        );
+
+
+    const hoy =
+        new Date();
+
+
+    const dias =
+        diasEntre(
+            hoy,
+            fecha
+        );
+
+
+    let estadoDias = "";
+
+
+    if (dias > 1) {
+
+        estadoDias =
+            `Quedan ${dias} días para el pago.`;
+
+    }
+
+    else if (dias === 1) {
+
+        estadoDias =
+            "Mañana es la fecha de pago.";
+
+    }
+
+    else if (dias === 0) {
+
+        estadoDias =
+            "Hoy es la fecha de pago.";
+
+    }
+
+    else {
+
+        estadoDias =
+            "La fecha de pago ya pasó.";
+
+    }
+
+
+    let contenidoReservado = "";
+
+
+    if (
+        gasto.reservado !== null &&
+        gasto.reservado !== undefined
+    ) {
+
+        const faltante =
+            Math.max(
+                gasto.monto -
+                gasto.reservado,
+                0
+            );
+
 
         const porcentaje =
-            Math.round((retoGuardado / 5) * 100);
+            Math.min(
+                (
+                    gasto.reservado /
+                    gasto.monto
+                ) * 100,
+                100
+            );
 
-        document.getElementById("statReto")
-            .textContent = porcentaje + "%";
+
+        if (faltante <= 0) {
+
+            contenidoReservado = `
+
+                <div class="result-box p-4 mt-4">
+
+                    <div
+                        class="font-bold
+                               text-amber-300">
+
+                        <i class="fa-solid
+                                  fa-circle-check
+                                  mr-2"></i>
+
+                        ¡Pago preparado!
+
+                    </div>
+
+                    <p
+                        class="text-sm
+                               text-zinc-400
+                               mt-1">
+
+                        Ya tienes reservado el dinero
+                        necesario para este pago.
+
+                    </p>
+
+                    <div
+                        class="text-sm
+                               text-zinc-300
+                               mt-3">
+
+                        Reservado:
+                        <strong>
+                            ${dinero(gasto.reservado)}
+                        </strong>
+                        de
+                        <strong>
+                            ${dinero(gasto.monto)}
+                        </strong>
+
+                    </div>
+
+                    <div class="expense-progress">
+
+                        <div
+                            class="expense-progress-bar"
+                            style="width:100%;">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+
+        else {
+
+            contenidoReservado = `
+
+                <div class="info-box p-4 mt-4">
+
+                    <div class="text-sm text-zinc-400">
+
+                        Tienes reservado:
+
+                        <strong class="text-zinc-200">
+                            ${dinero(gasto.reservado)}
+                        </strong>
+
+                    </div>
+
+                    <div
+                        class="text-lg
+                               font-black
+                               text-amber-400
+                               mt-1">
+
+                        Te faltan
+                        ${dinero(faltante)}
+
+                    </div>
+
+                    <div class="expense-progress">
+
+                        <div
+                            class="expense-progress-bar"
+                            style="width:${porcentaje}%">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
 
     }
 
 
-    /* =====================================================
-       FORMATO DE DINERO
-    ===================================================== */
+    detalle.innerHTML = `
 
-    function dinero(valor) {
+        <div
+            class="text-xs
+                   uppercase
+                   tracking-widest
+                   text-amber-400
+                   font-bold">
 
-        return new Intl.NumberFormat("es-EC", {
-            style: "currency",
-            currency: "USD",
-            minimumFractionDigits: 2
-        }).format(valor);
+            Gasto planificado
+
+        </div>
+
+
+        <div
+            class="flex
+                   justify-between
+                   items-start
+                   gap-3
+                   mt-2">
+
+            <div>
+
+                <div
+                    class="text-lg
+                           font-black">
+
+                    ${escapeHTML(gasto.nombre)}
+
+                </div>
+
+                <div
+                    class="text-sm
+                           text-zinc-500
+                           mt-1">
+
+                    ${fecha.toLocaleDateString(
+                        "es-EC",
+                        {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric"
+                        }
+                    )}
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="text-xl
+                       font-black
+                       text-amber-400">
+
+                ${dinero(gasto.monto)}
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="text-sm
+                   text-zinc-400
+                   mt-4">
+
+            <i class="fa-solid
+                      fa-clock
+                      text-amber-400
+                      mr-2"></i>
+
+            ${estadoDias}
+
+        </div>
+
+
+        ${contenidoReservado}
+
+    `;
+
+}
+
+
+
+function mostrarAlertaProximoGasto() {
+
+    const alerta =
+        document.getElementById(
+            "alertaGasto"
+        );
+
+
+    if (!alerta) return;
+
+
+    const hoy =
+        new Date();
+
+
+    const futuros =
+        gastosPlanificados
+            .map(gasto => {
+
+                return {
+
+                    gasto:
+                        gasto,
+
+                    dias:
+                        diasEntre(
+                            hoy,
+                            crearFechaLocal(
+                                gasto.fecha
+                            )
+                        )
+
+                };
+
+            })
+            .filter(item =>
+                item.dias >= 0
+            )
+            .sort(
+                (a, b) =>
+                    a.dias -
+                    b.dias
+            );
+
+
+    if (!futuros.length) {
+
+        alerta.classList.add(
+            "hidden"
+        );
+
+        return;
 
     }
 
 
-    /* =====================================================
-       BOTÓN VOLVER
-    ===================================================== */
+    const proximo =
+        futuros[0];
 
-    function volverInicio() {
 
-        /*
-         * Si tu página principal tiene otro nombre,
-         * cambia "index.html" por el nombre correspondiente.
-         */
+    const gasto =
+        proximo.gasto;
 
-        window.location.href = "index.html";
+
+    let mensajeDias;
+
+
+    if (proximo.dias === 0) {
+
+        mensajeDias =
+            "hoy";
+
+    }
+
+    else if (proximo.dias === 1) {
+
+        mensajeDias =
+            "mañana";
+
+    }
+
+    else {
+
+        mensajeDias =
+            `en ${proximo.dias} días`;
 
     }
 
 
-    /* =====================================================
-       INICIO
-    ===================================================== */
+    let detalleReservado = "";
 
-    cargarUsuario();
+
+    if (
+        gasto.reservado !== null &&
+        gasto.reservado !== undefined &&
+        gasto.reservado < gasto.monto
+    ) {
+
+        const falta =
+            gasto.monto -
+            gasto.reservado;
+
+
+        detalleReservado = `
+
+            <div class="text-xs text-zinc-400 mt-2">
+
+                Tienes ${dinero(gasto.reservado)}
+                reservado y te faltan
+                <strong class="text-amber-300">
+                    ${dinero(falta)}
+                </strong>.
+
+            </div>
+
+        `;
+
+    }
+
+
+    alerta.innerHTML = `
+
+        <div
+            class="font-bold
+                   text-amber-300">
+
+            <i class="fa-solid
+                      fa-bell
+                      mr-2"></i>
+
+            Próximo pago
+
+        </div>
+
+
+        <p
+            class="text-sm
+                   text-zinc-300
+                   mt-1">
+
+            ${escapeHTML(gasto.nombre)}
+            · ${dinero(gasto.monto)}
+
+        </p>
+
+
+        <p
+            class="text-sm
+                   text-zinc-400
+                   mt-1">
+
+            Tu pago es ${mensajeDias}.
+            ${
+                proximo.dias > 0
+                    ? "¿Ya tienes preparado el dinero?"
+                    : "Revisa que tengas listo el dinero."
+            }
+
+        </p>
+
+        ${detalleReservado}
+
+    `;
+
+
+    alerta.classList.remove(
+        "hidden"
+    );
+
+}
+
+
+
+function escapeHTML(texto) {
+
+    return String(texto)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+
+/* =====================================================
+   EMPRENDIMIENTO
+===================================================== */
+
+function iniciarEmprendimiento() {
+
+    pasoActual = 1;
+
+    datosEmprendimiento = {
+
+        nombre: "",
+        categoria: "",
+        descripcion: "",
+
+        publico: "",
+        necesidad: "",
+
+        inversion: 0,
+
+        costoUnidad: 0,
+        precioVenta: 0,
+
+        unidades: 0,
+
+        ingresos: 0,
+        costos: 0,
+        ganancia: 0,
+
+        puntoEquilibrio: 0,
+
+        usoGanancia: ""
+
+    };
+
+
+    document
+        .getElementById("resultadoEmprendimiento")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("botonesPasos")
+        .classList.remove("hidden");
+
+
+    mostrarPaso();
+
+}
+
+
+
+/* MOSTRAR PASO */
+
+function mostrarPaso() {
+
+    document
+        .querySelectorAll(".paso-emprendimiento")
+        .forEach(paso => {
+
+            paso.classList.add("hidden");
+
+        });
+
+
+    const paso =
+        document.getElementById(
+            "paso" + pasoActual
+        );
+
+    if (paso) {
+
+        paso.classList.remove("hidden");
+
+    }
+
+
+    document.getElementById("textoPaso")
+        .textContent =
+        `Paso ${pasoActual} de 7`;
+
+
+    const progreso =
+        (pasoActual / 7) * 100;
+
+    document.getElementById(
+        "barraEmprendimiento"
+    ).style.width = progreso + "%";
+
+
+    const anterior =
+        document.getElementById("btnAnterior");
+
+
+    if (pasoActual === 1) {
+
+        anterior.classList.add("hidden");
+
+    } else {
+
+        anterior.classList.remove("hidden");
+
+    }
+
+
+    const siguiente =
+        document.getElementById(
+            "btnSiguienteEmprendimiento"
+        );
+
+
+    if (pasoActual === 7) {
+
+        siguiente.innerHTML = `
+            FINALIZAR EMPRENDIMIENTO
+            <i class="fa-solid fa-check ml-2"></i>
+        `;
+
+    } else {
+
+        siguiente.innerHTML = `
+            CONTINUAR
+            <i class="fa-solid fa-arrow-right ml-2"></i>
+        `;
+
+    }
+
+}
+
+
+
+/* SIGUIENTE */
+
+function siguientePaso() {
+
+    if (!validarPaso()) return;
+
+
+    guardarDatosPaso();
+
+
+    if (pasoActual === 7) {
+
+        mostrarResultadoEmprendimiento();
+
+        return;
+
+    }
+
+
+    pasoActual++;
+
+    mostrarPaso();
+
+}
+
+
+
+/* ANTERIOR */
+
+function pasoAnterior() {
+
+    if (pasoActual <= 1) return;
+
+    pasoActual--;
+
+    mostrarPaso();
+
+}
+
+
+
+/* VALIDAR */
+
+function validarPaso() {
+
+    if (pasoActual === 1) {
+
+        const nombre =
+            document.getElementById(
+                "nombreEmprendimiento"
+            ).value.trim();
+
+        const categoria =
+            document.getElementById(
+                "categoriaEmprendimiento"
+            ).value;
+
+        if (!nombre || !categoria) {
+
+            alert(
+                "Completa el nombre y la categoría de tu emprendimiento."
+            );
+
+            return false;
+
+        }
+
+    }
+
+
+    if (pasoActual === 2) {
+
+        const publico =
+            document.getElementById(
+                "publicoEmprendimiento"
+            ).value;
+
+        if (!publico) {
+
+            alert(
+                "Selecciona a quién estaría dirigido tu emprendimiento."
+            );
+
+            return false;
+
+        }
+
+    }
+
+
+    if (pasoActual === 3) {
+
+        const total =
+            calcularInversion();
+
+        if (total <= 0) {
+
+            alert(
+                "Ingresa al menos un valor para tu inversión inicial."
+            );
+
+            return false;
+
+        }
+
+    }
+
+
+    if (pasoActual === 4) {
+
+        calcularCostosProducto();
+
+        if (
+            datosEmprendimiento.costoUnidad <= 0 ||
+            datosEmprendimiento.precioVenta <= 0
+        ) {
+
+            alert(
+                "Ingresa el costo del producto y su precio de venta."
+            );
+
+            return false;
+
+        }
+
+
+        if (
+            datosEmprendimiento.precioVenta <=
+            datosEmprendimiento.costoUnidad
+        ) {
+
+            alert(
+                "El precio de venta debe ser mayor que el costo por unidad para obtener una ganancia."
+            );
+
+            return false;
+
+        }
+
+    }
+
+
+    if (pasoActual === 5) {
+
+        calcularVentas();
+
+        if (datosEmprendimiento.unidades <= 0) {
+
+            alert(
+                "Ingresa una cantidad de ventas estimadas."
+            );
+
+            return false;
+
+        }
+
+    }
+
+
+    if (pasoActual === 6) {
+
+        calcularPuntoEquilibrio();
+
+    }
+
+
+    if (pasoActual === 7) {
+
+        if (!datosEmprendimiento.usoGanancia) {
+
+            alert(
+                "Selecciona qué harías con las ganancias."
+            );
+
+            return false;
+
+        }
+
+    }
+
+
+    return true;
+
+}
+
+
+
+/* GUARDAR DATOS */
+
+function guardarDatosPaso() {
+
+
+    if (pasoActual === 1) {
+
+        datosEmprendimiento.nombre =
+            document.getElementById(
+                "nombreEmprendimiento"
+            ).value.trim();
+
+        datosEmprendimiento.categoria =
+            document.getElementById(
+                "categoriaEmprendimiento"
+            ).value;
+
+        datosEmprendimiento.descripcion =
+            document.getElementById(
+                "descripcionEmprendimiento"
+            ).value.trim();
+
+    }
+
+
+    if (pasoActual === 2) {
+
+        datosEmprendimiento.publico =
+            document.getElementById(
+                "publicoEmprendimiento"
+            ).value;
+
+        datosEmprendimiento.necesidad =
+            document.getElementById(
+                "necesidadEmprendimiento"
+            ).value.trim();
+
+    }
+
+
+    if (pasoActual === 3) {
+
+        datosEmprendimiento.inversion =
+            calcularInversion();
+
+    }
+
+
+    if (pasoActual === 4) {
+
+        calcularCostosProducto();
+
+    }
+
+
+    if (pasoActual === 5) {
+
+        calcularVentas();
+
+    }
+
+
+    if (pasoActual === 6) {
+
+        calcularPuntoEquilibrio();
+
+    }
+
+}
+
+
+
+/* INVERSIÓN */
+
+function calcularInversion() {
+
+    const valores = [
+
+        "inversionMateriales",
+        "inversionHerramientas",
+        "inversionPublicidad",
+        "inversionTransporte",
+        "inversionOtros"
+
+    ];
+
+
+    let total = 0;
+
+
+    valores.forEach(id => {
+
+        total +=
+            Number(
+                document.getElementById(id).value
+            ) || 0;
+
+    });
+
+
+    document.getElementById(
+        "totalInversion"
+    ).textContent =
+        dinero(total);
+
+
+    datosEmprendimiento.inversion =
+        total;
+
+
+    return total;
+
+}
+
+
+
+/* COSTOS */
+
+function calcularCostosProducto() {
+
+    const materiales =
+        Number(
+            document.getElementById(
+                "costoMateriales"
+            ).value
+        ) || 0;
+
+
+    const empaque =
+        Number(
+            document.getElementById(
+                "costoEmpaque"
+            ).value
+        ) || 0;
+
+
+    const otros =
+        Number(
+            document.getElementById(
+                "costoOtros"
+            ).value
+        ) || 0;
+
+
+    const costo =
+        materiales +
+        empaque +
+        otros;
+
+
+    const precio =
+        Number(
+            document.getElementById(
+                "precioVenta"
+            ).value
+        ) || 0;
+
+
+    const ganancia =
+        precio - costo;
+
+
+    datosEmprendimiento.costoUnidad =
+        costo;
+
+    datosEmprendimiento.precioVenta =
+        precio;
+
+
+    datosEmprendimiento.gananciaUnidad =
+        ganancia;
+
+
+    document.getElementById(
+        "costoUnidad"
+    ).textContent =
+        dinero(costo);
+
+
+    document.getElementById(
+        "gananciaUnidad"
+    ).textContent =
+        dinero(
+            Math.max(ganancia, 0)
+        );
+
+
+    return costo;
+
+}
+
+
+
+/* VENTAS */
+
+function calcularVentas() {
+
+    calcularCostosProducto();
+
+
+    const unidades =
+        Number(
+            document.getElementById(
+                "unidadesVenta"
+            ).value
+        ) || 0;
+
+
+    const precio =
+        datosEmprendimiento.precioVenta;
+
+
+    const costo =
+        datosEmprendimiento.costoUnidad;
+
+
+    const ingresos =
+        precio * unidades;
+
+
+    const costos =
+        costo * unidades;
+
+
+    const ganancia =
+        ingresos - costos;
+
+
+    datosEmprendimiento.unidades =
+        unidades;
+
+    datosEmprendimiento.ingresos =
+        ingresos;
+
+    datosEmprendimiento.costos =
+        costos;
+
+    datosEmprendimiento.ganancia =
+        ganancia;
+
+
+    document.getElementById(
+        "resultadoIngresos"
+    ).textContent =
+        dinero(ingresos);
+
+
+    document.getElementById(
+        "resultadoCostos"
+    ).textContent =
+        dinero(costos);
+
+
+    document.getElementById(
+        "resultadoGanancia"
+    ).textContent =
+        dinero(ganancia);
+
+}
+
+
+
+/* PUNTO DE EQUILIBRIO */
+
+function calcularPuntoEquilibrio() {
+
+    const inversion =
+        datosEmprendimiento.inversion;
+
+
+    const gananciaUnidad =
+        datosEmprendimiento.precioVenta -
+        datosEmprendimiento.costoUnidad;
+
+
+    if (
+        inversion <= 0 ||
+        gananciaUnidad <= 0
+    ) {
+
+        document.getElementById(
+            "puntoEquilibrio"
+        ).textContent =
+            "No disponible";
+
+        return;
+
+    }
+
+
+    const punto =
+        Math.ceil(
+            inversion /
+            gananciaUnidad
+        );
+
+
+    datosEmprendimiento.puntoEquilibrio =
+        punto;
+
+
+    document.getElementById(
+        "puntoEquilibrio"
+    ).textContent =
+        punto + " unidades";
+
+
+    document.getElementById(
+        "mensajeRecuperacion"
+    ).textContent =
+        `Necesitarías vender aproximadamente ${punto} unidades para recuperar tu inversión inicial de ${dinero(inversion)}.`;
+
+}
+
+
+
+/* USO DE GANANCIA */
+
+function seleccionarUsoGanancia(
+    elemento,
+    opcion
+) {
+
+
+    document
+        .querySelectorAll(
+            "#paso7 .choice"
+        )
+        .forEach(item => {
+
+            item.classList.remove(
+                "selected"
+            );
+
+        });
+
+
+    elemento.classList.add("selected");
+
+
+    datosEmprendimiento.usoGanancia =
+        opcion;
+
+
+    const feedback =
+        document.getElementById(
+            "feedbackGanancia"
+        );
+
+
+    feedback.classList.remove("hidden");
+
+
+    if (opcion === "reinvertir") {
+
+        feedback.innerHTML = `
+            <div class="font-bold text-emerald-300 mb-1">
+                <i class="fa-solid fa-circle-check mr-2"></i>
+                Buena estrategia
+            </div>
+
+            <p class="text-sm text-zinc-400">
+                Reinvertir una parte puede ayudarte a mejorar
+                o hacer crecer tu emprendimiento.
+            </p>
+        `;
+
+    }
+
+
+    if (opcion === "guardar") {
+
+        feedback.innerHTML = `
+            <div class="font-bold text-amber-300 mb-1">
+                <i class="fa-solid fa-lightbulb mr-2"></i>
+                Una decisión equilibrada
+            </div>
+
+            <p class="text-sm text-zinc-400">
+                Separar una parte de la ganancia puede darte
+                mayor respaldo para futuras necesidades.
+            </p>
+        `;
+
+    }
+
+
+    if (opcion === "todo") {
+
+        feedback.innerHTML = `
+            <div class="font-bold text-amber-300 mb-1">
+                <i class="fa-solid fa-lightbulb mr-2"></i>
+                Piénsalo un poco más
+            </div>
+
+            <p class="text-sm text-zinc-400">
+                Gastar toda la ganancia puede dejar a tu
+                emprendimiento sin recursos para continuar.
+            </p>
+        `;
+
+    }
+
+}
+
+
+
+/* RESULTADO */
+
+function mostrarResultadoEmprendimiento() {
+
+    guardarDatosPaso();
+
+    calcularPuntoEquilibrio();
+
+
+    document
+        .querySelectorAll(
+            ".paso-emprendimiento"
+        )
+        .forEach(paso => {
+
+            paso.classList.add("hidden");
+
+        });
+
+
+    document
+        .getElementById(
+            "botonesPasos"
+        )
+        .classList.add("hidden");
+
+
+    document
+        .getElementById(
+            "resultadoEmprendimiento"
+        )
+        .classList.remove("hidden");
+
+
+    document.getElementById(
+        "resumenNombre"
+    ).textContent =
+        datosEmprendimiento.nombre ||
+        "Mi emprendimiento";
+
+
+    document.getElementById(
+        "resumenCategoria"
+    ).textContent =
+        datosEmprendimiento.categoria ||
+        "-";
+
+
+    document.getElementById(
+        "resumenInversion"
+    ).textContent =
+        dinero(
+            datosEmprendimiento.inversion
+        );
+
+
+    document.getElementById(
+        "resumenPrecio"
+    ).textContent =
+        dinero(
+            datosEmprendimiento.precioVenta
+        );
+
+
+    document.getElementById(
+        "resumenVentas"
+    ).textContent =
+        datosEmprendimiento.unidades;
+
+
+    document.getElementById(
+        "resumenIngresos"
+    ).textContent =
+        dinero(
+            datosEmprendimiento.ingresos
+        );
+
+
+    document.getElementById(
+        "resumenGanancia"
+    ).textContent =
+        dinero(
+            datosEmprendimiento.ganancia
+        );
+
+
+    document.getElementById(
+        "resumenRecuperacion"
+    ).textContent =
+        datosEmprendimiento.puntoEquilibrio > 0
+            ? datosEmprendimiento.puntoEquilibrio +
+              " unidades"
+            : "No disponible";
+
+
+    document.getElementById(
+        "textoPaso"
+    ).textContent =
+        "¡Listo!";
+
+
+    document.getElementById(
+        "barraEmprendimiento"
+    ).style.width = "100%";
+
+}
+
+
+
+/* GUARDAR */
+
+function guardarEmprendimiento() {
+
+    localStorage.setItem(
+        "finea_emprendimiento",
+        JSON.stringify(
+            datosEmprendimiento
+        )
+    );
+
+
     actualizarEstadisticas();
+
+
+    alert(
+        "Tu emprendimiento se ha guardado correctamente en FINÉA."
+    );
+
+}
+
+
+
+/* =====================================================
+   RETO
+===================================================== */
+
+const preguntasReto = [
+
+    {
+
+        pregunta:
+            "Tu proveedor aumenta el precio de los materiales. ¿Qué harías primero?",
+
+        opciones: [
+
+            "Subir el precio inmediatamente.",
+
+            "Revisar mis costos y buscar alternativas.",
+
+            "Ignorar el aumento."
+
+        ],
+
+        correcta: 1,
+
+        explicacion:
+            "Revisar los costos antes de decidir permite conocer el impacto real del aumento y buscar una alternativa."
+
+    },
+
+
+    {
+
+        pregunta:
+            "Durante un mes vendiste menos de lo esperado. ¿Cuál sería una buena decisión?",
+
+        opciones: [
+
+            "Abandonar inmediatamente.",
+
+            "Analizar qué ocurrió y ajustar mi estrategia.",
+
+            "Gastar más dinero sin analizar el problema."
+
+        ],
+
+        correcta: 1,
+
+        explicacion:
+            "Analizar las causas permite identificar qué puedes mejorar antes de tomar una decisión más drástica."
+
+    },
+
+
+    {
+
+        pregunta:
+            "Tu emprendimiento comienza a generar ganancias. ¿Qué opción puede ayudarte a mantenerlo?",
+
+        opciones: [
+
+            "Gastar toda la ganancia.",
+
+            "Separar una parte para reinvertir o prepararme para futuras necesidades.",
+
+            "No revisar nunca cuánto estoy ganando."
+
+        ],
+
+        correcta: 1,
+
+        explicacion:
+            "Separar parte de las ganancias permite mantener recursos para el funcionamiento y crecimiento del emprendimiento."
+
+    },
+
+
+    {
+
+        pregunta:
+            "Una persona te ofrece comprar muchas unidades, pero con un precio menor. ¿Qué deberías analizar?",
+
+        opciones: [
+
+            "Aceptar sin calcular.",
+
+            "Comparar el precio ofrecido con mis costos y la ganancia resultante.",
+
+            "Rechazar siempre cualquier descuento."
+
+        ],
+
+        correcta: 1,
+
+        explicacion:
+            "Antes de aceptar una venta grande debes comprobar que el precio siga siendo conveniente frente a tus costos."
+
+    },
+
+
+    {
+
+        pregunta:
+            "¿Por qué es útil crear diferentes escenarios para tu emprendimiento?",
+
+        opciones: [
+
+            "Porque permite saber exactamente qué ocurrirá.",
+
+            "Porque ayuda a prepararte para diferentes resultados posibles.",
+
+            "Porque garantiza que siempre tendrás ganancias."
+
+        ],
+
+        correcta: 1,
+
+        explicacion:
+            "Los escenarios no predicen el futuro, pero ayudan a prepararte para diferentes posibilidades."
+
+    }
+
+];
+
+
+
+function iniciarReto() {
+
+    retoActual = 0;
+
+    puntosReto = 0;
+
+    respondioReto = false;
+
+
+    document.getElementById(
+        "resultadoReto"
+    ).classList.add("hidden");
+
+
+    document.getElementById(
+        "preguntaReto"
+    ).parentElement.classList.remove("hidden");
+
+
+    document.getElementById(
+        "opcionesReto"
+    ).classList.remove("hidden");
+
+
+    document.getElementById(
+        "feedbackReto"
+    ).classList.add("hidden");
+
+
+    document.getElementById(
+        "btnSiguienteReto"
+    ).classList.add("hidden");
+
+
+    cargarReto();
+
+}
+
+
+
+function cargarReto() {
+
+    const pregunta =
+        preguntasReto[
+            retoActual
+        ];
+
+
+    respondioReto = false;
+
+
+    document.getElementById(
+        "numeroReto"
+    ).textContent =
+        retoActual + 1;
+
+
+    document.getElementById(
+        "puntosReto"
+    ).textContent =
+        puntosReto;
+
+
+    document.getElementById(
+        "barraReto"
+    ).style.width =
+        (
+            ((retoActual + 1) /
+            preguntasReto.length) *
+            100
+        ) + "%";
+
+
+    document.getElementById(
+        "preguntaReto"
+    ).textContent =
+        pregunta.pregunta;
+
+
+    const contenedor =
+        document.getElementById(
+            "opcionesReto"
+        );
+
+
+    contenedor.innerHTML = "";
+
+
+    pregunta.opciones.forEach(
+        (opcion, index) => {
+
+
+            const elemento =
+                document.createElement(
+                    "div"
+                );
+
+
+            elemento.className =
+                "choice";
+
+
+            elemento.innerHTML = `
+
+                <div class="flex items-start gap-3">
+
+                    <div class="step-circle">
+
+                        ${String.fromCharCode(
+                            65 + index
+                        )}
+
+                    </div>
+
+                    <div
+                        class="font-semibold
+                               text-zinc-200
+                               pt-1">
+
+                        ${opcion}
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            elemento.onclick =
+                () =>
+                    responderReto(
+                        index,
+                        elemento
+                    );
+
+
+            contenedor.appendChild(
+                elemento
+            );
+
+        }
+    );
+
+}
+
+
+
+function responderReto(
+    indice,
+    elemento
+) {
+
+    if (respondioReto) return;
+
+    respondioReto = true;
+
+
+    const pregunta =
+        preguntasReto[
+            retoActual
+        ];
+
+
+    document
+        .querySelectorAll(
+            "#opcionesReto .choice"
+        )
+        .forEach(opcion => {
+
+            opcion.style.pointerEvents =
+                "none";
+
+        });
+
+
+    const feedback =
+        document.getElementById(
+            "feedbackReto"
+        );
+
+
+    feedback.classList.remove(
+        "hidden"
+    );
+
+
+    if (
+        indice ===
+        pregunta.correcta
+    ) {
+
+        puntosReto++;
+
+        elemento.classList.add(
+            "selected"
+        );
+
+
+        feedback.innerHTML = `
+
+            <div
+                class="font-bold
+                       text-emerald-300
+                       mb-1">
+
+                <i class="fa-solid
+                          fa-circle-check
+                          mr-2"></i>
+
+                ¡Correcto!
+
+            </div>
+
+
+            <p
+                class="text-sm
+                       text-zinc-400">
+
+                ${pregunta.explicacion}
+
+            </p>
+
+        `;
+
+    } else {
+
+        feedback.innerHTML = `
+
+            <div
+                class="font-bold
+                       text-amber-300
+                       mb-1">
+
+                <i class="fa-solid
+                          fa-lightbulb
+                          mr-2"></i>
+
+                Buena oportunidad para aprender
+
+            </div>
+
+
+            <p
+                class="text-sm
+                       text-zinc-400">
+
+                ${pregunta.explicacion}
+
+            </p>
+
+        `;
+
+    }
+
+
+    document.getElementById(
+        "puntosReto"
+    ).textContent =
+        puntosReto;
+
+
+    document.getElementById(
+        "btnSiguienteReto"
+    ).classList.remove(
+        "hidden"
+    );
+
+
+    if (
+        retoActual ===
+        preguntasReto.length - 1
+    ) {
+
+        document.getElementById(
+            "btnSiguienteReto"
+        ).innerHTML = `
+
+            VER RESULTADO
+
+            <i class="fa-solid
+                      fa-trophy
+                      ml-2"></i>
+
+        `;
+
+    }
+
+}
+
+
+
+function siguienteReto() {
+
+    if (!respondioReto) return;
+
+
+    retoActual++;
+
+
+    if (
+        retoActual >=
+        preguntasReto.length
+    ) {
+
+        finalizarReto();
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "feedbackReto"
+    ).classList.add("hidden");
+
+
+    document.getElementById(
+        "btnSiguienteReto"
+    ).classList.add("hidden");
+
+
+    cargarReto();
+
+}
+
+
+
+function finalizarReto() {
+
+    document.getElementById(
+        "preguntaReto"
+    ).parentElement.classList.add(
+        "hidden"
+    );
+
+
+    document.getElementById(
+        "opcionesReto"
+    ).classList.add(
+        "hidden"
+    );
+
+
+    document.getElementById(
+        "feedbackReto"
+    ).classList.add(
+        "hidden"
+    );
+
+
+    document.getElementById(
+        "btnSiguienteReto"
+    ).classList.add(
+        "hidden"
+    );
+
+
+    document.getElementById(
+        "resultadoReto"
+    ).classList.remove(
+        "hidden"
+    );
+
+
+    document.getElementById(
+        "resultadoPuntos"
+    ).textContent =
+        `${puntosReto}/5`;
+
+
+    let mensaje;
+
+
+    if (puntosReto === 5) {
+
+        mensaje =
+            "¡Excelente! Demostraste muy buenas habilidades para tomar decisiones emprendedoras.";
+
+    }
+
+    else if (puntosReto >= 3) {
+
+        mensaje =
+            "¡Buen trabajo! Tienes buenas bases para analizar situaciones de un emprendimiento.";
+
+    }
+
+    else {
+
+        mensaje =
+            "Cada situación es una oportunidad para aprender. Revisa las explicaciones e inténtalo nuevamente.";
+
+    }
+
+
+    document.getElementById(
+        "mensajeFinalReto"
+    ).textContent =
+        mensaje;
+
+
+    localStorage.setItem(
+        "finea_reto_emprendedor",
+        puntosReto
+    );
+
+
+    actualizarEstadisticas();
+
+}
+
+
+
+/* =====================================================
+   ESTADÍSTICAS
+===================================================== */
+
+function actualizarEstadisticas() {
+
+    const guardado =
+        localStorage.getItem(
+            "finea_emprendimiento"
+        );
+
+
+    if (guardado) {
+
+        try {
+
+            const emprendimiento =
+                JSON.parse(guardado);
+
+
+            document.getElementById(
+                "statEmprendimiento"
+            ).textContent =
+                emprendimiento.nombre ||
+                "Creado";
+
+
+            document.getElementById(
+                "statGanancia"
+            ).textContent =
+                dinero(
+                    emprendimiento.ganancia ||
+                    0
+                );
+
+        }
+
+        catch(error) {
+
+            console.log(
+                "No se pudo cargar el emprendimiento."
+            );
+
+        }
+
+    }
+
+
+    const reto =
+        Number(
+            localStorage.getItem(
+                "finea_reto_emprendedor"
+            )
+        ) || 0;
+
+
+    const porcentaje =
+        Math.round(
+            (reto / 5) * 100
+        );
+
+
+    document.getElementById(
+        "statReto"
+    ).textContent =
+        porcentaje + "%";
+
+}
+
+
+
+/* =====================================================
+   DINERO
+===================================================== */
+
+function dinero(valor) {
+
+    return new Intl.NumberFormat(
+        "es-EC",
+        {
+
+            style: "currency",
+
+            currency: "USD",
+
+            minimumFractionDigits: 2
+
+        }
+    ).format(
+        Number(valor) || 0
+    );
+
+}
+
+
+
+/* =====================================================
+   VOLVER AL MENÚ
+===================================================== */
+
+function volverMenu() {
+
+    window.location.href =
+        "menu.html";
+
+}
+
+
+
+/* =====================================================
+   ACTUALIZACIÓN AUTOMÁTICA
+===================================================== */
+
+document.addEventListener(
+    "input",
+    function(event) {
+
+        const id =
+            event.target.id;
+
+
+        if (
+            id ===
+            "inversionMateriales" ||
+            id ===
+            "inversionHerramientas" ||
+            id ===
+            "inversionPublicidad" ||
+            id ===
+            "inversionTransporte" ||
+            id ===
+            "inversionOtros"
+        ) {
+
+            calcularInversion();
+
+        }
+
+
+        if (
+            id ===
+            "costoMateriales" ||
+            id ===
+            "costoEmpaque" ||
+            id ===
+            "costoOtros" ||
+            id ===
+            "precioVenta"
+        ) {
+
+            calcularCostosProducto();
+
+        }
+
+
+        if (
+            id ===
+            "unidadesVenta"
+        ) {
+
+            calcularVentas();
+
+        }
+
+    }
+);
+
+
+
+/* =====================================================
+   INICIO
+===================================================== */
+
+cargarUsuario();
+
+actualizarEstadisticas();
 
 </script>
 
 </body>
 </html>
+```

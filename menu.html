@@ -3,210 +3,575 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FINÉA - Menú Principal Interactivo</title>
+    <title>FINÉA - Menú Principal</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         .fade-in {
             animation: fadeIn 0.5s ease-out forwards;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-hover {
+            transition: transform 0.25s ease, border-color 0.25s ease,
+                        box-shadow 0.25s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-4px);
+            border-color: rgba(245, 158, 11, 0.45);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .module-icon {
+            transition: transform 0.25s ease;
+        }
+
+        .card-hover:hover .module-icon {
+            transform: scale(1.08);
+        }
+
+        .input-focus {
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .input-focus:focus {
+            outline: none;
+            border-color: rgba(245, 158, 11, 0.5);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.08);
         }
     </style>
 </head>
+
 <body class="bg-neutral-950 text-amber-100 min-h-screen flex flex-col font-sans">
 
-    <header class="bg-neutral-900 border-b border-amber-500/20 sticky top-0 z-30 backdrop-blur-md">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-gradient-to-tr from-amber-600 to-yellow-300 rounded-xl flex items-center justify-center shadow-lg shadow-amber-500/20">
-                    <i class="fa-solid fa-coins text-neutral-950 text-xl"></i>
-                </div>
-                <div>
-                    <h1 class="text-xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-yellow-400">FINÉA</h1>
-                    <p class="text-[9px] text-amber-200/60 uppercase tracking-widest hidden sm:block">Aprende • Ahorra • Planifica</p>
-                </div>
-            </div>
+    <!-- ENCABEZADO -->
+    <header class="bg-neutral-900 border-b border-amber-500/20 sticky top-0 z-30">
+
+        <div class="max-w-5xl mx-auto px-4 py-3.5 flex items-center justify-between">
 
             <div class="flex items-center space-x-3">
-                <div class="flex items-center gap-2 bg-neutral-950 border border-neutral-800 px-3 py-1.5 rounded-xl text-xs">
-                    <i class="fa-solid fa-user-graduate text-amber-400"></i>
-                    <span id="usuario-saludo" class="font-bold text-amber-200">Estudiante</span>
+
+                <!-- LOGO -->
+                <div class="w-10 h-10 bg-neutral-800 border border-neutral-700 rounded-xl flex items-center justify-center">
+                    <i class="fa-solid fa-coins text-amber-400 text-lg"></i>
                 </div>
-                <button onclick="cerrarSesion()" class="text-xs text-neutral-500 hover:text-amber-400 transition underline">
-                    Salir
-                </button>
+
+                <div>
+                    <h1 class="text-lg font-black tracking-widest text-amber-300">
+                        FINÉA
+                    </h1>
+
+                    <p class="text-[10px] text-neutral-500 tracking-wider uppercase">
+                        Educación Financiera
+                    </p>
+                </div>
+
             </div>
+
+            <div class="flex items-center gap-2">
+
+                <span id="usuario-saludo"
+                      class="text-xs bg-neutral-950 px-3 py-1.5 rounded-xl border border-neutral-800 text-amber-200">
+                    Estudiante
+                </span>
+
+                <!-- CERRAR SESIÓN -->
+                <button onclick="cerrarSesion()"
+                        class="px-3 py-1.5 rounded-xl border border-neutral-800
+                               bg-neutral-950 text-neutral-400 text-xs
+                               hover:border-amber-500/30 hover:text-amber-300 transition">
+                    Cerrar sesión
+                </button>
+
+            </div>
+
         </div>
+
     </header>
 
-    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex-grow w-full space-y-8 fade-in">
 
-        <section class="relative bg-gradient-to-r from-neutral-900 via-neutral-900 to-amber-950/40 border border-amber-500/30 p-6 sm:p-8 rounded-3xl overflow-hidden shadow-2xl">
-            <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
-            
-            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="max-w-5xl mx-auto px-4 py-8 flex-grow w-full space-y-6 fade-in">
+
+
+        <!-- BIENVENIDA -->
+        <section class="bg-neutral-900 border border-amber-500/30 p-6 rounded-3xl relative overflow-hidden">
+
+            <div class="absolute -right-10 -top-10 w-40 h-40 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="relative z-10 grid md:grid-cols-[1fr_auto] gap-6 items-center">
+
                 <div>
-                    <span class="inline-block bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full mb-2">
-                        Nivel 1: Recluta Financiero
+
+                    <span class="inline-flex items-center gap-2
+                                 text-[10px] uppercase tracking-widest
+                                 text-amber-400 bg-amber-500/10
+                                 border border-amber-500/20
+                                 px-3 py-1.5 rounded-xl">
+                        <i class="fa-solid fa-star"></i>
+                        Tu espacio financiero
                     </span>
-                    <h2 class="text-2xl sm:text-3xl font-black text-amber-100">
-                        ¡Hola, <span id="nombre-banner" class="text-amber-400">Estudiante</span>!
+
+                    <h2 class="text-2xl md:text-3xl font-black text-amber-200 mt-3">
+                        ¡Hola, <span id="nombre-banner">Estudiante</span>!
                     </h2>
-                    <p class="text-neutral-400 text-xs sm:text-sm mt-1 max-w-xl">
-                        Explora los módulos o prueba nuestras herramientas rápidas para fortalecer tu aprendizaje económico.
+
+                    <p class="text-neutral-400 text-sm mt-2 max-w-xl leading-relaxed">
+                        Aprende a organizar tu dinero, establecer metas y tomar
+                        mejores decisiones para tu futuro.
                     </p>
+
                 </div>
 
-                <div class="bg-neutral-950/80 border border-neutral-800 p-4 rounded-2xl flex flex-col gap-2 min-w-[220px]">
-                    <span class="text-[10px] text-neutral-500 uppercase tracking-wider font-bold">Insignias Desbloqueables</span>
-                    <div class="flex items-center gap-3 pt-1">
-                        <div class="w-10 h-10 rounded-xl bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-600 text-lg" title="Módulo Presupuesto (Incompleto)">
-                            <i class="fa-solid fa-wallet"></i>
+
+                <!-- RUTA FINÉA -->
+                <div class="bg-neutral-950 border border-neutral-800
+                            rounded-2xl p-4 min-w-[250px]">
+
+                    <p class="text-[10px] uppercase tracking-widest
+                              text-neutral-500 mb-3">
+                        Ruta FINÉA
+                    </p>
+
+                    <div class="flex items-center justify-between gap-2">
+
+                        <div class="text-center">
+                            <div class="w-9 h-9 mx-auto rounded-xl
+                                        bg-amber-500/10
+                                        border border-amber-500/20
+                                        flex items-center justify-center
+                                        text-amber-400">
+                                <i class="fa-solid fa-wallet"></i>
+                            </div>
+
+                            <p class="text-[10px] text-neutral-400 mt-2">
+                                Presupuesto
+                            </p>
                         </div>
-                        <div class="w-10 h-10 rounded-xl bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-600 text-lg" title="Módulo Metas (Incompleto)">
-                            <i class="fa-solid fa-piggy-bank"></i>
+
+
+                        <div class="h-px flex-1 bg-neutral-800"></div>
+
+
+                        <div class="text-center">
+                            <div class="w-9 h-9 mx-auto rounded-xl
+                                        bg-amber-500/10
+                                        border border-amber-500/20
+                                        flex items-center justify-center
+                                        text-amber-400">
+                                <i class="fa-solid fa-piggy-bank"></i>
+                            </div>
+
+                            <p class="text-[10px] text-neutral-400 mt-2">
+                                Ahorro
+                            </p>
                         </div>
-                        <div class="w-10 h-10 rounded-xl bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-600 text-lg" title="Módulo Planificación (Incompleto)">
-                            <i class="fa-solid fa-chart-pie"></i>
+
+
+                        <div class="h-px flex-1 bg-neutral-800"></div>
+
+
+                        <div class="text-center">
+                            <div class="w-9 h-9 mx-auto rounded-xl
+                                        bg-amber-500/10
+                                        border border-amber-500/20
+                                        flex items-center justify-center
+                                        text-amber-400">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+
+                            <p class="text-[10px] text-neutral-400 mt-2">
+                                Planificación
+                            </p>
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
         </section>
 
-        <section class="bg-gradient-to-r from-amber-950/30 via-neutral-900 to-neutral-900 border border-amber-500/30 p-6 rounded-3xl relative overflow-hidden">
-            <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
-                <div class="space-y-2 text-center lg:text-left">
-                    <span class="bg-amber-500/20 text-amber-300 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md">
-                        <i class="fa-solid fa-bolt mr-1"></i> Herramienta Interactiva Express
+
+
+        <!-- HERRAMIENTA INTERACTIVA -->
+        <section class="bg-neutral-900 border border-neutral-800
+                        rounded-3xl p-5">
+
+            <div class="flex items-start gap-4">
+
+                <div class="w-11 h-11 shrink-0 bg-amber-500/10
+                            rounded-xl flex items-center justify-center
+                            text-amber-400 text-lg">
+                    <i class="fa-solid fa-calculator"></i>
+                </div>
+
+                <div class="flex-1">
+
+                    <p class="text-[10px] uppercase tracking-widest text-amber-400">
+                        Herramienta interactiva
+                    </p>
+
+                    <h3 class="text-lg font-black text-amber-200 mt-1">
+                        Simulador de Gastos Hormiga
+                    </h3>
+
+                    <p class="text-xs text-neutral-500 mt-1">
+                        Descubre cuánto podría representar un pequeño gasto
+                        repetido durante un mes o un año.
+                    </p>
+
+
+                    <div class="grid sm:grid-cols-[1fr_auto] gap-3 mt-4">
+
+                        <div class="relative">
+
+                            <span class="absolute left-3 top-1/2
+                                         -translate-y-1/2
+                                         text-neutral-500 text-sm">
+                                $
+                            </span>
+
+                            <input
+                                type="number"
+                                id="input-gasto-hormiga"
+                                min="0"
+                                step="0.01"
+                                placeholder="¿Cuánto gastas al día?"
+                                oninput="calcularGastoHormiga()"
+                                class="input-focus w-full bg-neutral-950
+                                       border border-neutral-800
+                                       rounded-xl py-3 pl-8 pr-4
+                                       text-sm text-amber-100
+                                       placeholder:text-neutral-600">
+                        </div>
+
+                    </div>
+
+
+                    <div class="grid grid-cols-2 gap-3 mt-3">
+
+                        <div class="bg-neutral-950 border border-neutral-800
+                                    rounded-xl p-3">
+
+                            <p class="text-[10px] uppercase tracking-wider
+                                      text-neutral-500">
+                                En un mes
+                            </p>
+
+                            <p id="res-mes"
+                               class="text-lg font-black text-amber-300 mt-1">
+                                $0.00
+                            </p>
+
+                        </div>
+
+
+                        <div class="bg-neutral-950 border border-neutral-800
+                                    rounded-xl p-3">
+
+                            <p class="text-[10px] uppercase tracking-wider
+                                      text-neutral-500">
+                                En un año
+                            </p>
+
+                            <p id="res-anio"
+                               class="text-lg font-black text-amber-300 mt-1">
+                                $0.00
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- TÍTULO DE MÓDULOS -->
+        <div class="flex items-end justify-between pt-2">
+
+            <div>
+                <p class="text-[10px] uppercase tracking-widest text-amber-400">
+                    Aprende haciendo
+                </p>
+
+                <h2 class="text-xl font-black text-amber-200 mt-1">
+                    Explora FINÉA
+                </h2>
+            </div>
+
+            <span class="text-xs text-neutral-500">
+                3 módulos
+            </span>
+
+        </div>
+
+
+
+        <!-- MÓDULOS -->
+        <section class="grid md:grid-cols-3 gap-4">
+
+
+            <!-- PRESUPUESTO -->
+            <article class="card-hover bg-neutral-900
+                            border border-neutral-800
+                            rounded-3xl p-5 flex flex-col">
+
+                <div class="flex items-start justify-between">
+
+                    <div class="module-icon w-12 h-12
+                                bg-amber-500/10 rounded-2xl
+                                flex items-center justify-center
+                                text-amber-400 text-xl">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+
+                    <span class="text-[10px] uppercase tracking-widest
+                                 text-neutral-600">
+                        01
                     </span>
-                    <h3 class="text-lg font-black text-amber-200">Simulador de Gastos Hormiga</h3>
-                    <p class="text-neutral-400 text-xs max-w-md">
-                        ¿Cuánto dinero se te escapa diariamente en pequeñas compras (snacks, cafés, impresiones)?
-                    </p>
+
                 </div>
 
-                <div class="flex flex-col sm:flex-row items-center gap-4 bg-neutral-950/80 border border-neutral-800 p-4 rounded-2xl w-full lg:w-auto">
-                    <div class="text-left w-full sm:w-auto">
-                        <label class="text-[10px] text-neutral-400 block mb-1">Gasto diario aproximado ($):</label>
-                        <input id="input-gasto-hormiga" type="number" value="1.50" step="0.25" min="0" oninput="calcularGastoHormiga()"
-                            class="w-full sm:w-28 bg-neutral-900 border border-amber-500/30 rounded-xl px-3 py-2 text-amber-300 font-bold text-sm focus:outline-none focus:border-amber-400">
+
+                <h3 class="text-lg font-black text-amber-200 mt-5">
+                    Presupuesto
+                </h3>
+
+                <p class="text-xs text-neutral-400 leading-relaxed mt-2 flex-grow">
+                    Organiza tus ingresos y gastos para conocer mejor
+                    cómo administras tu dinero.
+                </p>
+
+
+                <a href="presupuesto.html"
+                   class="mt-5 w-full py-2.5 rounded-xl
+                          bg-amber-500 text-neutral-950
+                          text-xs font-black text-center
+                          hover:bg-amber-400 transition">
+                    Ingresar
+                </a>
+
+            </article>
+
+
+
+            <!-- AHORRO -->
+            <article class="card-hover bg-neutral-900
+                            border border-neutral-800
+                            rounded-3xl p-5 flex flex-col">
+
+                <div class="flex items-start justify-between">
+
+                    <div class="module-icon w-12 h-12
+                                bg-amber-500/10 rounded-2xl
+                                flex items-center justify-center
+                                text-amber-400 text-xl">
+                        <i class="fa-solid fa-piggy-bank"></i>
                     </div>
 
-                    <div class="hidden sm:block text-neutral-700 text-xl">|</div>
+                    <span class="text-[10px] uppercase tracking-widest
+                                 text-neutral-600">
+                        02
+                    </span>
 
-                    <div class="flex items-center gap-4 text-center sm:text-left">
-                        <div>
-                            <span class="text-[10px] text-neutral-500 uppercase block">Fuga al Mes</span>
-                            <span id="res-mes" class="text-sm font-black text-amber-400">$45.00</span>
-                        </div>
-                        <div>
-                            <span class="text-[10px] text-neutral-500 uppercase block">Fuga al Año</span>
-                            <span id="res-anio" class="text-base font-black text-yellow-400">$540.00</span>
-                        </div>
-                    </div>
                 </div>
-            </div>
+
+
+                <h3 class="text-lg font-black text-amber-200 mt-5">
+                    Ahorro
+                </h3>
+
+                <p class="text-xs text-neutral-400 leading-relaxed mt-2 flex-grow">
+                    Establece metas de ahorro y descubre formas prácticas
+                    de avanzar hacia ellas.
+                </p>
+
+
+                <a href="ahorro.html"
+                   class="mt-5 w-full py-2.5 rounded-xl
+                          bg-amber-500 text-neutral-950
+                          text-xs font-black text-center
+                          hover:bg-amber-400 transition">
+                    Ingresar
+                </a>
+
+            </article>
+
+
+
+            <!-- PLANIFICACIÓN -->
+            <article class="card-hover bg-neutral-900
+                            border border-neutral-800
+                            rounded-3xl p-5 flex flex-col">
+
+                <div class="flex items-start justify-between">
+
+                    <div class="module-icon w-12 h-12
+                                bg-amber-500/10 rounded-2xl
+                                flex items-center justify-center
+                                text-amber-400 text-xl">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+
+                    <span class="text-[10px] uppercase tracking-widest
+                                 text-neutral-600">
+                        03
+                    </span>
+
+                </div>
+
+
+                <h3 class="text-lg font-black text-amber-200 mt-5">
+                    Planificación
+                </h3>
+
+                <p class="text-xs text-neutral-400 leading-relaxed mt-2 flex-grow">
+                    Planifica proyectos, estima resultados y practica
+                    la toma de decisiones económicas.
+                </p>
+
+
+                <a href="planificacion.html"
+                   class="mt-5 w-full py-2.5 rounded-xl
+                          bg-amber-500 text-neutral-950
+                          text-xs font-black text-center
+                          hover:bg-amber-400 transition">
+                    Ingresar
+                </a>
+
+            </article>
+
         </section>
 
-        <section>
-            <h3 class="text-sm font-bold uppercase tracking-wider text-amber-400 mb-4 flex items-center gap-2">
-                <i class="fa-solid fa-cubes"></i> Módulos Principales
-            </h3>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                
-                <div class="bg-neutral-900 border border-amber-500/20 hover:border-amber-500/50 p-6 rounded-3xl transition duration-300 flex flex-col justify-between group hover:shadow-[0_0_30px_rgba(245,158,11,0.1)]">
-                    <div>
-                        <div class="w-12 h-12 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-2xl flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition">
-                            <i class="fa-solid fa-wallet"></i>
-                        </div>
-                        <h4 class="text-lg font-black text-amber-200 mb-1">Presupuesto Mensual</h4>
-                        <p class="text-neutral-400 text-xs leading-relaxed mb-4">
-                            Registra tus ingresos y gastos fijos/variables para determinar tu capacidad financiera real.
-                        </p>
-                    </div>
-                    <div>
-                        <a href="presupuesto.html" class="w-full bg-neutral-800 hover:bg-amber-500 hover:text-neutral-950 text-amber-300 font-bold py-2.5 rounded-xl transition text-xs flex items-center justify-center gap-2">
-                            <span>Ingresar al Módulo</span>
-                            <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                        </a>
-                    </div>
-                </div>
 
-                <div class="bg-neutral-900 border border-amber-500/20 hover:border-amber-500/50 p-6 rounded-3xl transition duration-300 flex flex-col justify-between group hover:shadow-[0_0_30px_rgba(245,158,11,0.1)]">
-                    <div>
-                        <div class="w-12 h-12 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-2xl flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition">
-                            <i class="fa-solid fa-piggy-bank"></i>
-                        </div>
-                        <h4 class="text-lg font-black text-amber-200 mb-1">Metas de Ahorro</h4>
-                        <p class="text-neutral-400 text-xs leading-relaxed mb-4">
-                            Define objetivos específicos y proyecta el tiempo exacto que te tomará alcanzarlos.
-                        </p>
-                    </div>
-                    <div>
-                        <a href="ahorro.html" class="w-full bg-neutral-800 hover:bg-amber-500 hover:text-neutral-950 text-amber-300 font-bold py-2.5 rounded-xl transition text-xs flex items-center justify-center gap-2">
-                            <span>Ingresar al Módulo</span>
-                            <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                        </a>
-                    </div>
-                </div>
+        <!-- FRASE FINAL -->
+        <section class="bg-neutral-900 border border-neutral-800
+                        rounded-2xl px-5 py-4 text-center">
 
-                <div class="bg-neutral-900 border border-amber-500/20 hover:border-amber-500/50 p-6 rounded-3xl transition duration-300 flex flex-col justify-between group hover:shadow-[0_0_30px_rgba(245,158,11,0.1)]">
-                    <div>
-                        <div class="w-12 h-12 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-2xl flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition">
-                            <i class="fa-solid fa-chart-pie"></i>
-                        </div>
-                        <h4 class="text-lg font-black text-amber-200 mb-1">Planificación 50/30/20</h4>
-                        <p class="text-neutral-400 text-xs leading-relaxed mb-4">
-                            Aprende a distribuir tus ingresos entre Necesidades (50%), Deseos (30%) y Ahorro (20%).
-                        </p>
-                    </div>
-                    <div>
-                        <a href="planificacion.html" class="w-full bg-neutral-800 hover:bg-amber-500 hover:text-neutral-950 text-amber-300 font-bold py-2.5 rounded-xl transition text-xs flex items-center justify-center gap-2">
-                            <span>Ingresar al Módulo</span>
-                            <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                        </a>
-                    </div>
-                </div>
+            <p class="text-xs text-neutral-500">
+                <span class="text-amber-400 font-semibold">
+                    FINÉA
+                </span>
+                · Aprende, ahorra y planifica para tomar mejores decisiones.
+            </p>
 
-            </div>
         </section>
 
     </main>
 
-    <footer class="bg-neutral-900 border-t border-neutral-800/80 py-4 text-center text-xs text-neutral-500">
-        FINÉA &copy; Instituto Superior Tecnológico LENDAN — Big Data e Inteligencia de Negocios
+
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="bg-neutral-900 border-t border-amber-500/20 mt-6">
+
+        <div class="max-w-5xl mx-auto px-4 py-5 text-center">
+
+            <p class="text-[10px] text-neutral-600 uppercase tracking-wider">
+                FINÉA © Instituto Superior Tecnológico LENDAN
+            </p>
+
+            <p class="text-[10px] text-neutral-700 mt-1">
+                Big Data e Inteligencia de Negocios
+            </p>
+
+        </div>
+
     </footer>
 
+
+
+    <!-- JAVASCRIPT -->
     <script>
-        // Cargar nombre de usuario
-        window.addEventListener('DOMContentLoaded', () => {
-            const usuarioGuardado = sessionStorage.getItem('usuarioFinea') || 'Estudiante';
-            document.getElementById('usuario-saludo').innerText = usuarioGuardado;
-            document.getElementById('nombre-banner').innerText = usuarioGuardado;
-            calcularGastoHormiga(); // Cálculo inicial
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const usuario =
+                sessionStorage.getItem("usuarioFinea") || "Estudiante";
+
+            const saludo =
+                document.getElementById("usuario-saludo");
+
+            const nombreBanner =
+                document.getElementById("nombre-banner");
+
+            if (saludo) {
+                saludo.textContent = usuario;
+            }
+
+            if (nombreBanner) {
+                nombreBanner.textContent = usuario;
+            }
+
+            calcularGastoHormiga();
         });
 
-        // Cálculo dinámico de gasto hormiga
-        function calcularGastoHormiga() {
-            const diario = parseFloat(document.getElementById('input-gasto-hormiga').value) || 0;
-            const mes = diario * 30;
-            const anio = diario * 365;
 
-            document.getElementById('res-mes').innerText = `$${mes.toFixed(2)}`;
-            document.getElementById('res-anio').innerText = `$${anio.toFixed(2)}`;
+
+        function calcularGastoHormiga() {
+
+            const input =
+                document.getElementById("input-gasto-hormiga");
+
+            const resultadoMes =
+                document.getElementById("res-mes");
+
+            const resultadoAnio =
+                document.getElementById("res-anio");
+
+            if (!input || !resultadoMes || !resultadoAnio) {
+                return;
+            }
+
+            const gastoDiario =
+                parseFloat(input.value) || 0;
+
+            const gastoMensual =
+                gastoDiario * 30;
+
+            const gastoAnual =
+                gastoDiario * 365;
+
+            resultadoMes.textContent =
+                "$" + gastoMensual.toFixed(2);
+
+            resultadoAnio.textContent =
+                "$" + gastoAnual.toFixed(2);
         }
+
+
 
         function cerrarSesion() {
-            sessionStorage.removeItem('usuarioFinea');
+
+            sessionStorage.removeItem("usuarioFinea");
+
             window.location.href = "index.html";
         }
+
     </script>
+
 </body>
 </html>

@@ -56,25 +56,27 @@
 <body class="bg-neutral-950 text-amber-100 min-h-screen flex flex-col font-sans">
 
     <!-- =========================
-         MENÚ
+         MENÚ / ENCABEZADO
     ========================== -->
-    <nav class="border-b border-neutral-800 bg-neutral-950 p-4 flex justify-between items-center px-6 md:px-8">
-        <div class="flex items-center gap-4">
-            <a href="menu.html"
-               class="text-neutral-400 hover:text-amber-300 transition flex items-center gap-2 text-sm"
-               title="Volver">
-                <i class="fa-solid fa-arrow-left"></i>
-            </a>
-            <span class="text-amber-400 font-bold tracking-widest text-sm">
-                FINÉA | Presupuesto
-            </span>
+    <header class="bg-neutral-900 border-b border-amber-500/20 sticky top-0 z-30">
+        <div class="max-w-5xl mx-auto px-4 py-3.5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <button onclick="volverMenu()"
+                    class="w-9 h-9 bg-neutral-800 border border-neutral-700 rounded-xl hover:bg-neutral-700 flex items-center justify-center transition">
+                    <i class="fa-solid fa-arrow-left text-amber-400"></i>
+                </button>
+                <div>
+                    <div class="text-lg font-black tracking-widest text-amber-300">
+                        FINÉA | Presupuesto
+                    </div>
+                </div>
+            </div>
+            <div class="text-right">
+                <div class="text-xs text-zinc-500">Usuario</div>
+                <div id="nombreUsuario" class="font-semibold text-zinc-200">Estudiante</div>
+            </div>
         </div>
-
-        <span class="text-xs text-amber-300 font-bold border-b border-amber-400 pb-1 flex items-center gap-1.5">
-            <i class="fa-solid fa-calculator"></i>
-            Presupuesto
-        </span>
-    </nav>
+    </header>
 
 
     <!-- =========================
@@ -131,7 +133,7 @@
                     <input
                         type="text"
                         id="ingreso-concepto"
-                        placeholder="Ej. Beca, trabajo, mesada..."
+                       
                         class="w-full bg-neutral-950 border border-neutral-800
                                text-xs text-neutral-200 p-3 rounded-xl
                                focus:outline-none focus:border-amber-400">
@@ -144,7 +146,7 @@
                     <input
                         type="number"
                         id="ingreso-monto"
-                        placeholder="Ej. $200"
+                       
                         min="0"
                         step="0.01"
                         class="w-full bg-neutral-950 border border-neutral-800
@@ -200,7 +202,7 @@
                     <input
                         type="text"
                         id="gasto-concepto"
-                        placeholder="Ej. Almuerzo, bus, materiales..."
+                       
                         class="w-full bg-neutral-950 border border-neutral-800
                                text-xs text-neutral-200 p-3 rounded-xl
                                focus:outline-none focus:border-amber-400">
@@ -213,7 +215,7 @@
                     <input
                         type="number"
                         id="gasto-monto"
-                        placeholder="Ej. $10"
+                       
                         min="0"
                         step="0.01"
                         class="w-full bg-neutral-950 border border-neutral-800
@@ -566,7 +568,67 @@
          JAVASCRIPT DE CONTROL
     ================================================== -->
     <script>
-        // Funciones para controlar la ventana flotante de alerta
+        function volverMenu() {
+            window.location.href = "menu.html";
+        }
+
+        // ESTADO GLOBAL
+        let ingresos = [];
+        let gastos = [];
+
+        // Variables para la Dinámica de Supervivencia
+        let indicePreguntaActual = 0;
+        let puntosSupervivencia = 0;
+
+        const preguntasSupervivencia = [
+            {
+                categoria: "Ahorro vs. Gustos",
+                texto: "Dia 20 del mes: tienes $12 y todavia faltan 10 dias. ¿Que decision tomarias?",
+                opciones: [
+                    { texto: "Gasto los 12 antes de que desaparezca magicamente", puntos: 1 },
+                    { texto: "Revisar gastos y priorizar lo necesario.", puntos: 2 },
+                    { texto: "Dios proveera.", puntos: 0 }
+                ]
+            },
+            {
+                categoria: "Imprevistos",
+                texto: "Encuentras una oferta increible justo cuando estas intentando ahorrar. ¿Que haces?",
+                opciones: [
+                    { texto: "Me pregunto si realmente lo necesito.", puntos: 2 },
+                    { texto: "Cierro la aplicacion antes de cometer un crimen financiero.", puntos: 1 },
+                    { texto: "Lo compro por que esta en oferta.", puntos: 0 }
+                ]
+            },
+            {
+                categoria: "Compras",
+                texto: "Se daño tu cargador y necesitas uno nuevo. Cuesta 18$. ¿Que harias?",
+                opciones: [
+                    { texto: "Busco una opcion economica y ajusto otro gasto.", puntos: 2 },
+                    { texto: "compro el primero que encuentro.", puntos: 1 },
+                    { texto: "Miro mi cargador roto y espero un milagro.", puntos: 0 }
+                ]
+            },
+            {
+                categoria: "Planificación",
+                texto: "Tienes 5$ y estas muriendo de hambre. ¿Que haces?",
+                opciones: [
+                    { texto: "Compro algo economico que me alcance.", puntos: 2 },
+                    { texto: "Pido delivery y que mi yo del futuro se encargue.", puntos: 1 },
+                    { texto: "Miro el menú durante 20 minuros y termino comprando lo mas caro.", puntos: 0 }
+                ]
+            },
+            {
+                categoria: "Transporte",
+                texto: "Te quedan 10$  y necesitas transporte para toda la semana. ¿Qué haces?",
+                opciones: [
+                    { texto: "Separo primero el dinero de transposte.", puntos: 2 },
+                    { texto: "Me gasto 6 y camino con fe.", puntos: 1 },
+                    { texto: "Descubro que caminar 40 minutos era parte de mi desarrollo personal.", puntos: 0 }
+                ]
+            }
+        ];
+
+        // CONTROL DE ALERTA PERSONALIZADA
         function mostrarAlerta(mensaje, titulo = "Atención") {
             document.getElementById('alerta-titulo').innerText = titulo;
             document.getElementById('alerta-mensaje').innerText = mensaje;
@@ -582,416 +644,322 @@
             modal.classList.remove('flex');
         }
 
-        // Ejemplo de uso en la función de agregar gasto:
-        /*
+        // REGISTRO DE INGRESOS Y GASTOS
+        function agregarIngreso() {
+            const conceptoInput = document.getElementById('ingreso-concepto');
+            const montoInput = document.getElementById('ingreso-monto');
+
+            const concepto = conceptoInput.value.trim();
+            const monto = parseFloat(montoInput.value);
+
+            if (!concepto || isNaN(monto) || monto <= 0) {
+                mostrarAlerta("Ingresa un concepto y un monto válido.");
+                return;
+            }
+
+            ingresos.push({ concepto, monto });
+            conceptoInput.value = '';
+            montoInput.value = '';
+
+            renderizarListas();
+        }
+
         function agregarGasto() {
             if (ingresos.length === 0) {
                 mostrarAlerta("Primero registra al menos un ingreso.");
                 return;
             }
+
+            const conceptoInput = document.getElementById('gasto-concepto');
+            const montoInput = document.getElementById('gasto-monto');
+            const categoriaSelect = document.getElementById('gasto-categoria');
+
+            const concepto = conceptoInput.value.trim();
+            const monto = parseFloat(montoInput.value);
+            const categoria = categoriaSelect.value;
+
+            if (!concepto || isNaN(monto) || monto <= 0) {
+                mostrarAlerta("Ingresa un concepto y un monto válido para el gasto.");
+                return;
+            }
+
+            gastos.push({ concepto, monto, categoria });
+            conceptoInput.value = '';
+            montoInput.value = '';
+
+            renderizarListas();
         }
-        */
-    </script>
 
-<script>// ==========================================
-// ESTADO GLOBAL
-// ==========================================
-let ingresos = [];
-let gastos = [];
+        function eliminarIngreso(index) {
+            ingresos.splice(index, 1);
+            renderizarListas();
+        }
 
-// Variables para la Dinámica de Supervivencia
-let indicePreguntaActual = 0;
-let puntosSupervivencia = 0;
+        function eliminarGasto(index) {
+            gastos.splice(index, 1);
+            renderizarListas();
+        }
 
-const preguntasSupervivencia = [
-    {
-        categoria: "Ahorro vs. Gustos",
-        texto: "Dia 20 del mes: tienes $12 y todavia faltan 10 dias. ¿Que decision tomarias?",
-        opciones: [
-            { texto: "Gasto los 12 antes de que desaparezca magicamente", puntos: 1 },
-            { texto: "Revisar gastos y priorizar lo necesario.", puntos: 2 },
-            { texto: "Dios proveera.", puntos: 0 }
-        ]
-    },
-    {
-        categoria: "Imprevistos",
-        texto: "Encuentras una oferta increible justo cuando estas intentando ahorrar. ¿Que haces?",
-        opciones: [
-            { texto: "Me pregunto si realmente lo necesito.", puntos: 2 },
-            { texto: "Cierro la aplicacion antes de cometer un crimen financiero.", puntos: 1 },
-            { texto: "Lo compro por que esta en oferta.", puntos: 0 }
-        ]
-    },
-    {
-        categoria: "Compras",
-        texto: "Se daño tu cargador y necesitas uno nuevo. Cuesta 18$. ¿Que harias?",
-        opciones: [
-            { texto: "Busco una opcion economica y ajusto otro gasto.", puntos: 2 },
-            { texto: "compro el primero que encuentro.", puntos: 1 },
-            { texto: "Miro mi cargador roto y espero un milagro.", puntos: 0 }
-        ]
-    },
-    {
-        categoria: "Planificación",
-        texto: "Tienes 5$ y estas muriendo de hambre. ¿Que haces?",
-        opciones: [
-            { texto: "Compro algo economico que me alcance.", puntos: 2 },
-            { texto: "Pido delivery y que mi yo del futuro se encargue.", puntos: 1 },
-            { texto: "Miro el menú durante 20 minuros y termino comprando lo mas caro.", puntos: 0 }
-        ]
-    },
-    {
-        categoria: "Transporte",
-        texto: "Te quedan 10$  y necesitas transporte para toda la semana. ¿Qué haces?",
-        opciones: [
-            { texto: "Separo primero el dinero de transposte.", puntos: 2 },
-            { texto: "Me gasto 6 y camino con fe.", puntos: 1 },
-            { texto: "Descubro que caminar 40 minutos era parte de mi desarrollo personal.", puntos: 0 }
-        ]
-    }
-];
+        function renderizarListas() {
+            const contenedorIngresos = document.getElementById('contenedor-ingresos');
+            const listaIngresos = document.getElementById('lista-ingresos');
+            listaIngresos.innerHTML = '';
 
-// ==========================================
-// CONTROL DE ALERTA PERSONALIZADA
-// ==========================================
-function mostrarAlerta(mensaje, titulo = "Atención") {
-    document.getElementById('alerta-titulo').innerText = titulo;
-    document.getElementById('alerta-mensaje').innerText = mensaje;
-    
-    const modal = document.getElementById('modal-alerta');
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-}
+            if (ingresos.length > 0) {
+                contenedorIngresos.classList.remove('hidden');
+                ingresos.forEach((ing, index) => {
+                    listaIngresos.innerHTML += `
+                        <li class="flex justify-between items-center bg-neutral-950 p-3 rounded-xl border border-neutral-800 text-xs">
+                            <span class="font-bold text-neutral-200">${ing.concepto}</span>
+                            <div class="flex items-center gap-3">
+                                <span class="text-emerald-400 font-bold">$${ing.monto.toFixed(2)}</span>
+                                <button onclick="eliminarIngreso(${index})" class="text-neutral-500 hover:text-rose-400">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </li>`;
+                });
+            } else {
+                contenedorIngresos.classList.add('hidden');
+            }
 
-function cerrarAlerta() {
-    const modal = document.getElementById('modal-alerta');
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-}
+            const contenedorGastos = document.getElementById('contenedor-gastos');
+            const listaGastos = document.getElementById('lista-gastos');
+            listaGastos.innerHTML = '';
 
-// ==========================================
-// REGISTRO DE INGRESOS Y GASTOS
-// ==========================================
-function agregarIngreso() {
-    const conceptoInput = document.getElementById('ingreso-concepto');
-    const montoInput = document.getElementById('ingreso-monto');
+            if (gastos.length > 0) {
+                contenedorGastos.classList.remove('hidden');
+                gastos.forEach((gst, index) => {
+                    listaGastos.innerHTML += `
+                        <li class="flex justify-between items-center bg-neutral-950 p-3 rounded-xl border border-neutral-800 text-xs">
+                            <div>
+                                <span class="font-bold text-neutral-200">${gst.concepto}</span>
+                                <span class="text-[10px] text-neutral-500 block">${gst.categoria}</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-rose-400 font-bold">$${gst.monto.toFixed(2)}</span>
+                                <button onclick="eliminarGasto(${index})" class="text-neutral-500 hover:text-rose-400">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </li>`;
+                });
+            } else {
+                contenedorGastos.classList.add('hidden');
+            }
+        }
 
-    const concepto = conceptoInput.value.trim();
-    const monto = parseFloat(montoInput.value);
+        // CÁLCULO Y ANÁLISIS DEL PRESUPUESTO
+        function mostrarAnalisis() {
+            if (ingresos.length === 0 || gastos.length === 0) {
+                mostrarAlerta("Registra al menos un ingreso y un gasto para obtener el análisis.");
+                return;
+            }
 
-    if (!concepto || isNaN(monto) || monto <= 0) {
-        mostrarAlerta("Ingresa un concepto y un monto válido.");
-        return;
-    }
+            const totalIngresos = ingresos.reduce((sum, i) => sum + i.monto, 0);
+            const totalGastos = gastos.reduce((sum, g) => sum + g.monto, 0);
+            const disponible = totalIngresos - totalGastos;
 
-    ingresos.push({ concepto, monto });
-    conceptoInput.value = '';
-    montoInput.value = '';
+            document.getElementById('analisis-ingresos').innerText = `$${totalIngresos.toFixed(2)}`;
+            document.getElementById('analisis-gastos').innerText = `$${totalGastos.toFixed(2)}`;
+            
+            const elemDisponible = document.getElementById('analisis-disponible');
+            elemDisponible.innerText = `$${disponible.toFixed(2)}`;
 
-    renderizarListas();
-}
+            if (disponible < 0) {
+                elemDisponible.className = 'text-xl font-bold text-rose-400';
+            } else {
+                elemDisponible.className = 'text-xl font-bold text-amber-300';
+            }
 
-function agregarGasto() {
-    if (ingresos.length === 0) {
-        mostrarAlerta("Primero registra al menos un ingreso.");
-        return;
-    }
+            generarDiagnostico(totalIngresos, totalGastos, disponible);
+            generarGraficoPie(totalGastos);
 
-    const conceptoInput = document.getElementById('gasto-concepto');
-    const montoInput = document.getElementById('gasto-monto');
-    const categoriaSelect = document.getElementById('gasto-categoria');
+            const modalAnalisis = document.getElementById('modal-analisis');
+            modalAnalisis.classList.remove('hidden');
+            modalAnalisis.classList.add('flex');
+        }
 
-    const concepto = conceptoInput.value.trim();
-    const monto = parseFloat(montoInput.value);
-    const categoria = categoriaSelect.value;
+        function cerrarAnalisis() {
+            const modalAnalisis = document.getElementById('modal-analisis');
+            modalAnalisis.classList.add('hidden');
+            modalAnalisis.classList.remove('flex');
+        }
 
-    if (!concepto || isNaN(monto) || monto <= 0) {
-        mostrarAlerta("Ingresa un concepto y un monto válido para el gasto.");
-        return;
-    }
+        function nuevoPresupuesto() {
+            ingresos = [];
+            gastos = [];
+            renderizarListas();
+            cerrarAnalisis();
+        }
 
-    gastos.push({ concepto, monto, categoria });
-    conceptoInput.value = '';
-    montoInput.value = '';
+        function generarGraficoPie(totalGastos) {
+            const categorias = {};
+            gastos.forEach(g => {
+                categorias[g.categoria] = (categorias[g.categoria] || 0) + g.monto;
+            });
 
-    renderizarListas();
-}
+            const colores = {
+                'Alimentación': '#f59e0b',
+                'Transporte': '#3b82f6',
+                'Educación': '#8b5cf6',
+                'Entretenimiento': '#ec4899',
+                'Salud': '#ef4444',
+                'Vivienda': '#10b981',
+                'Otros': '#6b7280'
+            };
 
-function eliminarIngreso(index) {
-    ingresos.splice(index, 1);
-    renderizarListas();
-}
+            let acumulado = 0;
+            const gradientes = [];
+            const leyendaHtml = [];
 
-function eliminarGasto(index) {
-    gastos.splice(index, 1);
-    renderizarListas();
-}
+            for (const [cat, monto] of Object.entries(categorias)) {
+                const porcentaje = (monto / totalGastos) * 100;
+                const inicio = acumulado;
+                acumulado += porcentaje;
 
-function renderizarListas() {
-    const contenedorIngresos = document.getElementById('contenedor-ingresos');
-    const listaIngresos = document.getElementById('lista-ingresos');
-    listaIngresos.innerHTML = '';
+                const color = colores[cat] || '#6b7280';
+                gradientes.push(`${color} ${inicio}% ${acumulado}%`);
 
-    if (ingresos.length > 0) {
-        contenedorIngresos.classList.remove('hidden');
-        ingresos.forEach((ing, index) => {
-            listaIngresos.innerHTML += `
-                <li class="flex justify-between items-center bg-neutral-950 p-3 rounded-xl border border-neutral-800 text-xs">
-                    <span class="font-bold text-neutral-200">${ing.concepto}</span>
-                    <div class="flex items-center gap-3">
-                        <span class="text-emerald-400 font-bold">$${ing.monto.toFixed(2)}</span>
-                        <button onclick="eliminarIngreso(${index})" class="text-neutral-500 hover:text-rose-400">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
+                leyendaHtml.push(`
+                    <div class="flex items-center justify-between text-xs">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full inline-block" style="background-color: ${color}"></span>
+                            <span class="text-neutral-300">${cat}</span>
+                        </div>
+                        <span class="font-bold text-neutral-100">$${monto.toFixed(2)} (${porcentaje.toFixed(0)}%)</span>
                     </div>
-                </li>`;
-        });
-    } else {
-        contenedorIngresos.classList.add('hidden');
-    }
+                `);
+            }
 
-    const contenedorGastos = document.getElementById('contenedor-gastos');
-    const listaGastos = document.getElementById('lista-gastos');
-    listaGastos.innerHTML = '';
+            document.getElementById('grafico-pie').style.background = `conic-gradient(${gradientes.join(', ')})`;
+            document.getElementById('leyenda-grafico').innerHTML = leyendaHtml.join('');
+        }
 
-    if (gastos.length > 0) {
-        contenedorGastos.classList.remove('hidden');
-        gastos.forEach((gst, index) => {
-            listaGastos.innerHTML += `
-                <li class="flex justify-between items-center bg-neutral-950 p-3 rounded-xl border border-neutral-800 text-xs">
-                    <div>
-                        <span class="font-bold text-neutral-200">${gst.concepto}</span>
-                        <span class="text-[10px] text-neutral-500 block">${gst.categoria}</span>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <span class="text-rose-400 font-bold">$${gst.monto.toFixed(2)}</span>
-                        <button onclick="eliminarGasto(${index})" class="text-neutral-500 hover:text-rose-400">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </div>
-                </li>`;
-        });
-    } else {
-        contenedorGastos.classList.add('hidden');
-    }
-}
+        function generarDiagnostico(ingresosTotal, gastosTotal, disponible) {
+            const porcentajeGasto = (gastosTotal / ingresosTotal) * 100;
+            const mensajeElem = document.getElementById('mensaje-analisis');
+            const indicador = document.getElementById('indicador-riesgo');
+            const riesgoElem = document.getElementById('riesgo-presupuesto');
+            const retoElem = document.getElementById('reto-financiero');
+            const explicacionElem = document.getElementById('explicacion-reto');
 
-// ==========================================
-// CÁLCULO Y ANÁLISIS DEL PRESUPUESTO
-// ==========================================
-function mostrarAnalisis() {
-    if (ingresos.length === 0 || gastos.length === 0) {
-        mostrarAlerta("Registra al menos un ingreso y un gasto para obtener el análisis.");
-        return;
-    }
+            let riesgoPosicion = 0;
 
-    const totalIngresos = ingresos.reduce((sum, i) => sum + i.monto, 0);
-    const totalGastos = gastos.reduce((sum, g) => sum + g.monto, 0);
-    const disponible = totalIngresos - totalGastos;
+            if (porcentajeGasto <= 60) {
+                mensajeElem.innerText = "Excelente gestión. Estás gastando dentro de un margen seguro y mantienes un buen nivel de ahorro.";
+                riesgoPosicion = 15;
+                riesgoElem.innerHTML = `<p class="text-xs text-emerald-400 font-bold">Nivel de Riesgo: Bajo</p><p class="text-xs text-neutral-400 mt-1">Tu salud financiera actual es óptima.</p>`;
+                retoElem.innerText = "Ahorra el 20% de tu disponible";
+                explicacionElem.innerText = "Aprovecha que tus gastos están controlados para separar un fondo de emergencia.";
+            } else if (porcentajeGasto <= 90) {
+                mensajeElem.innerText = "Tu presupuesto está algo ajustado. Estás utilizando gran parte de tus ingresos este mes.";
+                riesgoPosicion = 50;
+                riesgoElem.innerHTML = `<p class="text-xs text-amber-400 font-bold">Nivel de Riesgo: Moderado</p><p class="text-xs text-neutral-400 mt-1">Procura no realizar gastos adicionales este mes.</p>`;
+                retoElem.innerText = "Recorta un 10% en gastos no esenciales";
+                explicacionElem.innerText = "Revisa las categorías como Entretenimiento u Otros para ajustar el presupuesto.";
+            } else {
+                mensajeElem.innerText = "Alerta: Tus gastos superan o rozan el total de tus ingresos. Es necesario ajustar gastos inmediatamente.";
+                riesgoPosicion = 85;
+                riesgoElem.innerHTML = `<p class="text-xs text-rose-400 font-bold">Nivel de Riesgo: Alto</p><p class="text-xs text-neutral-400 mt-1">Estás en riesgo de endeudamiento o déficit.</p>`;
+                retoElem.innerText = "Prioriza únicamente gastos básicos";
+                explicacionElem.innerText = "Pausa compras no urgentes hasta nivelar tus ingresos con tus egresos.";
+            }
 
-    document.getElementById('analisis-ingresos').innerText = `$${totalIngresos.toFixed(2)}`;
-    document.getElementById('analisis-gastos').innerText = `$${totalGastos.toFixed(2)}`;
-    
-    const elemDisponible = document.getElementById('analisis-disponible');
-    elemDisponible.innerText = `$${disponible.toFixed(2)}`;
+            indicador.style.left = `${riesgoPosicion}%`;
+        }
 
-    if (disponible < 0) {
-        elemDisponible.className = 'text-xl font-bold text-rose-400';
-    } else {
-        elemDisponible.className = 'text-xl font-bold text-amber-300';
-    }
+        // JUEGO INTERACTIVO: SUPERVIVENCIA FINÉA
+        function abrirSupervivencia() {
+            cerrarAnalisis();
+            indicePreguntaActual = 0;
+            puntosSupervivencia = 0;
 
-    generarDiagnostico(totalIngresos, totalGastos, disponible);
-    generarGraficoPie(totalGastos);
+            const modalSupervivencia = document.getElementById('modal-supervivencia');
+            modalSupervivencia.classList.remove('hidden');
+            modalSupervivencia.classList.add('flex');
 
-    const modalAnalisis = document.getElementById('modal-analisis');
-    modalAnalisis.classList.remove('hidden');
-    modalAnalisis.classList.add('flex');
-}
+            cargarPregunta();
+        }
 
-function cerrarAnalisis() {
-    const modalAnalisis = document.getElementById('modal-analisis');
-    modalAnalisis.classList.add('hidden');
-    modalAnalisis.classList.remove('flex');
-}
+        function cerrarSupervivencia() {
+            const modalSupervivencia = document.getElementById('modal-supervivencia');
+            modalSupervivencia.classList.add('hidden');
+            modalSupervivencia.classList.remove('flex');
+        }
 
-function nuevoPresupuesto() {
-    ingresos = [];
-    gastos = [];
-    renderizarListas();
-    cerrarAnalisis();
-}
+        function cargarPregunta() {
+            const pregunta = preguntasSupervivencia[indicePreguntaActual];
+            const totalPreguntas = preguntasSupervivencia.length;
 
-function generarGraficoPie(totalGastos) {
-    const categorias = {};
-    gastos.forEach(g => {
-        categorias[g.categoria] = (categorias[g.categoria] || 0) + g.monto;
-    });
+            document.getElementById('numero-pregunta').innerText = `Pregunta ${indicePreguntaActual + 1} de ${totalPreguntas}`;
+            document.getElementById('progreso-juego').style.width = `${((indicePreguntaActual + 1) / totalPreguntas) * 100}%`;
+            document.getElementById('categoria-pregunta').innerText = pregunta.categoria;
+            document.getElementById('texto-pregunta').innerText = pregunta.texto;
 
-    const colores = {
-        'Alimentación': '#f59e0b',
-        'Transporte': '#3b82f6',
-        'Educación': '#8b5cf6',
-        'Entretenimiento': '#ec4899',
-        'Salud': '#ef4444',
-        'Vivienda': '#10b981',
-        'Otros': '#6b7280'
-    };
+            const contenedorOpciones = document.getElementById('opciones-pregunta');
+            contenedorOpciones.innerHTML = '';
 
-    let acumulado = 0;
-    const gradientes = [];
-    const leyendaHtml = [];
+            pregunta.opciones.forEach((opcion) => {
+                contenedorOpciones.innerHTML += `
+                    <button onclick="seleccionarRespuesta(${opcion.puntos})" 
+                            class="option-btn w-full text-left bg-neutral-950 border border-neutral-800 hover:border-violet-500/50 p-4 rounded-xl text-xs text-neutral-200 transition">
+                        ${opcion.texto}
+                    </button>
+                `;
+            });
+        }
 
-    for (const [cat, monto] of Object.entries(categorias)) {
-        const porcentaje = (monto / totalGastos) * 100;
-        const inicio = acumulado;
-        acumulado += porcentaje;
+        function seleccionarRespuesta(puntos) {
+            puntosSupervivencia += puntos;
+            indicePreguntaActual++;
 
-        const color = colores[cat] || '#6b7280';
-        gradientes.push(`${color} ${inicio}% ${acumulado}%`);
+            if (indicePreguntaActual < preguntasSupervivencia.length) {
+                cargarPregunta();
+            } else {
+                finalizarSupervivencia();
+            }
+        }
 
-        leyendaHtml.push(`
-            <div class="flex items-center justify-between text-xs">
-                <div class="flex items-center gap-2">
-                    <span class="w-3 h-3 rounded-full inline-block" style="background-color: ${color}"></span>
-                    <span class="text-neutral-300">${cat}</span>
+        function finalizarSupervivencia() {
+            cerrarSupervivencia();
+
+            const contenedorResultado = document.getElementById('resultado-titulo');
+            let perfil = "";
+            let descripcion = "";
+
+            if (puntosSupervivencia >= 8) {
+                perfil = "Estratega Financiero";
+                descripcion = "Tienes un control excepcional sobre tus impulsos y priorizas la estabilidad. Tus decisiones te permiten sobrevivir con holgura ante cualquier reto del mes.";
+            } else if (puntosSupervivencia >= 5) {
+                perfil = "Superviviente Moderado";
+                descripcion = "Mantienes un equilibrio razonable, aunque a veces cedes ante gastos imprevistos o gustos momentáneos. Con un poco más de planificación evitarás sobresaltos.";
+            } else {
+                perfil = "En Riesgo Financiero";
+                descripcion = "Sueles tomar decisiones guiadas por la improvisación o la emoción del momento. Te conviene ajustar tus hábitos para no comprometer tu presupuesto mensual.";
+            }
+
+            contenedorResultado.innerHTML = `
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-amber-400/10 border border-amber-400/20 mb-4">
+                    <i class="fa-solid fa-trophy text-amber-300 text-2xl"></i>
                 </div>
-                <span class="font-bold text-neutral-100">$${monto.toFixed(2)} (${porcentaje.toFixed(0)}%)</span>
-            </div>
-        `);
-    }
+                <h3 class="text-xl font-bold text-amber-100">${perfil}</h3>
+                <p class="text-xs text-neutral-400 mt-2 leading-relaxed max-w-md mx-auto">${descripcion}</p>
+                <button onclick="cerrarResultado()" class="mt-6 w-full bg-amber-400 hover:bg-amber-300 text-neutral-950 font-bold text-xs py-3 rounded-xl transition">
+                    Volver al presupuesto
+                </button>
+            `;
 
-    document.getElementById('grafico-pie').style.background = `conic-gradient(${gradientes.join(', ')})`;
-    document.getElementById('leyenda-grafico').innerHTML = leyendaHtml.join('');
-}
+            const modalResultado = document.getElementById('modal-resultado');
+            modalResultado.classList.remove('hidden');
+            modalResultado.classList.add('flex');
+        }
 
-function generarDiagnostico(ingresosTotal, gastosTotal, disponible) {
-    const porcentajeGasto = (gastosTotal / ingresosTotal) * 100;
-    const mensajeElem = document.getElementById('mensaje-analisis');
-    const indicador = document.getElementById('indicador-riesgo');
-    const riesgoElem = document.getElementById('riesgo-presupuesto');
-    const retoElem = document.getElementById('reto-financiero');
-    const explicacionElem = document.getElementById('explicacion-reto');
-
-    let riesgoPosicion = 0;
-
-    if (porcentajeGasto <= 60) {
-        mensajeElem.innerText = "Excelente gestión. Estás gastando dentro de un margen seguro y mantienes un buen nivel de ahorro.";
-        riesgoPosicion = 15;
-        riesgoElem.innerHTML = `<p class="text-xs text-emerald-400 font-bold">Nivel de Riesgo: Bajo</p><p class="text-xs text-neutral-400 mt-1">Tu salud financiera actual es óptima.</p>`;
-        retoElem.innerText = "Ahorra el 20% de tu disponible";
-        explicacionElem.innerText = "Aprovecha que tus gastos están controlados para separar un fondo de emergencia.";
-    } else if (porcentajeGasto <= 90) {
-        mensajeElem.innerText = "Tu presupuesto está algo ajustado. Estás utilizando gran parte de tus ingresos este mes.";
-        riesgoPosicion = 50;
-        riesgoElem.innerHTML = `<p class="text-xs text-amber-400 font-bold">Nivel de Riesgo: Moderado</p><p class="text-xs text-neutral-400 mt-1">Procura no realizar gastos adicionales este mes.</p>`;
-        retoElem.innerText = "Recorta un 10% en gastos no esenciales";
-        explicacionElem.innerText = "Revisa las categorías como Entretenimiento u Otros para ajustar el presupuesto.";
-    } else {
-        mensajeElem.innerText = "Alerta: Tus gastos superan o rozan el total de tus ingresos. Es necesario ajustar gastos inmediatamente.";
-        riesgoPosicion = 85;
-        riesgoElem.innerHTML = `<p class="text-xs text-rose-400 font-bold">Nivel de Riesgo: Alto</p><p class="text-xs text-neutral-400 mt-1">Estás en riesgo de endeudamiento o déficit.</p>`;
-        retoElem.innerText = "Prioriza únicamente gastos básicos";
-        explicacionElem.innerText = "Pausa compras no urgentes hasta nivelar tus ingresos con tus egresos.";
-    }
-
-    indicador.style.left = `${riesgoPosicion}%`;
-}
-
-// ==========================================
-// JUEGO INTERACTIVO: SUPERVIVENCIA FINÉA
-// ==========================================
-function abrirSupervivencia() {
-    cerrarAnalisis();
-    indicePreguntaActual = 0;
-    puntosSupervivencia = 0;
-
-    const modalSupervivencia = document.getElementById('modal-supervivencia');
-    modalSupervivencia.classList.remove('hidden');
-    modalSupervivencia.classList.add('flex');
-
-    cargarPregunta();
-}
-
-function cerrarSupervivencia() {
-    const modalSupervivencia = document.getElementById('modal-supervivencia');
-    modalSupervivencia.classList.add('hidden');
-    modalSupervivencia.classList.remove('flex');
-}
-
-function cargarPregunta() {
-    const pregunta = preguntasSupervivencia[indicePreguntaActual];
-    const totalPreguntas = preguntasSupervivencia.length;
-
-    // Actualizar encabezados y barra de progreso
-    document.getElementById('numero-pregunta').innerText = `Pregunta ${indicePreguntaActual + 1} de ${totalPreguntas}`;
-    document.getElementById('progreso-juego').style.width = `${((indicePreguntaActual + 1) / totalPreguntas) * 100}%`;
-    document.getElementById('categoria-pregunta').innerText = pregunta.categoria;
-    document.getElementById('texto-pregunta').innerText = pregunta.texto;
-
-    // Renderizar opciones
-    const contenedorOpciones = document.getElementById('opciones-pregunta');
-    contenedorOpciones.innerHTML = '';
-
-    pregunta.opciones.forEach((opcion) => {
-        contenedorOpciones.innerHTML += `
-            <button onclick="seleccionarRespuesta(${opcion.puntos})" 
-                    class="option-btn w-full text-left bg-neutral-950 border border-neutral-800 hover:border-violet-500/50 p-4 rounded-xl text-xs text-neutral-200 transition">
-                ${opcion.texto}
-            </button>
-        `;
-    });
-}
-
-function seleccionarRespuesta(puntos) {
-    puntosSupervivencia += puntos;
-    indicePreguntaActual++;
-
-    if (indicePreguntaActual < preguntasSupervivencia.length) {
-        cargarPregunta();
-    } else {
-        finalizarSupervivencia();
-    }
-}
-
-function finalizarSupervivencia() {
-    cerrarSupervivencia();
-
-    const contenedorResultado = document.getElementById('resultado-titulo');
-    let perfil = "";
-    let descripcion = "";
-
-    if (puntosSupervivencia >= 8) {
-        perfil = "Estratega Financiero";
-        descripcion = "Tienes un control excepcional sobre tus impulsos y priorizas la estabilidad. Tus decisiones te permiten sobrevivir con holgura ante cualquier reto del mes.";
-    } else if (puntosSupervivencia >= 5) {
-        perfil = "Superviviente Moderado";
-        descripcion = "Mantienes un equilibrio razonable, aunque a veces cedes ante gastos imprevistos o gustos momentáneos. Con un poco más de planificación evitarás sobresaltos.";
-    } else {
-        perfil = "En Riesgo Financiero";
-        descripcion = "Sueles tomar decisiones guiadas por la improvisación o la emoción del momento. Te conviene ajustar tus hábitos para no comprometer tu presupuesto mensual.";
-    }
-
-    contenedorResultado.innerHTML = `
-        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-amber-400/10 border border-amber-400/20 mb-4">
-            <i class="fa-solid fa-trophy text-amber-300 text-2xl"></i>
-        </div>
-        <h3 class="text-xl font-bold text-amber-100">${perfil}</h3>
-        <p class="text-xs text-neutral-400 mt-2 leading-relaxed max-w-md mx-auto">${descripcion}</p>
-        <button onclick="cerrarResultado()" class="mt-6 w-full bg-amber-400 hover:bg-amber-300 text-neutral-950 font-bold text-xs py-3 rounded-xl transition">
-            Volver al presupuesto
-        </button>
-    `;
-
-    const modalResultado = document.getElementById('modal-resultado');
-    modalResultado.classList.remove('hidden');
-    modalResultado.classList.add('flex');
-}
-
-function cerrarResultado() {
-    const modalResultado = document.getElementById('modal-resultado');
-    modalResultado.classList.add('hidden');
-    modalResultado.classList.remove('flex');
-}</script>
+        function cerrarResultado() {
+            const modalResultado = document.getElementById('modal-resultado');
+            modalResultado.classList.add('hidden');
+            modalResultado.classList.remove('flex');
+        }
+    </script>
 </body>
 </html>
