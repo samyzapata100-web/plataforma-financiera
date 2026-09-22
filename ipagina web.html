@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FINÉA - Acceso</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* =====================================================
+           FONDO FINÉA - NEGRO + DORADO
+        ===================================================== */
+        body {
+            background:
+                radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.08), transparent 60%),
+                radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.05), transparent 45%),
+                #0a0a0a;
+            color: #f5f5f5;
+        }
+
+        .fondo-finea {
+            background:
+                radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.10), transparent 60%),
+                radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.06), transparent 45%);
+        }
+
+        /* ANIMACIONES DE INTRODUCCIÓN */
+        .anim-logo-intro {
+            opacity: 0;
+            animation: zoomInLogo 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 0.2s;
+        }
+
+        .anim-linea {
+            height: 0;
+            animation: growLine 0.7s ease-out forwards;
+            animation-delay: 1.1s;
+        }
+
+        .anim-texto-brand {
+            opacity: 0;
+            transform: translateX(-12px);
+            animation: revealText 0.8s ease-out forwards;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes zoomInLogo {
+            0% { opacity: 0; transform: scale(0.6); filter: blur(6px); }
+            100% { opacity: 1; transform: scale(1); filter: blur(0); }
+        }
+
+        @keyframes growLine {
+            0% { height: 0; }
+            100% { height: 50px; }
+        }
+
+        @keyframes revealText {
+            0% { opacity: 0; transform: translateX(-12px); filter: blur(4px); }
+            100% { opacity: 1; transform: translateX(0); filter: blur(0); }
+        }
+
+        .fade-out-intro {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .fade-in-element {
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .formulario {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .oculto {
+            display: none;
+        }
+
+        /* =====================================================
+           TARJETA FINÉA - NEGRO + DORADO
+        ===================================================== */
+        .tarjeta-finea {
+            background: rgba(23, 23, 23, 0.92);
+            backdrop-filter: blur(18px) saturate(120%);
+            -webkit-backdrop-filter: blur(18px) saturate(120%);
+            border: 1.5px solid rgba(212, 175, 55, 0.28);
+            box-shadow:
+                0 25px 50px -12px rgba(0, 0, 0, 0.65),
+                inset 0 1px 2px rgba(212, 175, 55, 0.08);
+        }
+
+        /* CAMPOS */
+        .campo-finea {
+            background: rgba(38, 38, 38, 0.90);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            color: #f5f5f5;
+            transition: all 0.2s ease;
+        }
+
+        .campo-finea::placeholder {
+            color: #a3a3a3;
+        }
+
+        .campo-finea:hover {
+            background: rgba(45, 45, 45, 0.95);
+            border-color: rgba(212, 175, 55, 0.5);
+        }
+
+        .campo-finea:focus {
+            background: rgba(45, 45, 45, 1);
+            border-color: #D4AF37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.12);
+        }
+
+        /* BOTÓN PRINCIPAL DORADO */
+        .btn-principal {
+            background: linear-gradient(135deg, #D4AF37, #B8860B);
+            color: #111111;
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.20);
+            transition: all 0.25s ease;
+        }
+
+        .btn-principal:hover {
+            background: linear-gradient(135deg, #E2C45A, #D4AF37);
+            box-shadow: 0 14px 25px rgba(212, 175, 55, 0.30);
+        }
+
+        .btn-password {
+            color: #a3a3a3;
+            transition: color 0.2s ease;
+        }
+
+        .btn-password:hover {
+            color: #D4AF37;
+        }
+
+        /* ISOLOGOTIPO FINÉA */
+        .logo-finea {
+            background: rgba(23, 23, 23, 0.90);
+            border: 1.5px solid rgba(212, 175, 55, 0.45);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(8px);
+        }
+
+        .linea-finea {
+            background: linear-gradient(to bottom, #D4AF37, #B8860B);
+        }
+
+        .linea-dorada {
+            background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+        }
+
+        .mensaje {
+            animation: aparecerMensaje 0.3s ease forwards;
+        }
+
+        @keyframes aparecerMensaje {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .enlace-finea {
+            color: #D4AF37;
+            transition: color 0.2s ease;
+        }
+
+        .enlace-finea:hover {
+            color: #E2C45A;
+        }
+
+        @media (max-width: 640px) {
+            .tarjeta-finea {
+                background: rgba(23, 23, 23, 0.96);
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center font-sans overflow-hidden">
+
+<div id="pantalla-intro" class="fixed inset-0 bg-neutral-950/95 backdrop-blur-md flex items-center justify-center z-50 overflow-hidden">
+    <div class="absolute inset-0 fondo-finea pointer-events-none"></div>
+
+    <div class="flex items-center gap-4 sm:gap-6 z-10 px-4">
+        <div class="anim-logo-intro flex-shrink-0">
+            <div class="logo-finea w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center p-3">
+                <svg viewBox="0 0 100 100" class="w-full h-full">
+                    <polygon points="50,5 53,15 63,18 53,21 50,31 47,21 37,18 47,15" fill="#D4AF37"/>
+                    <path d="M50 85 C45 60 30 35 30 25 C45 25 50 50 50 85 Z" fill="#D4AF37"/>
+                    <path d="M50 85 C55 60 70 35 70 25 C55 25 50 50 50 85 Z" fill="#B8860B"/>
+                    <path d="M10 75 Q 30 65 50 85 Q 30 55 10 75 Z" fill="#8F741C"/>
+                    <path d="M90 75 Q 70 65 50 85 Q 70 55 90 75 Z" fill="#6F5A16"/>
+                    <path d="M20 60 Q 35 52 50 72 Q 35 45 20 60 Z" fill="#D4AF37" opacity="0.6"/>
+                    <path d="M80 60 Q 65 52 50 72 Q 65 45 80 60 Z" fill="#D4AF37" opacity="0.6"/>
+                </svg>
+            </div>
+        </div>
+
+        <div class="anim-linea linea-finea w-1 rounded-full"></div>
+
+        <div class="anim-texto-brand text-left">
+            <h1 class="text-3xl sm:text-5xl font-black tracking-widest text-[#D4AF37] leading-none mb-1">
+                FINÉA
+            </h1>
+            <p class="text-[10px] sm:text-xs text-[#D4AF37] uppercase tracking-[0.25em] font-semibold">
+                Educación Financiera Superior
+            </p>
+        </div>
+    </div>
+</div>
+
+<div id="pantalla-login" class="fixed inset-0 flex items-center justify-center p-4 z-40 overflow-y-auto">
+    <div class="absolute inset-0 fondo-finea pointer-events-none"></div>
+
+    <div id="tarjeta-login" class="tarjeta-finea opacity-0 p-7 sm:p-9 rounded-[28px] max-w-md w-full text-center relative z-10">
+        
+        <div class="w-12 h-1 linea-dorada rounded-full mx-auto mb-6 opacity-80"></div>
+
+        <div class="logo-finea w-16 h-16 rounded-2xl mx-auto flex items-center justify-center p-2.5 mb-4">
+            <svg viewBox="0 0 100 100" class="w-full h-full">
+                <polygon points="50,5 53,15 63,18 53,21 50,31 47,21 37,18 47,15" fill="#D4AF37"/>
+                <path d="M50 85 C45 60 30 35 30 25 C45 25 50 50 50 85 Z" fill="#D4AF37"/>
+                <path d="M50 85 C55 60 70 35 70 25 C55 25 50 50 50 85 Z" fill="#B8860B"/>
+                <path d="M10 75 Q 30 65 50 85 Q 30 55 10 75 Z" fill="#8F741C"/>
+                <path d="M90 75 Q 70 65 50 85 Q 70 55 90 75 Z" fill="#6F5A16"/>
+                <path d="M20 60 Q 35 52 50 72 Q 35 45 20 60 Z" fill="#D4AF37" opacity="0.6"/>
+                <path d="M80 60 Q 65 52 50 72 Q 65 45 80 60 Z" fill="#D4AF37" opacity="0.6"/>
+            </svg>
+        </div>
+
+        <h2 class="text-3xl font-black text-[#D4AF37] tracking-wider mb-1">
+            FINÉA
+        </h2>
+
+        <p class="text-[#D4AF37] text-xs font-semibold tracking-wider uppercase mb-7">
+            Finanzas • Educación • Ahorro
+        </p>
+
+        <div id="mensaje" class="hidden mb-4 px-4 py-3 rounded-xl text-xs text-left mensaje"></div>
+
+        <div id="form-login" class="formulario">
+            <div class="text-left mb-5">
+                <h3 class="text-lg font-bold text-neutral-100">Bienvenido/a</h3>
+                <p class="text-xs text-neutral-400 mt-1">Ingresa tus datos para continuar en FINÉA.</p>
+            </div>
+
+            <form onsubmit="iniciarSesion(event)" class="space-y-4">
+                <div class="relative text-left">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#D4AF37]">
+                        <i class="fa-solid fa-user text-sm"></i>
+                    </span>
+                    <input id="login-usuario" type="text" autocomplete="username" placeholder="Usuario o correo electrónico" required
+                           class="campo-finea w-full pl-11 pr-4 py-3.5 rounded-xl border text-sm focus:outline-none">
+                </div>
+
+                <div class="relative text-left">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#D4AF37]">
+                        <i class="fa-solid fa-lock text-sm"></i>
+                    </span>
+                    <input id="login-password" type="password" autocomplete="current-password" placeholder="Contraseña" required
+                           class="campo-finea w-full pl-11 pr-12 py-3.5 rounded-xl border text-sm focus:outline-none">
+                    <button type="button" onclick="mostrarPassword('login-password', 'icon-login')" class="btn-password absolute right-4 top-1/2 -translate-y-1/2">
+                        <i id="icon-login" class="fa-solid fa-eye text-sm"></i>
+                    </button>
+                </div>
+
+                <button type="submit" class="btn-principal w-full font-bold py-3.5 rounded-xl transition duration-200 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 text-xs uppercase tracking-wider">
+                    <span>Iniciar sesión</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+
+            <div class="mt-6 pt-5 border-t border-white/10">
+                <p class="text-xs text-neutral-400 mb-2">¿Es tu primera vez en FINÉA?</p>
+                <button onclick="mostrarRegistro()" class="enlace-finea text-xs font-bold transition">
+                    Crear una cuenta
+                    <i class="fa-solid fa-user-plus ml-1"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="form-registro" class="formulario oculto">
+            <div class="text-left mb-5">
+                <h3 class="text-lg font-bold text-neutral-100">Crear cuenta</h3>
+                <p class="text-xs text-neutral-400 mt-1">Regístrate para comenzar tu experiencia financiera.</p>
+            </div>
+
+            <form onsubmit="registrarUsuario(event)" class="space-y-3.5">
+                <div class="relative text-left">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#D4AF37]">
+                        <i class="fa-solid fa-id-card text-sm"></i>
+                    </span>
+                    <input id="registro-nombre" type="text" autocomplete="given-name" placeholder="Nombre" required maxlength="40"
+                           class="campo-finea w-full pl-11 pr-4 py-3 rounded-xl border text-sm focus:outline-none">
+                </div>
+
+                <div class="relative text-left">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#D4AF37]">
+                        <i class="fa-solid fa-user text-sm"></i>
+                    </span>
+                    <input id="registro-apellido" type="text" autocomplete="family-name" placeholder="Apellido" required maxlength="40"
+                           class="campo-finea w-full pl-11 pr-4 py-3 rounded-xl border text-sm focus:outline-none">
+                </div>
+
+                <div class="relative text-left">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#D4AF37]">
+                        <i class="fa-solid fa-at text-sm"></i>
+                    </span>
+                    <input id="registro-usuario" type="text" autocomplete="username" placeholder="Nombre de usuario" required minlength="4" maxlength="20"
+                           class="campo-finea w-full pl-11 pr-4 py-3 rounded-xl border text-sm focus:outline-none">
+                </div>
+
+                <div class="relative text-left">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#D4AF37]">
+                        <i class="fa-solid fa-envelope text-sm"></i>
+                    </span>
+                    <input id="registro-correo" type="email" autocomplete="email" placeholder="Correo electrónico" required maxlength="100"
+                           class="campo-finea w-full pl-11 pr-4 py-3 rounded-xl border text-sm focus:outline-none">
+                </div>
+
+                <div class="relative text-left">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#D4AF37]">
+                        <i class="fa-solid fa-lock text-sm"></i>
+                    </span>
+                    <input id="registro-password" type="password" autocomplete="new-password" placeholder="Contraseña" required minlength="6" maxlength="50"
+                           class="campo-finea w-full pl-11 pr-12 py-3 rounded-xl border text-sm focus:outline-none">
+                    <button type="button" onclick="mostrarPassword('registro-password', 'icon-registro')" class="btn-password absolute right-4 top-1/2 -translate-y-1/2">
+                        <i id="icon-registro" class="fa-solid fa-eye text-sm"></i>
+                    </button>
+                </div>
+
+                <div class="relative text-left">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#D4AF37]">
+                        <i class="fa-solid fa-shield-halved text-sm"></i>
+                    </span>
+                    <input id="registro-confirmar" type="password" autocomplete="new-password" placeholder="Confirmar contraseña" required minlength="6" maxlength="50"
+                           class="campo-finea w-full pl-11 pr-12 py-3 rounded-xl border text-sm focus:outline-none">
+                    <button type="button" onclick="mostrarPassword('registro-confirmar', 'icon-confirmar')" class="btn-password absolute right-4 top-1/2 -translate-y-1/2">
+                        <i id="icon-confirmar" class="fa-solid fa-eye text-sm"></i>
+                    </button>
+                </div>
+
+                <button type="submit" class="btn-principal w-full font-bold py-3.5 rounded-xl transition duration-200 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 text-xs uppercase tracking-wider">
+                    <span>Crear cuenta</span>
+                    <i class="fa-solid fa-user-plus"></i>
+                </button>
+            </form>
+
+            <div class="mt-5 pt-4 border-t border-white/10">
+                <p class="text-xs text-neutral-400 mb-2">¿Ya tienes una cuenta?</p>
+                <button onclick="mostrarLogin()" class="enlace-finea text-xs font-bold transition">
+                    Iniciar sesión
+                    <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+
+        <p class="text-[10px] text-neutral-500 mt-6 tracking-wide">
+            Tu experiencia financiera comienza aquí.
+        </p>
+    </div>
+</div>
+
+<script>
+    // Control de la animación de bienvenida
+    setTimeout(() => {
+        const intro = document.getElementById("pantalla-intro");
+        const tarjeta = document.getElementById("tarjeta-login");
+
+        intro.classList.add("fade-out-intro");
+
+        setTimeout(() => {
+            tarjeta.classList.remove("opacity-0");
+            tarjeta.classList.add("fade-in-element");
+        }, 300);
+    }, 3400);
+
+    function mostrarRegistro() {
+        limpiarMensaje();
+        document.getElementById("form-login").classList.add("oculto");
+        document.getElementById("form-registro").classList.remove("oculto");
+    }
+
+    function mostrarLogin() {
+        limpiarMensaje();
+        document.getElementById("form-registro").classList.add("oculto");
+        document.getElementById("form-login").classList.remove("oculto");
+    }
+
+    function registrarUsuario(event) {
+        event.preventDefault();
+        limpiarMensaje();
+
+        const nombre = document.getElementById("registro-nombre").value.trim();
+        const apellido = document.getElementById("registro-apellido").value.trim();
+        const usuario = document.getElementById("registro-usuario").value.trim();
+        const correo = document.getElementById("registro-correo").value.trim();
+        const password = document.getElementById("registro-password").value;
+        const confirmar = document.getElementById("registro-confirmar").value;
+
+        if (!nombre || !apellido || !usuario || !correo || !password || !confirmar) {
+            mostrarMensaje("Por favor, completa todos los campos.", "error");
+            return;
+        }
+
+        const usuarioValido = /^[a-zA-Z0-9._-]+$/.test(usuario);
+        if (!usuarioValido) {
+            mostrarMensaje("El usuario solo puede contener letras, números, puntos y guiones.", "error");
+            return;
+        }
+
+        if (password.length < 6) {
+            mostrarMensaje("La contraseña debe tener al menos 6 caracteres.", "error");
+            return;
+        }
+
+        if (password !== confirmar) {
+            mostrarMensaje("Las contraseñas no coinciden.", "error");
+            return;
+        }
+
+        const nuevaCuenta = { nombre, apellido, usuario, correo, password };
+
+        localStorage.setItem("finea_cuenta", JSON.stringify(nuevaCuenta));
+        sessionStorage.setItem("usuarioFinea", nombre);
+
+        mostrarMensaje("¡Cuenta creada correctamente! Redirigiendo...", "success");
+
+        setTimeout(() => {
+            window.location.href = "menu.html";
+        }, 1000);
+    }
+
+    function iniciarSesion(event) {
+        event.preventDefault();
+        limpiarMensaje();
+
+        const identificador = document.getElementById("login-usuario").value.trim();
+        const password = document.getElementById("login-password").value;
+
+        const cuentaGuardada = localStorage.getItem("finea_cuenta");
+
+        if (!cuentaGuardada) {
+            mostrarMensaje("No existe una cuenta registrada. Primero debes crear una.", "error");
+            return;
+        }
+
+        const cuenta = JSON.parse(cuentaGuardada);
+
+        const identificadorCorrecto =
+            cuenta.usuario.toLowerCase() === identificador.toLowerCase() ||
+            cuenta.correo.toLowerCase() === identificador.toLowerCase();
+
+        if (!identificadorCorrecto) {
+            mostrarMensaje("El usuario o correo electrónico no es correcto.", "error");
+            return;
+        }
+
+        if (cuenta.password !== password) {
+            mostrarMensaje("La contraseña ingresada no es correcta.", "error");
+            return;
+        }
+
+        sessionStorage.setItem("usuarioFinea", cuenta.nombre);
+
+        mostrarMensaje("Inicio de sesión correcto. Bienvenido/a a FINÉA.", "success");
+
+        setTimeout(() => {
+            window.location.href = "menu.html";
+        }, 700);
+    }
+
+    function mostrarPassword(inputId, iconId) {
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            input.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
+
+    function mostrarMensaje(texto, tipo) {
+        const mensaje = document.getElementById("mensaje");
+        mensaje.textContent = texto;
+
+        mensaje.classList.remove(
+            "hidden", "bg-red-100/80", "border-red-300", "text-red-700",
+            "bg-emerald-100/80", "border-emerald-300", "text-emerald-700"
+        );
+
+        if (tipo === "error") {
+            mensaje.classList.add("bg-red-100/80", "border", "border-red-300", "text-red-700");
+        } else {
+            mensaje.classList.add("bg-emerald-100/80", "border", "border-emerald-300", "text-emerald-700");
+        }
+    }
+
+    function limpiarMensaje() {
+        const mensaje = document.getElementById("mensaje");
+        mensaje.classList.add("hidden");
+        mensaje.textContent = "";
+    }
+</script>
+
+</body>
+</html>
